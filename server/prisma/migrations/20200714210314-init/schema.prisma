@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url = "***"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model ActivityType {
+  id        Int      @default(autoincrement()) @id
+  name String
+}
+
+model RecordedActivity {
+  id        Int      @default(autoincrement()) @id
+  activityTypeId Int
+  activityType ActivityType @relation(fields: [activityTypeId], references: [id])
+  recordedBy User @relation(name: "userRecordedActivities", fields: [recordedById], references: [id])
+  recordedById Int
+  recordedAt DateTime @default(now())
+  @@index([recordedById], name: "recordedById")
+}
+
+model User {
+  id      Int      @default(autoincrement()) @id
+  name    String?
+  recordedActivities RecordedActivity[] @relation(name: "userRecordedActivities", references: [id])
+}
