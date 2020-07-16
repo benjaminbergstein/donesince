@@ -1,47 +1,5 @@
 const { gql } = require('apollo-server');
 
-  // type Player {
-  //   id: ID!
-  //   name: String!
-  //   games: [Game]!
-  // }
-
-  // type Game {
-  //   id: ID!
-  //   title: String!
-  //   creator: Player
-  //   players: [Player]!
-  // }
-
-  // type GameAttribute {
-  //   name: String!
-  //   value: String!
-  // }
-
-  // type Card {
-  //   id: ID!
-  //   slug: String!
-  // }
-
-  // type CardAttribute {
-  //   id: ID!
-  //   cardId: ID!
-  //   name: String!
-  //   value: String!
-  // }
-
-  // input CardAttributeFilter {
-  //   name: String!
-  //   value: String!
-  // }
-
-    // players: [Player]!
-    // me(token: String!): Player
-    // gameAttributes(gameId: ID!): [GameAttribute]
-    // gameCards(gameId: ID!, location: String): [Card]
-    // gameCardsWithAttribute(gameId: ID!, attribute: CardAttributeFilter): [Card]
-    // cardAttributes(cardIds: [ID]!): [CardAttribute]
-
 export default gql`
   type ActivityType {
     id: ID!
@@ -59,6 +17,8 @@ export default gql`
     activityTypeId: ID!
     name: String!
     averageInterval: String!
+    lastRecordedAt: String!
+    countRecords: Int!
   }
 
   type User {
@@ -67,6 +27,7 @@ export default gql`
   }
 
   type Query {
+    searchActivityTypes(q: String!): [ActivityType!]
     listActivityTypes: [ActivityType!]
     recordedActivities: [RecordedActivity!]
     activityTrends: [ActivityStat!]

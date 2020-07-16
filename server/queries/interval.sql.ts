@@ -1,6 +1,7 @@
 export default () => `
 WITH activities AS (
   SELECT
+    ra."id",
     ra."activityTypeId",
     ra."recordedById",
     ra."recordedAt",
@@ -18,7 +19,10 @@ WITH activities AS (
 
 SELECT
   at.name,
-  EXTRACT(epoch FROM AVG(a."sinceLast"))/3600 AS "averageInterval"
+  a."activityTypeId",
+  MAX(a."recordedAt") AS "lastRecordedAt",
+  COUNT(a.id) AS "countRecords",
+  EXTRACT(epoch FROM AVG(a."sinceLast")) / 3600 AS "averageInterval"
 FROM activities a
 
 LEFT OUTER JOIN "ActivityType" at
@@ -26,5 +30,5 @@ ON at.id = a."activityTypeId"
 
 WHERE a."sinceLast" IS NOT NULL
 
-GROUP BY 1
+GROUP BY 1, 2
 `

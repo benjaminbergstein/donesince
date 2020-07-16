@@ -17,4 +17,6 @@ export interface RecordedActivity {
 export interface Trend {
   name: string
   averageInterval: float
+  activityTypeId: number
+  countRecords: number
 }

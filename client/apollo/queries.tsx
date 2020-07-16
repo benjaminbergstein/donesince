@@ -1,5 +1,13 @@
 import { gql } from 'apollo-boost'
 
+export const SEARCH_ACTIVITY_TYPES = gql`
+  query SearchActivityTypes($q: String!) {
+    searchActivityTypes(q: $q) {
+      name
+      id
+    }
+  }
+`
 export const LIST_ACTIVITY_TYPES = gql`
   query ListActivityTypes {
     listActivityTypes {
@@ -25,6 +33,9 @@ export const MY_TRENDS = gql`
     activityTrends {
       name
       averageInterval
+      lastRecordedAt
+      activityTypeId
+      countRecords
     }
   }
 `
