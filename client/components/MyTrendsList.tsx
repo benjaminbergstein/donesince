@@ -1,5 +1,6 @@
-import React from 'react'
-import { useQuery } from '@apollo/react-hooks';
+import React, { useContext } from 'react'
+
+import SyncActivityContext, { SyncActivityState } from '../contexts/SyncActivityContext'
 
 import { formatInterval } from '../utils/time'
 
@@ -14,17 +15,18 @@ import RecordSingleActivity from '../components/RecordSingleActivity'
 const pollInterval = 5000
 
 const MyTrendsList: React.FC<{}> = () => {
-  const { data } = useQuery(MY_TRENDS, { pollInterval })
-  if (!data) return null
+  const syncActivityState: SyncActivityState = useContext(SyncActivityContext)
+  const { activityTrends } = syncActivityState
 
-  const { activityTrends } = data
+  if (activityTrends.length === 0) return null
 
   return <>
     <Box
       display="flex"
-      flexDirection="row"
+      flexDirection="column"
       flexWrap="wrap"
       maxWidth="500px"
+      margin="0 auto"
       alignItems="center"
       justifyContent="center"
     >
@@ -35,11 +37,16 @@ const MyTrendsList: React.FC<{}> = () => {
         lastRecordedAt,
         countRecords,
       }: Trend) => (
-        <Box marginRight="10px" marginBottom="10px" flex="1">
+        <Box marginRight="20px" marginBottom="20px" flex="1" width="100%">
           <Card>
-            <div>{name} ({countRecords})</div>
-            <div>Usually every {formatInterval(averageInterval)}</div>
-            <div>Last {formatInterval((+new Date - (+new Date(lastRecordedAt))) / 1000 / 3600)} ago</div>
+            <Box display="flex" flexDirection="row" justifyContent="space-between" marginBottom="10px">
+              <Box>{name} ({countRecords})</Box>
+              <Box>
+                {averageInterval > 0 && <div>Usually every {formatInterval(averageInterval)}</div>}
+                {averageInterval < 0 && <div>Not enough information.</div>}
+                <Box marginTop='5px'>Last {formatInterval((+new Date - (+new Date(lastRecordedAt))) / 1000 / 3600)} ago</Box>
+              </Box>
+            </Box>
             <div>
               <RecordSingleActivity
                 activityType={{ id: activityTypeId, name }}

@@ -1,23 +1,25 @@
-import React from 'react'
-import { useQuery } from '@apollo/react-hooks';
+import React, { useContext } from 'react'
 
 import { formatInterval } from '../utils/time'
+
+import SyncActivityContext, { SyncActivityState } from '../contexts/SyncActivityContext'
 
 import {
   TimelineStat,
 } from '../apollo/types'
 
-import { MY_ACTIVITIES } from '../apollo/queries'
-
 import Box from '../system/Box'
 
-const pollInterval = 5000
+interface Props {
+  timeline?: TimelineStat[]
+}
 
 const RecordedActivitiesList: React.FC<{}> = () => {
-  const { data } = useQuery(MY_ACTIVITIES, { pollInterval })
-  if (!data) return null
+  const syncActivityState: SyncActivityState = useContext(SyncActivityContext)
+  const { timeline } = syncActivityState
 
-  const { timeline } = data
+  if (timeline.length === 0) return null
+
   return <>
     <Box height="80vh" overflow="hidden">
       <Box

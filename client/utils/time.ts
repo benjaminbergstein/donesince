@@ -2,6 +2,7 @@ interface PluralizeOptions {
   condition?: boolean,
   suffix?: string,
   prefix?: string
+  allowZero?: boolean
 }
 
 export const pluralize: (
@@ -18,23 +19,27 @@ export const pluralize: (
   const {
     condition = true,
     prefix = '',
-    suffix = ''
+    suffix = '',
+    allowZero = false,
   } = options
 
   if (!condition) return ''
-  if (n === 0) return ''
-  return `${prefix}${n} ${n > 1 ? plural : singular}${suffix}`
+  if (n === 0 && allowZero === false) return ''
+  return `${prefix}${n} ${n > 1 || n === 0 ? plural : singular}${suffix}`
 }
 
 export const formatInterval = (interval: number) => {
-  const hours = Math.floor(interval)
+  const totalHours = Math.floor(interval)
+  const days = Math.floor(totalHours / 24)
+  const hours = totalHours % 24
   const minutes = Math.floor(interval * 60) % 60
   const seconds = Math.floor((interval * 60 % 1) * 60)
 
+  const daysStr = pluralize(days, 'day', 'days')
   const hoursStr = pluralize(hours, 'hour', 'hours')
   const minStr = pluralize(minutes, 'min', 'mins')
-  const secStr = pluralize(seconds, 'second', 'seconds', { condition: hours === 0 && minutes === 0 })
-  return [hoursStr, minStr, secStr].filter((str) => str !== '').join(', ')
+  const secStr = pluralize(seconds, 'second', 'seconds', { allowZero: true, condition: days === 0 && hours === 0 && minutes === 0 })
+  return [daysStr, hoursStr, minStr, secStr].filter((str) => str !== '').join(', ')
 }
 
 export const formatDate = (timestamp: string) => {

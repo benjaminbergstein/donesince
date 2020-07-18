@@ -4,12 +4,12 @@ WITH activities AS (
     ra."activityTypeId",
     ra."recordedById",
     ra."recordedAt",
-    ra."recordedAt" - LAG(ra."recordedAt", 1) OVER recorder AS "sinceLast"
+    ra."recordedAt" - LAG(ra."recordedAt", 1) OVER at_type AS "sinceLast"
 
   FROM "RecordedActivity" ra
 
-  recorder AS (
-    PARTITION BY "recordedById"
+  WINDOW at_type AS (
+    PARTITION BY "activityTypeId"
     ORDER BY "recordedAt" ASC
   )
 
@@ -21,16 +21,36 @@ meta AS (
 
     at.name,
     a."activityTypeId",
-    a."recordedById",
-    a."recordedAt",
-    EXTRACT(epoch FROM a."sinceLastUser") / 3600 AS "sinceLast"
+    MAX(a."recordedAt") OVER at_type AS "lastRecordedAt",
+    COUNT(a.id) OVER at_type AS "countRecords",
+    EXTRACT(epoch FROM a."sinceLast") / 3600 AS "sinceLast",
+    STDDEV(EXTRACT(epoch FROM a."sinceLast") / 3600) OVER at_type +
+    EXTRACT(epoch FROM AVG(a."sinceLast") OVER at_type) / 3600 AS "oneStdDev"
 
   FROM activities a
 
   LEFT OUTER JOIN "ActivityType" at
   ON at.id = a."activityTypeId"
 
-  ORDER BY 4
+  WINDOW at_type AS (
+    PARTITION BY "activityTypeId"
+    ORDER BY "recordedAt" ASC
+  )
 )
 
-SELECT * FROM meta
+SELECT
+
+  name,
+  "activityTypeId",
+  MAX("lastRecordedAt") AS "lastRecordedAt",
+  MAX("countRecords") AS "countRecords",
+  AVG("sinceLast") AS "averageInterval"
+
+FROM meta m
+
+WHERE (
+  "sinceLast" < "oneStdDev" OR
+  "countRecords" < 3
+)
+
+GROUP BY 1, 2

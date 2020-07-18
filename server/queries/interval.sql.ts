@@ -33,8 +33,6 @@ meta AS (
   LEFT OUTER JOIN "ActivityType" at
   ON at.id = a."activityTypeId"
 
-  WHERE a."sinceLast" IS NOT NULL
-
   WINDOW at_type AS (
     PARTITION BY "activityTypeId"
     ORDER BY "recordedAt" ASC
@@ -47,11 +45,16 @@ SELECT
   "activityTypeId",
   MAX("lastRecordedAt") AS "lastRecordedAt",
   MAX("countRecords") AS "countRecords",
-  AVG("sinceLast") AS "averageInterval"
+  COALESCE(AVG("sinceLast"), -1) AS "averageInterval"
 
 FROM meta m
 
-WHERE "sinceLast" < "oneStdDev"
+WHERE (
+  "sinceLast" < "oneStdDev" OR
+  "countRecords" < 3
+)
 
 GROUP BY 1, 2
+
+ORDER BY 4 DESC
 `

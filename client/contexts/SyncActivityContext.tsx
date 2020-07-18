@@ -2,10 +2,19 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useMutation } from '@apollo/react-hooks';
 
 import { pluralize } from '../utils/time'
+
+import useTimeline from '../hooks/useTimeline'
+import useTrends from '../hooks/useTrends'
+
 import FlashContext from '../contexts/FlashContext'
 
 import { RECORD_ACTIVITY } from '../apollo/queries'
-import { RecordActivityInput } from '../apollo/types'
+
+import {
+  RecordActivityInput,
+  TimelineStat,
+  Trend,
+} from '../apollo/types'
 
 import Message from '../system/Message'
 
@@ -22,14 +31,25 @@ export interface SyncActivityState {
   captureUnsyncedActivity: (unsyncedActivity: RecordActivityInput) => void
   unsyncedActivities: UnsyncedActivitiesRepo
   status: SyncStatus
+  timeline: TimelineStat[]
+  activityTrends: Trend[]
 }
 
 export const useSyncActivity = () => {
   const { addFlash } = useContext(FlashContext)
+
+  const { data: timelineData } = useTimeline()
+  const { timeline } = timelineData
+
+  const { data: trendsData } = useTrends()
+  const { activityTrends } = trendsData
+
   const [status, setStatus] = useState<SyncStatus>(SyncStatus.None)
   const [unsyncedActivities, setUnsyncedActivities] = useState<UnsyncedActivitiesRepo>({})
 
-  const [recordActivity] = useMutation(RECORD_ACTIVITY)
+  const [recordActivity] = useMutation(RECORD_ACTIVITY, {
+    refetchQueries: ['MyActivities', 'MyTrends']
+  })
 
   const captureUnsyncedActivity = (unsyncedActivity: RecordActivityInput) => {
     setUnsyncedActivities({
@@ -42,6 +62,8 @@ export const useSyncActivity = () => {
     status,
     captureUnsyncedActivity,
     unsyncedActivities,
+    timeline,
+    activityTrends,
   }
 
   const recordActivityWithClientId: (clientId: string) => Promise<any> = (
@@ -72,7 +94,7 @@ export const useSyncActivity = () => {
       setUnsyncedActivities(unsyncedActivities)
       const allGood = Object.values(unsyncedActivities).length === 0
       setStatus(allGood ? SyncStatus.None : SyncStatus.Pending)
-      addFlash("All activities synced!")
+      addFlash("Activities synced!")
     })
     .catch(() => {
       setStatus(SyncStatus.Pending)
