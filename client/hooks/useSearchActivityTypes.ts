@@ -1,26 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useLazyQuery } from '@apollo/react-hooks';
 
 import { ActivityType } from '../apollo/types'
 import { SEARCH_ACTIVITY_TYPES } from '../apollo/queries'
-
-import Box from '../system/Box'
-import Card from '../system/Card'
-
-const pollInterval = 15000
 
 interface SearchArgs {
   minLength: number
 }
 
 type SearchResults = ActivityType[]
-type SearchReturn = [SearchResults, string, (q: string) => void]
+type SearchReturn = [
+  SearchResults,
+  string,
+  boolean,
+  (q: string) => void,
+  () => void,
+]
 
-const useSearchActivityTypes: (args: SearchArgs) => SearchResult = (args) => {
+const useSearchActivityTypes: (args: SearchArgs) => SearchReturn = (args) => {
   const { minLength } = args
   const [q, setQ] = useState<string>("")
-  const [performSearch, { data }] = useLazyQuery(SEARCH_ACTIVITY_TYPES, {
+  const [performSearch, { data, loading }] = useLazyQuery(SEARCH_ACTIVITY_TYPES, {
     variables: { q },
+    fetchPolicy: 'no-cache',
   })
 
   const doPerformSearch = q.length >= minLength
@@ -30,7 +32,7 @@ const useSearchActivityTypes: (args: SearchArgs) => SearchResult = (args) => {
   }, [q])
 
   const searchResults = doPerformSearch && data && data.searchActivityTypes ? data.searchActivityTypes : []
-  return [searchResults, q, setQ]
+  return [searchResults, q, loading, setQ, performSearch]
 }
 
 export default useSearchActivityTypes

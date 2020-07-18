@@ -9,13 +9,19 @@ import {
   shadow,
   color,
   grid,
+  BackgroundColorProps,
+  BordersProps,
+  LayoutProps,
+  FlexboxProps,
   SpaceProps,
   BorderRadiusProps,
   BoxShadowProps,
   GridProps,
 } from "styled-system";
 
-export const Box = styled.div<SpaceProps & BorderRadiusProps & BoxShadowProps & GridProps>(
+interface BoxProps extends BackgroundColorProps, BordersProps, FlexboxProps, SpaceProps, BorderRadiusProps, BoxShadowProps, GridProps, LayoutProps {}
+
+export const Box = styled.div<BoxProps>(
   {},
   space,
   layout,

@@ -1,40 +1,87 @@
+import Head from 'next/head'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import withData from '../apollo/withData'
-import { ActivityType } from '../apollo/types'
 
-import FlashContext, { useFlashState, FlashState } from '../contexts/FlashContext'
+import { SyncProvider, ListUnsyncedActivities } from '../contexts/SyncActivityContext'
 
-import Message from '../system/Message'
+import Tab from '../system/Tab'
 
+import Flash, { FlashProvider } from '../components/Flash'
 import MyTrendsList from '../components/MyTrendsList'
-import SearchActivityTypes from '../components/SearchActivityTypes'
 import RecordedActivitiesList from '../components/RecordedActivitiesList'
 import RecordActivity from '../components/RecordActivity'
-import CreateActivityType from '../components/CreateActivityType'
 
 import System from '../system/System'
+import Box from '../system/Box'
 
 const Page = styled.div`
   font-family: "Helvetica Neue", sans-serif
 `
 
+enum View {
+  Timeline = 0,
+  Add,
+  Trends,
+}
+
 const Home: React.FC<any> = () => {
-  const flashState: FlashState = useFlashState()
-  const { messages } = flashState
+  const [view, setView] = useState<View>(View.Timeline)
 
   return <Page>
+    <Head>
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    </Head>
+
     <System>
-      <FlashContext.Provider value={flashState}>
-        {messages.map((message) => (
-          <Message>{message}</Message>
-        ))}
-        <MyTrendsList />
-        <RecordActivity />
-        <CreateActivityType />
-        <RecordedActivitiesList />
-      </FlashContext.Provider>
+      <FlashProvider>
+        <SyncProvider>
+          <ListUnsyncedActivities />
+          <Flash />
+
+          <Box
+            display="flex"
+            flexDirection="column"
+            height="100%"
+          >
+            <Box
+              display="flex"
+              flexDirection="row"
+              marginBottom="1em"
+            >
+              <Tab
+                label="Timeline"
+                onClick={() => setView(View.Timeline) }
+                active={view === View.Timeline}
+              />
+              <Tab
+                label="Add"
+                onClick={() => setView(View.Add) }
+                active={view === View.Add}
+              />
+              <Tab
+                label="Trends"
+                onClick={() => setView(View.Trends) }
+                active={view === View.Trends}
+              />
+            </Box>
+
+            {view === View.Timeline && <Box>
+              <RecordedActivitiesList />
+            </Box>}
+
+            {view === View.Add && <Box>
+              <RecordActivity />
+            </Box>}
+
+            {view === View.Trends&& <Box>
+              <MyTrendsList />
+            </Box>}
+
+          </Box>
+        </SyncProvider>
+      </FlashProvider>
     </System>
   </Page>
 }

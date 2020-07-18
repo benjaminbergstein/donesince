@@ -16,6 +16,11 @@ export const useFlashState = () => {
   return flashState
 }
 
-const FlashContext = React.createContext<FlashState>()
+const messages: string[] = []
+
+const FlashContext = React.createContext<FlashState>({
+  messages,
+  addFlash: (message) => { messages.push(message) }
+})
 
 export default FlashContext

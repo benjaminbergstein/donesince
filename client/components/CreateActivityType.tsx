@@ -1,52 +1,38 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { useMutation } from '@apollo/react-hooks';
 
 import {
-  ActivityType,
-//   RecordedActivity,
-} from '../apollo/types'
-
-import {
   CREATE_ACTIVITY_TYPE,
-  LIST_ACTIVITY_TYPES,
 } from '../apollo/queries'
 
-const CreateActivityType: React.FC<{}> = () => {
-  const [name, setName] = useState<string>("")
+import FlashContext, { FlashState } from '../contexts/FlashContext'
+
+interface Props {
+  name: string
+  onActivityTypeAdded: () => void
+}
+
+const CreateActivityType: React.FC<Props> = ({
+  name,
+  onActivityTypeAdded,
+}) => {
+  const flashState: FlashState = useContext(FlashContext)
   const [createActivityType] = useMutation(CREATE_ACTIVITY_TYPE, {
     variables: { name },
-    update(cache, { data: { createActivityType } }) {
-      const data = cache.readQuery({ query: LIST_ACTIVITY_TYPES })
-      cache.writeQuery({
-        query: LIST_ACTIVITY_TYPES,
-        data: {
-          listActivityTypes: [
-            ...data.listActivityTypes,
-            createActivityType,
-          ],
-        },
-      })
-      setName("")
+    onCompleted() {
+      flashState.addFlash(`Activity Type "${name}" added!`)
+      onActivityTypeAdded()
     },
   })
 
-  const handleSubmit = (e) => {
+  const handleSubmit: (e: React.FormEvent) => void = (e) => {
     e.preventDefault()
     createActivityType()
   }
 
-  return <>
-    <h1>Add an Activity Type</h1>
-
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <button>Create</button>
-    </form>
-  </>
+  return <form onSubmit={handleSubmit}>
+    <button>Add Activity Type "{name}"</button>
+  </form>
 }
 
 export default CreateActivityType

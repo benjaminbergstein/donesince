@@ -1,18 +1,11 @@
-import React, { useState, useContext } from 'react'
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import React, { useContext } from 'react'
+import { v4 as uuidv4 } from 'uuid';
 
-import FlashContext from '../contexts/FlashContext'
+import SyncActivityContext, { SyncActivityState } from '../contexts/SyncActivityContext'
 
 import Button from '../system/Button'
-import Box from '../system/Box'
-import Message from '../system/Message'
 
 import { ActivityType } from '../apollo/types'
-
-import {
-  RECORD_ACTIVITY,
-  MY_ACTIVITIES,
-} from '../apollo/queries'
 
 interface Props {
   activityType: ActivityType
@@ -20,36 +13,18 @@ interface Props {
 }
 
 const RecordSingleActivity: React.FC<Props> = ({ activityType, label }) => {
-  const { addFlash } = useContext(FlashContext)
-
+  const { captureUnsyncedActivity }: SyncActivityState = useContext(SyncActivityContext)
   const { id: activityTypeId, name } = activityType
-  const [recordActivity, { called, error }] = useMutation(RECORD_ACTIVITY, {
-    variables: { activityTypeId },
-    onCompleted() {
-      addFlash("Activity recorded!")
-    },
-    update(cache, { data: { recordActivity } }) {
-      const cachedData = cache.readQuery({ query: MY_ACTIVITIES })
-      const { recordedActivities } = cachedData
-      const { activityTypeId } = recordActivity
-      const activityType = data.listActivityTypes.filter(
-        ({ id }) => {
-          return id === activityTypeId
-        }
-      )[0]
-      cache.writeQuery({
-        query: MY_ACTIVITIES,
-        data: {
-          recordedActivities: [
-            ...recordedActivities,
-            { ...recordActivity, activityType },
-          ],
-        },
-      })
-    },
-  })
 
-  return <Button onClick={recordActivity}>{label || name}</Button>
+  const recordActivity: () => void = () => {
+    captureUnsyncedActivity({
+      recordedAt: ''+Date.now(),
+      activityTypeId,
+      clientId: uuidv4(),
+    })
+  }
+
+  return <Button onClick={() => recordActivity()}>{label || name}</Button>
 }
 
 export default RecordSingleActivity

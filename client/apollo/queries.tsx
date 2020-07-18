@@ -19,11 +19,12 @@ export const LIST_ACTIVITY_TYPES = gql`
 
 export const MY_ACTIVITIES = gql`
   query MyActivities {
-    recordedActivities {
+    timeline {
+      activityTypeId
+      name
       recordedAt
-      activityType {
-        name
-      }
+      recordedById
+      sinceLast
     }
   }
 `
@@ -40,8 +41,11 @@ export const MY_TRENDS = gql`
   }
 `
 export const RECORD_ACTIVITY = gql`
-  mutation RecordActivity($activityTypeId: ID!) {
-    recordActivity(recordActivityInput: { activityTypeId: $activityTypeId }) {
+  mutation RecordActivity($activityTypeId: ID!, $recordedAt: String!) {
+    recordActivity(recordActivityInput: {
+      activityTypeId: $activityTypeId,
+      recordedAt: $recordedAt,
+    }) {
       recordedAt
       activityTypeId
     }

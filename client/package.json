@@ -8,11 +8,15 @@
   },
   "dependencies": {
     "@types/styled-system": "^5.1.9",
+    "@types/uuid": "^8.0.0",
     "next": "^9.4.4",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-id-swiper": "^4.0.0",
     "styled-components": "^5.0.0",
-    "styled-system": "^5.1.5"
+    "styled-system": "^5.1.5",
+    "swiper": "^6.0.4",
+    "uuid": "^8.2.0"
   },
   "devDependencies": {
     "@apollo/react-hooks": "^3.1.5",

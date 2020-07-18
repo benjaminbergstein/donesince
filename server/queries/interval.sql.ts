@@ -15,20 +15,43 @@ WITH activities AS (
   )
 
   ORDER BY 2 DESC
+),
+
+meta AS (
+  SELECT
+
+    at.name,
+    a."activityTypeId",
+    MAX(a."recordedAt") OVER at_type AS "lastRecordedAt",
+    COUNT(a.id) OVER at_type AS "countRecords",
+    EXTRACT(epoch FROM a."sinceLast") / 3600 AS "sinceLast",
+    STDDEV(EXTRACT(epoch FROM a."sinceLast") / 3600) OVER at_type +
+    EXTRACT(epoch FROM AVG(a."sinceLast") OVER at_type) / 3600 AS "oneStdDev"
+
+  FROM activities a
+
+  LEFT OUTER JOIN "ActivityType" at
+  ON at.id = a."activityTypeId"
+
+  WHERE a."sinceLast" IS NOT NULL
+
+  WINDOW at_type AS (
+    PARTITION BY "activityTypeId"
+    ORDER BY "recordedAt" ASC
+  )
 )
 
 SELECT
-  at.name,
-  a."activityTypeId",
-  MAX(a."recordedAt") AS "lastRecordedAt",
-  COUNT(a.id) AS "countRecords",
-  EXTRACT(epoch FROM AVG(a."sinceLast")) / 3600 AS "averageInterval"
-FROM activities a
 
-LEFT OUTER JOIN "ActivityType" at
-ON at.id = a."activityTypeId"
+  name,
+  "activityTypeId",
+  MAX("lastRecordedAt") AS "lastRecordedAt",
+  MAX("countRecords") AS "countRecords",
+  AVG("sinceLast") AS "averageInterval"
 
-WHERE a."sinceLast" IS NOT NULL
+FROM meta m
+
+WHERE "sinceLast" < "oneStdDev"
 
 GROUP BY 1, 2
 `

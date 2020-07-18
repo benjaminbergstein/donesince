@@ -21,6 +21,14 @@ export default gql`
     countRecords: Int!
   }
 
+  type TimelineStat {
+    activityTypeId: ID!
+    name: String!
+    recordedById: ID!
+    recordedAt: String!
+    sinceLast: String!
+  }
+
   type User {
     id: ID!
     name: String!
@@ -31,6 +39,7 @@ export default gql`
     listActivityTypes: [ActivityType!]
     recordedActivities: [RecordedActivity!]
     activityTrends: [ActivityStat!]
+    timeline: [TimelineStat]
   }
 
   input ActivityTypeInput {
@@ -43,6 +52,7 @@ export default gql`
 
   input RecordedActivityInput {
     activityTypeId: ID!
+    recordedAt: String!
   }
 
   type Mutation {

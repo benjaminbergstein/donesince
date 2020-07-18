@@ -7,6 +7,7 @@ import {
 } from "@prisma/client"
 
 import getTrendsSql from '../queries/interval.sql'
+import getTimelineSql from '../queries/timeline.sql'
 import getSearchActivityTypesSql from '../queries/searchActivityTypes.sql'
 
 const prisma = new PrismaClient()
@@ -22,6 +23,7 @@ interface SignUpArgs {
 
 interface RecordActivityArgs {
   activityTypeId: number
+  recordedAt: string
 }
 
 const userId = 1
@@ -41,6 +43,7 @@ export default {
       parent: any,
       { q }: { q: string },
     ) => prisma.queryRaw(getSearchActivityTypesSql({ q })),
+    timeline: async () => prisma.queryRaw(getTimelineSql()),
   },
 
   Mutation: {
@@ -73,16 +76,19 @@ export default {
       args: { recordActivityInput: RecordActivityArgs },
     ) => {
       const { recordActivityInput } = args
-      const { activityTypeId } = recordActivityInput
+      const { activityTypeId, recordedAt } = recordActivityInput
+      const data = {
+        recordedAt: new Date(parseInt(recordedAt)),
+        recordedBy: {
+          connect: { id: parseInt(''+userId) },
+        },
+        activityType: {
+          connect: { id: parseInt(''+activityTypeId) },
+        },
+      }
+
       const recordedActivity: RecordedActivity = await prisma.recordedActivity.create({
-        data: {
-          recordedBy: {
-            connect: { id: parseInt(''+userId) },
-          },
-          activityType: {
-            connect: { id: parseInt(''+activityTypeId) },
-          },
-        }
+        data,
       })
       return recordedActivity
     },

@@ -1,3 +1,4 @@
+const timeline: () => string = () => `
 WITH activities AS (
   SELECT
     ra."id",
@@ -8,7 +9,7 @@ WITH activities AS (
 
   FROM "RecordedActivity" ra
 
-  recorder AS (
+  WINDOW recorder AS (
     PARTITION BY "recordedById"
     ORDER BY "recordedAt" ASC
   )
@@ -23,14 +24,17 @@ meta AS (
     a."activityTypeId",
     a."recordedById",
     a."recordedAt",
-    EXTRACT(epoch FROM a."sinceLastUser") / 3600 AS "sinceLast"
+    COALESCE(EXTRACT(epoch FROM a."sinceLast") / 3600, -1) AS "sinceLast"
 
   FROM activities a
 
   LEFT OUTER JOIN "ActivityType" at
   ON at.id = a."activityTypeId"
 
-  ORDER BY 4
+  ORDER BY 4 DESC
 )
 
 SELECT * FROM meta
+`
+
+export default timeline

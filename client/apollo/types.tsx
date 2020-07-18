@@ -3,6 +3,12 @@ export interface ActivityType {
   name: string
 }
 
+export interface RecordActivityInput {
+  recordedAt: string
+  activityTypeId: number
+  clientId: string
+}
+
 export interface User {
   id: number
   name: string
@@ -14,9 +20,18 @@ export interface RecordedActivity {
   recordedBy: User
 }
 
+export interface TimelineStat {
+  activityTypeId: number
+  name: string
+  recordedById: number
+  recordedAt: string
+  sinceLast: number
+}
+
 export interface Trend {
   name: string
-  averageInterval: float
+  averageInterval: number
   activityTypeId: number
   countRecords: number
+  lastRecordedAt: string
 }
