@@ -9,9 +9,39 @@ import {
 } from '../apollo/types'
 
 import Box from '../system/Box'
+import Text from '../system/Text'
 
-interface Props {
-  timeline?: TimelineStat[]
+const Line: React.FC<{ height: number, dashed?: boolean }> = ({ height, dashed = false, children }) => {
+  if (height < 0) return null
+  return <Box
+    display="flex"
+    borderLeftWidth='3px'
+    borderLeftStyle={dashed ? 'dashed' : 'solid'}
+    borderLeftColor='accent.success'
+    height={(height < 0 ? 0 : height) + 'px'}
+    width="25%"
+    minHeight="1em"
+    padding='10px 10px 10px 20px'
+    marginLeft="25%"
+    flexDirection="row"
+    alignItems="center"
+  >{children}</Box>
+}
+
+const ActivityLine: React.FC<{ sinceLast: number }> = ({ sinceLast }) => {
+  const sinceLastMinutes = sinceLast * 60
+  const isLong = sinceLastMinutes > 200
+  const segmentHeight = (isLong ? 100 : sinceLastMinutes / 2) - 30
+
+  return <>
+    {sinceLast > 0 && <Line height={segmentHeight} />}
+    {sinceLast > 0 && <Line height={60} dashed={isLong}>
+      <span style={{ whiteSpace: 'nowrap' }}>
+        {formatInterval(sinceLast)}
+      </span>
+    </Line>}
+    {sinceLast > 0 && <Line height={segmentHeight} />}
+  </>
 }
 
 const RecordedActivitiesList: React.FC<{}> = () => {
@@ -40,24 +70,10 @@ const RecordedActivitiesList: React.FC<{}> = () => {
             flexDirection="column"
           >
             <Box marginBottom="15px" marginTop="15px" display="flex" alignItems="center">
-              <div>{activityName}</div>
+              <Text fontWeight="600">{activityName}</Text>
             </Box>
 
-            {sinceLast > 0 && <Box
-              display="flex"
-              borderLeft='3px solid green'
-              height={sinceLast * 60 + 'px'}
-              width="25%"
-              minHeight="1em"
-              padding='10px 10px 10px 20px'
-              marginLeft="25%"
-              flexDirection="row"
-              alignItems="center"
-            >
-              <span style={{ whiteSpace: 'nowrap' }}>
-                {formatInterval(sinceLast)}
-              </span>
-            </Box>}
+            <ActivityLine sinceLast={sinceLast} />
           </Box>
         ))}
       </Box>

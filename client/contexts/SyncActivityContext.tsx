@@ -16,7 +16,7 @@ import {
   Trend,
 } from '../apollo/types'
 
-import Message from '../system/Message'
+import Message, { Theme } from '../system/Message'
 
 interface UnsyncedActivitiesRepo {
   [clientId: string]: RecordActivityInput
@@ -120,6 +120,8 @@ const SyncActivityContext = React.createContext<SyncActivityState>({
   captureUnsyncedActivity(unsyncedActivity) {
     unsyncedActivities[unsyncedActivity.clientId] = unsyncedActivity
   },
+  timeline: [],
+  activityTrends: [],
 })
 
 export const SyncProvider: React.FC<{}> = ({ children }) => {
@@ -138,7 +140,7 @@ export const ListUnsyncedActivities: React.FC<{}> = () => {
   const unsyncedActivityCount = Object.entries(unsyncedActivities).length
 
   return <>
-    {syncStatus === SyncStatus.Pending && <Message canHide={false} theme="warning">
+    {syncStatus === SyncStatus.Pending && <Message canHide={false} theme={Theme.Warning}>
       {pluralize(unsyncedActivityCount, 'unsynced activity', 'unsynced activities')}
     </Message>}
   </>

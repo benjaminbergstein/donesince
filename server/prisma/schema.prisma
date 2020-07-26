@@ -28,5 +28,6 @@ model RecordedActivity {
 model User {
   id      Int      @default(autoincrement()) @id
   name    String?
-  recordedActivities RecordedActivity[] @relation(name: "userRecordedActivities")
+  recordedActivities RecordedActivity[]
+  apiToken String?
 }

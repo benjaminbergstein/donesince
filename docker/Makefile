@@ -24,6 +24,10 @@ define DOCKER_RUN
 ${DOCKER_COMPOSE} run --rm
 endef
 
+define DOCKER_EXEC
+${DOCKER_COMPOSE} exec
+endef
+
 define BUILD_ARGS
 endef
 

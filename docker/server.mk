@@ -2,7 +2,7 @@ db-init:
 	${DOCKER_RUN} server prisma init
 
 db-migrate:
-	${DOCKER_RUN} server prisma migrate save --name ${MIGRATION} --experimental
+	${DOCKER_EXEC} -T server yarn prisma migrate save --name ${MIGRATION} --experimental
 
 db-up:
 	${DOCKER_RUN} server prisma migrate up --experimental

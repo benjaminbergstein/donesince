@@ -3,6 +3,11 @@ import { ThemeProvider } from "styled-components";
 
 const theme = {
   colors: {
+    accent: {
+      text: '#001514',
+      success: '#AEF6C7',
+      warning: '#FFA987',
+    },
   },
   fontSizes: [12, 14, 16, 18, 20, 24, 32],
   fontWeights: [100, 300, 500, 700, 900]

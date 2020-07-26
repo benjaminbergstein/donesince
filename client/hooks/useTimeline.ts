@@ -15,7 +15,7 @@ interface TimelineReturn {
   data: TimelineQueryResponse
 }
 
-const useTimeline: () => TimelineStat[] = () => {
+const useTimeline: () => TimelineReturn = () => {
   const { data = { timeline: [] } } = useQuery(MY_ACTIVITIES, { pollInterval })
   return { data }
 }

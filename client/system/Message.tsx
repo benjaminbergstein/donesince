@@ -4,14 +4,19 @@ import styled from 'styled-components'
 import Box from '../system/Box'
 import Text from '../system/Text'
 
-enum Theme {
+export enum Theme {
   Success = 'success',
   Warning = 'warning',
 }
 
-const colors: { [theme: Theme]: string } = {
-  success: '#AEF6C7',
-  warning: '#FFA987',
+interface ColorTheme {
+  [Theme.Success]: string
+  [Theme.Warning]: string
+}
+
+const colors: ColorTheme = {
+  success: 'accent.success',
+  warning: 'accent.warning',
 }
 
 const CloseBtn = styled.span`
@@ -40,7 +45,7 @@ const Message: React.FC<Props> = ({
     display="flex"
     justifyContent="space-between"
   >
-    <Text color="#001514" fontWeight="bold">{children}</Text>
+    <Text color="accent.text" fontWeight="bold">{children}</Text>
     {canHide && <CloseBtn onClick={() => setHidden(true)}>&times;</CloseBtn>}
   </Box>
 }

@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import { v4 as uuidv4 } from 'uuid';
 import {
   PrismaClient,
   RecordedActivity,
@@ -26,6 +27,10 @@ interface RecordActivityArgs {
   recordedAt: string
 }
 
+interface AuthenticateArgs {
+  signInInput: { name: string }
+}
+
 const userId = 1
 
 export default {
@@ -44,6 +49,7 @@ export default {
       { q }: { q: string },
     ) => prisma.queryRaw(getSearchActivityTypesSql({ q })),
     timeline: async () => prisma.queryRaw(getTimelineSql()),
+    me: async() => prisma.user.findOne({ where: { id: userId } })
   },
 
   Mutation: {
@@ -66,9 +72,19 @@ export default {
       const { signUpInput} = args
       const { name } = signUpInput
       const user: User = await prisma.user.create({
-        data: { name }
+        data: { name, apiToken: uuidv4() }
       })
       return user
+    },
+
+    authenticate: async (parent: any, args: AuthenticateArgs) => {
+      const { signInInput } = args
+      const { name } = signInInput
+      const user = await prisma.user.findMany({
+        where: { name }
+      })
+
+      return user[0]
     },
 
     recordActivity: async (

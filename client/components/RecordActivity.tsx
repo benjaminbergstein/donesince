@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { ActivityType } from '../apollo/types'
 
 import Box from '../system/Box'
 import Input from '../system/Input'
+import Text from '../system/Text'
+
+import SyncActivityContext, { SyncActivityState } from '../contexts/SyncActivityContext'
 
 import RecordSingleActivity from '../components/RecordSingleActivity'
 import CreateActivityType from '../components/CreateActivityType'
@@ -12,6 +15,8 @@ import useSearchActivityTypes from '../hooks/useSearchActivityTypes'
 
 const RecordActivity: React.FC<{}> = () => {
   const [searchResults, q, searchResultsLoading, setQ, performSearch] = useSearchActivityTypes({ minLength: 3 })
+  const syncActivityState: SyncActivityState = useContext(SyncActivityContext)
+  const { activityTrends } = syncActivityState
 
   return <>
     <Box display="flex" flexDirection="row">
@@ -51,6 +56,20 @@ const RecordActivity: React.FC<{}> = () => {
           name={q}
         />}
     </Box>}
+
+    <Box>
+      <Text as="h4">Your activites</Text>
+
+      {activityTrends.map(({ name, activityTypeId }) => (
+        <Box display="flex" flexDirection="row" justifyContent="space-between" marginBottom="10px">
+          <Box>{name}</Box>
+          <RecordSingleActivity
+            activityType={{ id: activityTypeId, name }}
+            label="Record"
+          />
+        </Box>
+      ))}
+    </Box>
   </>
 }
 

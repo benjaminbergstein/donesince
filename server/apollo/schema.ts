@@ -35,6 +35,7 @@ export default gql`
   }
 
   type Query {
+    me: User!
     searchActivityTypes(q: String!): [ActivityType!]
     listActivityTypes: [ActivityType!]
     recordedActivities: [RecordedActivity!]
@@ -42,11 +43,19 @@ export default gql`
     timeline: [TimelineStat]
   }
 
+  type Authorization {
+    apiToken: String!
+  }
+
   input ActivityTypeInput {
     name: String!
   }
 
   input SignUpInput {
+    name: String!
+  }
+
+  input SignInInput {
     name: String!
   }
 
@@ -59,5 +68,6 @@ export default gql`
     createActivityType(activityTypeInput: ActivityTypeInput!):  ActivityType!
     signUp(signUpInput: SignUpInput!): User!
     recordActivity(recordActivityInput: RecordedActivityInput): RecordedActivity!
+    authenticate(signInInput: SignInInput!): Authorization!
   }
 `
