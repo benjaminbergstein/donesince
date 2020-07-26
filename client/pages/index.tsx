@@ -10,7 +10,7 @@ import Tab from '../system/Tab'
 
 import Flash, { FlashProvider } from '../components/Flash'
 import MyTrendsList from '../components/MyTrendsList'
-import RecordedActivitiesList from '../components/RecordedActivitiesList'
+import Timeline from '../components/Timeline'
 import RecordActivity from '../components/RecordActivity'
 
 import System from '../system/System'
@@ -68,7 +68,7 @@ const Home: React.FC<any> = () => {
             </Box>
 
             {view === View.Timeline && <Box>
-              <RecordedActivitiesList />
+              <Timeline />
             </Box>}
 
             {view === View.Add && <Box>
