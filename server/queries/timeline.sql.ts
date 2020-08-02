@@ -4,8 +4,10 @@ WITH activities AS (
     ra."id",
     ra."activityTypeId",
     ra."recordedById",
-    ra."recordedAt",
-    ra."recordedAt" - LAG(ra."recordedAt", 1) OVER recorder AS "sinceLast"
+    TIMEZONE('US/Pacific', ra."recordedAt" AT TIME ZONE 'UTC') as "recordedAt",
+    ra."recordedAt" as "origRecordedAt",
+    ra."recordedAt" - LAG(ra."recordedAt", 1) OVER recorder AS "sinceLast",
+    DATE(TIMEZONE('US/Pacific', ra."recordedAt" AT TIME ZONE 'UTC')) as "recordedAtDate"
 
   FROM "RecordedActivity" ra
 
@@ -24,12 +26,19 @@ meta AS (
     a."activityTypeId",
     a."recordedById",
     a."recordedAt",
-    COALESCE(EXTRACT(epoch FROM a."sinceLast") / 3600, -1) AS "sinceLast"
+    COALESCE(EXTRACT(epoch FROM a."sinceLast") / 3600, -1) AS "sinceLast",
+    RANK() OVER date AS "ofDay",
+    TO_CHAR(a."recordedAt", 'Dy, Mon DD') as "humanReadableDate"
 
   FROM activities a
 
   LEFT OUTER JOIN "ActivityType" at
   ON at.id = a."activityTypeId"
+
+  WINDOW date AS (
+    PARTITION BY a."recordedAtDate"
+    ORDER BY a."recordedAt" DESC
+  )
 
   ORDER BY 4 DESC
 )

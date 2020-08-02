@@ -5,6 +5,7 @@ import { pluralize } from '../utils/time'
 
 import useTimeline from '../hooks/useTimeline'
 import useTrends from '../hooks/useTrends'
+import useModalControl, { ModalControl, dummyModalControl } from '../hooks/useModalControl'
 
 import FlashContext from '../contexts/FlashContext'
 
@@ -33,9 +34,11 @@ export interface SyncActivityState {
   status: SyncStatus
   timeline: TimelineStat[]
   activityTrends: Trend[]
+  modalControl: ModalControl
 }
 
 export const useSyncActivity = () => {
+  const modalControl = useModalControl()
   const { addFlash } = useContext(FlashContext)
 
   const { data: timelineData } = useTimeline()
@@ -56,6 +59,7 @@ export const useSyncActivity = () => {
       ...unsyncedActivities,
       [unsyncedActivity.clientId]: unsyncedActivity,
     })
+    modalControl.hide()
   }
 
   const syncActivityState: SyncActivityState = {
@@ -64,6 +68,7 @@ export const useSyncActivity = () => {
     unsyncedActivities,
     timeline,
     activityTrends,
+    modalControl,
   }
 
   const recordActivityWithClientId: (clientId: string) => Promise<any> = (
@@ -122,6 +127,7 @@ const SyncActivityContext = React.createContext<SyncActivityState>({
   },
   timeline: [],
   activityTrends: [],
+  modalControl: dummyModalControl,
 })
 
 export const SyncProvider: React.FC<{}> = ({ children }) => {

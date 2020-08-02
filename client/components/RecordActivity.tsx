@@ -61,7 +61,17 @@ const RecordActivity: React.FC<{}> = () => {
       <Text as="h4">Your activites</Text>
 
       {activityTrends.map(({ name, activityTypeId }) => (
-        <Box display="flex" flexDirection="row" justifyContent="space-between" marginBottom="10px">
+        <Box
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
+          marginBottom="10px"
+          paddingBottom="10px"
+          borderBottomWidth="1px"
+          borderBottomStyle="solid"
+          borderBottomColor="grays.text.light"
+        >
           <Box>{name}</Box>
           <RecordSingleActivity
             activityType={{ id: activityTypeId, name }}

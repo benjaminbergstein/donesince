@@ -13,15 +13,16 @@ interface Props {
 }
 
 const RecordSingleActivity: React.FC<Props> = ({ activityType, label }) => {
-  const { captureUnsyncedActivity }: SyncActivityState = useContext(SyncActivityContext)
+  const { modalControl }: SyncActivityState = useContext(SyncActivityContext)
   const { id: activityTypeId, name } = activityType
 
   const recordActivity: () => void = () => {
-    captureUnsyncedActivity({
-      recordedAt: ''+Date.now(),
-      activityTypeId,
-      clientId: uuidv4(),
-    })
+    modalControl.show(activityType)
+    // captureUnsyncedActivity({
+    //   recordedAt: ''+Date.now(),
+    //   activityTypeId,
+    //   clientId: uuidv4(),
+    // })
   }
 
   return <Button onClick={() => recordActivity()}>{label || name}</Button>

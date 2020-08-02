@@ -26,6 +26,8 @@ export interface TimelineStat {
   recordedById: number
   recordedAt: string
   sinceLast: number
+  ofDay: number
+  humanReadableDate: string
 }
 
 export interface Trend {

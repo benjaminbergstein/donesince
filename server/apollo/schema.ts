@@ -27,6 +27,8 @@ export default gql`
     recordedById: ID!
     recordedAt: String!
     sinceLast: String!
+    ofDay: Int!
+    humanReadableDate: String!
   }
 
   type User {

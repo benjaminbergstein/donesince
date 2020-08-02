@@ -10,7 +10,7 @@ import Box from '../../system/Box'
 import Text from '../../system/Text'
 import ActivityLine from './ActivityLine'
 
-const RecordedActivitiesList: React.FC<{}> = () => {
+const Timeline: React.FC<{}> = () => {
   const syncActivityState: SyncActivityState = useContext(SyncActivityContext)
   const { timeline } = syncActivityState
 
@@ -28,13 +28,31 @@ const RecordedActivitiesList: React.FC<{}> = () => {
         {timeline.map(({
           sinceLast,
           name: activityName,
+          recordedAt,
+          humanReadableDate,
+          ofDay
         }: TimelineStat) => (
           <Box
             alignItems="center"
             justifyContent="center"
             display="flex"
             flexDirection="column"
+            position="relative"
           >
+            {ofDay === 1 && <Box
+              paddingTop="1em"
+              paddingBottom="1em"
+            >
+              <Text
+                color="grays.text.light"
+                fontSize={1}
+                fontWeight={3}
+                style={{
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px',
+                }}
+              >{humanReadableDate}</Text>
+            </Box>}
             <Box marginBottom="15px" marginTop="15px" display="flex" alignItems="center">
               <Text fontWeight="600">{activityName}</Text>
             </Box>
@@ -47,4 +65,4 @@ const RecordedActivitiesList: React.FC<{}> = () => {
   </>
 }
 
-export default RecordedActivitiesList
+export default Timeline

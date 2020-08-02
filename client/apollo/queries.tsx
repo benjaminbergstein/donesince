@@ -32,6 +32,8 @@ export const MY_ACTIVITIES = gql`
       recordedAt
       recordedById
       sinceLast
+      humanReadableDate
+      ofDay
     }
   }
 `

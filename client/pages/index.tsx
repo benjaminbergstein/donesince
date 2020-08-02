@@ -12,6 +12,7 @@ import Flash, { FlashProvider } from '../components/Flash'
 import MyTrendsList from '../components/MyTrendsList'
 import Timeline from '../components/Timeline'
 import RecordActivity from '../components/RecordActivity'
+import RecordModal from '../components/RecordModal'
 
 import System from '../system/System'
 import Box from '../system/Box'
@@ -80,6 +81,7 @@ const Home: React.FC<any> = () => {
             </Box>}
 
           </Box>
+          <RecordModal />
         </SyncProvider>
       </FlashProvider>
     </System>

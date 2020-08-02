@@ -8,6 +8,12 @@ const theme = {
       success: '#AEF6C7',
       warning: '#FFA987',
     },
+    grays: {
+      text: {
+        light: '#829298',
+        medium: '#6E6362',
+      },
+    },
   },
   fontSizes: [12, 14, 16, 18, 20, 24, 32],
   fontWeights: [100, 300, 500, 700, 900]
