@@ -17,9 +17,10 @@ import {
   BorderRadiusProps,
   BoxShadowProps,
   GridProps,
+  PositionProps,
 } from "styled-system";
 
-interface BoxProps extends BackgroundColorProps, BordersProps, FlexboxProps, SpaceProps, BorderRadiusProps, BoxShadowProps, GridProps, LayoutProps {}
+interface BoxProps extends PositionProps, BackgroundColorProps, BordersProps, FlexboxProps, SpaceProps, BorderRadiusProps, BoxShadowProps, GridProps, LayoutProps {}
 
 export const Box = styled.div<BoxProps>(
   {},

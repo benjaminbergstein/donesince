@@ -15,8 +15,11 @@ interface TimelineReturn {
   data: TimelineQueryResponse
 }
 
-const useTimeline: () => TimelineReturn = () => {
-  const { data = { timeline: [] } } = useQuery(MY_ACTIVITIES, { pollInterval })
+const useTimeline: (offset?: number | undefined) => TimelineReturn = (offset = 0) => {
+  const { data = { timeline: [] } } = useQuery(MY_ACTIVITIES, {
+    variables: { offset },
+    pollInterval,
+  })
   return { data }
 }
 

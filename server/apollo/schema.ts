@@ -31,6 +31,10 @@ export default gql`
     humanReadableDate: String!
   }
 
+  type TimelineDate {
+    date: String!
+  }
+
   type User {
     id: ID!
     name: String!
@@ -42,7 +46,8 @@ export default gql`
     listActivityTypes: [ActivityType!]
     recordedActivities: [RecordedActivity!]
     activityTrends: [ActivityStat!]
-    timeline: [TimelineStat]
+    timeline(offset: Int!): [TimelineStat]
+    timelineDates: [TimelineDate]!
   }
 
   type Authorization {

@@ -25,8 +25,8 @@ export const LIST_ACTIVITY_TYPES = gql`
 `
 
 export const MY_ACTIVITIES = gql`
-  query MyActivities {
-    timeline {
+  query MyActivities($offset: Int!) {
+    timeline(offset: $offset) {
       activityTypeId
       name
       recordedAt

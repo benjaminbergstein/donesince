@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 
 import Button from '../system/Button'
 import Text from '../system/Text'
@@ -8,16 +8,13 @@ import Card from '../system/Card'
 
 import SyncActivityContext, { SyncActivityState } from '../contexts/SyncActivityContext'
 
-type RecordedAtConfig = [number, number, string]
+const Second: number = 1000
+const Minute: number = Second * 60
+const Hour: number = Minute * 60
+const Day: number = Hour * 24
 
-type RecordedAtOptions = RecordedAtConfig[]
-
-const Second = 1000
-const Minute = Second * 60
-const Hour = Minute * 60
-const Day = Hour * 24
-
-const recordedAtOptions = [
+type RecordedAtOption = [number, number, string]
+const recordedAtOptions: RecordedAtOption[] = [
   [0, Second, 'now'],
   [5, Minute, 'mins'],
   [30, Minute, 'mins'],
@@ -30,7 +27,7 @@ const recordedAtOptions = [
   [2, Day, 'days'],
 ]
 
-const timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000
+const timezoneOffset: number = 60 * 1000
 
 const RecordModal: React.FC<{}> = () => {
   const [recordedAtModifier, setRecordedAtModifier] = useState<number>(0)
@@ -42,17 +39,19 @@ const RecordModal: React.FC<{}> = () => {
   const { id: activityTypeId } = recordingActivity
 
   const recordActivity: () => void = () => {
+    const clientId = uuidv4()
+
     captureUnsyncedActivity({
       recordedAt: ''+(Date.now() - recordedAtModifier + timezoneOffset),
       activityTypeId,
-      clientId: uuidv4(),
+      clientId,
     })
   }
 
   return <Box
     position="fixed"
     top="0"
-    background="rgba(255, 255, 255, 0.7)"
+    bg="rgba(255, 255, 255, 0.7)"
     height="100vh"
     width="100%"
   >
@@ -64,12 +63,12 @@ const RecordModal: React.FC<{}> = () => {
       flexDirection="column"
       justifyContent="center"
     >
-      <Card background="white" margin="auto">
+      <Card bg="white" margin="auto">
         <Text as="h2">Record Activity</Text>
 
         <Box borderBottom="1px solid black" borderBottomColor="grays.text.light">
           <Text>
-            What? "{modalControl.recordingActivity.name}"
+            What? "{recordingActivity.name}"
           </Text>
         </Box>
 
@@ -80,8 +79,8 @@ const RecordModal: React.FC<{}> = () => {
           flexWrap="wrap"
           justifyContent="space-evenly"
         >
-          {recordedAtOptions.map(([n, interval, str]) => (
-            <Box data={{ interval }} flexBasis="32%" marginBottom="5px" marginTop="5px">
+          {recordedAtOptions.map(([n, interval, str]: RecordedAtOption) => (
+            <Box flexBasis="32%" marginBottom="5px" marginTop="5px">
               <Button
                 color={n * interval === recordedAtModifier ? 'accent.success' : undefined}
                 onClick={() => setRecordedAtModifier(n * interval)}

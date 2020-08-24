@@ -1,11 +1,10 @@
-const timeline: () => string = () => `
+const timeline: (offset?: number) => string = (offset = 1) => `
 WITH activities AS (
   SELECT
     ra."id",
     ra."activityTypeId",
     ra."recordedById",
-    TIMEZONE('US/Pacific', ra."recordedAt" AT TIME ZONE 'UTC') as "recordedAt",
-    ra."recordedAt" as "origRecordedAt",
+    ra."recordedAt",
     ra."recordedAt" - LAG(ra."recordedAt", 1) OVER recorder AS "sinceLast",
     DATE(TIMEZONE('US/Pacific', ra."recordedAt" AT TIME ZONE 'UTC')) as "recordedAtDate"
 
@@ -19,6 +18,16 @@ WITH activities AS (
   ORDER BY 2 DESC
 ),
 
+datesWithActivities AS (
+  SELECT
+    TO_CHAR(a."recordedAtDate", 'YYYY-MM-DD') as "rawDate"
+  FROM activities a
+  GROUP BY 1
+  ORDER BY 1 DESC
+  LIMIT 1
+  OFFSET ${offset}
+),
+
 meta AS (
   SELECT
 
@@ -28,7 +37,8 @@ meta AS (
     a."recordedAt",
     COALESCE(EXTRACT(epoch FROM a."sinceLast") / 3600, -1) AS "sinceLast",
     RANK() OVER date AS "ofDay",
-    TO_CHAR(a."recordedAt", 'Dy, Mon DD') as "humanReadableDate"
+    TO_CHAR(a."recordedAtDate", 'Dy, Mon DD') as "humanReadableDate",
+    TO_CHAR(a."recordedAtDate", 'YYYY-MM-DD') as "rawDate"
 
   FROM activities a
 
@@ -44,6 +54,7 @@ meta AS (
 )
 
 SELECT * FROM meta
+WHERE meta."rawDate" = (SELECT "rawDate" from datesWithActivities LIMIT 1)
 `
 
 export default timeline

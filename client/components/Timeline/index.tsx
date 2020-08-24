@@ -1,68 +1,36 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
-import { formatInterval } from '../../utils/time'
+import SwipeableViews from 'react-swipeable-views';
+import Timeline from './Timeline'
 
-import SyncActivityContext, { SyncActivityState } from '../../contexts/SyncActivityContext'
+const OffsetsToShow: number = 20
 
-import { TimelineStat } from '../../apollo/types'
+const shouldShowOffset: (offset: number, showingOffset: number) => boolean =
+  (offset, showingOffset) => (
+    offset >= showingOffset - 1 &&
+    offset <= showingOffset + 1
+  )
 
-import Box from '../../system/Box'
-import Text from '../../system/Text'
-import ActivityLine from './ActivityLine'
+const Wrapper: React.FC<{}> = () => {
+  const [showingOffset, setShowingOffset] = React.useState<number>(OffsetsToShow - 1)
 
-const Timeline: React.FC<{}> = () => {
-  const syncActivityState: SyncActivityState = useContext(SyncActivityContext)
-  const { timeline } = syncActivityState
+  const offsets = Array(OffsetsToShow).fill(OffsetsToShow).map(
+    (_, i)  => OffsetsToShow - i - 1
+  )
 
-  if (timeline.length === 0) return null
-
-  return <>
-    <Box height="80vh" overflow="hidden">
-      <Box
-        width="100%"
-        paddingRight="15px"
-        height="80vh"
-        overflowY="auto"
-        overflowX="hidden"
-      >
-        {timeline.map(({
-          sinceLast,
-          name: activityName,
-          recordedAt,
-          humanReadableDate,
-          ofDay
-        }: TimelineStat) => (
-          <Box
-            alignItems="center"
-            justifyContent="center"
-            display="flex"
-            flexDirection="column"
-            position="relative"
-          >
-            {ofDay === 1 && <Box
-              paddingTop="1em"
-              paddingBottom="1em"
-            >
-              <Text
-                color="grays.text.light"
-                fontSize={1}
-                fontWeight={3}
-                style={{
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                }}
-              >{humanReadableDate}</Text>
-            </Box>}
-            <Box marginBottom="15px" marginTop="15px" display="flex" alignItems="center">
-              <Text fontWeight="600">{activityName}</Text>
-            </Box>
-
-            <ActivityLine sinceLast={sinceLast} />
-          </Box>
-        ))}
-      </Box>
-    </Box>
-  </>
+  return <SwipeableViews
+    index={offsets.length - 1}
+    enableMouseEvents={true}
+    onSwitching={(index) => { setShowingOffset(Math.ceil(index)) }}
+  >
+    {offsets.map((offset) => (
+      <>
+        {shouldShowOffset(offset, offsets[showingOffset]) && (
+          <Timeline key={`timeline-offset-${offset}`} offset={offset} />
+        )}
+      </>
+    ))}
+  </SwipeableViews>
 }
 
-export default Timeline
+export default Wrapper

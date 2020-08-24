@@ -9,6 +9,7 @@ import {
 
 import getTrendsSql from '../queries/interval.sql'
 import getTimelineSql from '../queries/timeline.sql'
+import getTimelineDatesSql from '../queries/timelineDates.sql'
 import getSearchActivityTypesSql from '../queries/searchActivityTypes.sql'
 
 const prisma = new PrismaClient()
@@ -31,6 +32,10 @@ interface AuthenticateArgs {
   signInInput: { name: string }
 }
 
+interface TimelineArgs {
+  offset: number
+}
+
 const userId = 1
 
 export default {
@@ -48,7 +53,8 @@ export default {
       parent: any,
       { q }: { q: string },
     ) => prisma.queryRaw(getSearchActivityTypesSql({ q })),
-    timeline: async () => prisma.queryRaw(getTimelineSql()),
+    timeline: async (parent: any, { offset }: TimelineArgs) => prisma.queryRaw(getTimelineSql(offset)),
+    timelineDates: async () => prisma.queryRaw(getTimelineDatesSql()),
     me: async() => prisma.user.findOne({ where: { id: userId } })
   },
 
