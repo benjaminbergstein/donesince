@@ -21,4 +21,4 @@ psql:
 	${DOCKER_RUN} db psql -h db -U ${POSTGRES_USER} ${POSTGRES_DB}
 
 types.d.ts:
-	docker cp zap_development_server_1:/app/node_modules/@prisma/client/index.d.ts ../types.d.ts
+	docker cp ${PROJECT}_development_server_1:/app/node_modules/.prisma/client/index.d.ts ../types.d.ts

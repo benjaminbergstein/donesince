@@ -12,35 +12,29 @@ import getTimelineSql from '../queries/timeline.sql'
 import getTimelineDatesSql from '../queries/timelineDates.sql'
 import getSearchActivityTypesSql from '../queries/searchActivityTypes.sql'
 
+import {
+  CreateActivityTypeArgs,
+  SignUpArgs,
+  RecordActivityArgs,
+  AuthenticateArgs,
+  ActivityTypeAttributeArgs,
+  TimelineArgs,
+} from './types'
+
 const prisma = new PrismaClient()
 const { SECRET: Secret } = process.env as any
-
-interface CreateActivityTypeArgs {
-  name: string
-}
-
-interface SignUpArgs {
-  name: string
-}
-
-interface RecordActivityArgs {
-  activityTypeId: number
-  recordedAt: string
-}
-
-interface AuthenticateArgs {
-  signInInput: { name: string }
-}
-
-interface TimelineArgs {
-  offset: number
-}
 
 const userId = 1
 
 export default {
   Query: {
     listActivityTypes: async () => prisma.activityType.findMany(),
+    listActivityTypeAttributes: async (
+      parent: any,
+      { activityTypeId }: { activityTypeId?: number }
+    ) => prisma.activityTypeAttribute.findMany({
+      where: { activityTypeId },
+    }),
     recordedActivities: async () => prisma.recordedActivity.findMany({
       where: { recordedBy: { id: userId } },
       include: {
@@ -69,6 +63,32 @@ export default {
         data: { name }
       })
       return activityType
+    },
+
+    setActivityTypeAttribute: async (
+      parent: any,
+      { activityTypeAttributeInput }: { activityTypeAttributeInput: ActivityTypeAttributeArgs }
+    ) => {
+      const {
+        activityTypeId: rawActivityTypeId,
+        name,
+        value,
+      } = activityTypeAttributeInput
+      const activityTypeId = parseInt(''+rawActivityTypeId)
+
+      const activityTypeAttribute = await prisma.activityTypeAttribute.upsert({
+        where: { activityTypeId_name: { activityTypeId, name } },
+        create: {
+          activityType: {
+            connect: { id: activityTypeId },
+          },
+          name,
+          value,
+        },
+        update: { value }
+      })
+
+      return activityTypeAttribute
     },
 
     signUp: async (

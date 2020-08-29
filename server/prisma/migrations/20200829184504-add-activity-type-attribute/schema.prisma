@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -21,8 +21,6 @@ model ActivityTypeAttribute {
   activityType ActivityType @relation(fields: [activityTypeId], references: [id])
   name String
   value Int
-
-  @@unique([activityTypeId, name])
 }
 
 model RecordedActivity {

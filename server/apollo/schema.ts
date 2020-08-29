@@ -6,6 +6,12 @@ export default gql`
     name: String!
   }
 
+  type ActivityTypeAttribute {
+    id: ID!
+    name: String!
+    value: Int!
+  }
+
   type RecordedActivity {
     recordedAt: String!
     activityTypeId: ID!
@@ -48,6 +54,7 @@ export default gql`
     activityTrends: [ActivityStat!]
     timeline(offset: Int!): [TimelineStat]
     timelineDates: [TimelineDate]!
+    listActivityTypeAttributes(activityTypeId: Int!): [ActivityTypeAttribute]!
   }
 
   type Authorization {
@@ -56,6 +63,12 @@ export default gql`
 
   input ActivityTypeInput {
     name: String!
+  }
+
+  input ActivityTypeAttributeInput {
+    activityTypeId: ID!
+    name: String!
+    value: Int!
   }
 
   input SignUpInput {
@@ -73,8 +86,9 @@ export default gql`
 
   type Mutation {
     createActivityType(activityTypeInput: ActivityTypeInput!):  ActivityType!
-    signUp(signUpInput: SignUpInput!): User!
+    setActivityTypeAttribute(activityTypeAttributeInput: ActivityTypeAttributeInput):  ActivityTypeAttribute!
     recordActivity(recordActivityInput: RecordedActivityInput): RecordedActivity!
+    signUp(signUpInput: SignUpInput!): User!
     authenticate(signInInput: SignInInput!): Authorization!
   }
 `
