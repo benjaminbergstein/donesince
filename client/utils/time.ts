@@ -36,8 +36,8 @@ export const formatInterval = (interval: number) => {
   const seconds = Math.floor((interval * 60 % 1) * 60)
 
   const daysStr = pluralize(days, 'day', 'days')
-  const hoursStr = pluralize(hours, 'hour', 'hours')
-  const minStr = pluralize(minutes, 'min', 'mins')
+  const hoursStr = pluralize(hours, 'hour', 'hours', { condition: days < 3 || hours > 12 })
+  const minStr = pluralize(minutes, 'min', 'mins', { condition: days === 0 })
   const secStr = pluralize(seconds, 'second', 'seconds', { allowZero: true, condition: days === 0 && hours === 0 && minutes === 0 })
   return [daysStr, hoursStr, minStr, secStr].filter((str) => str !== '').join(', ')
 }
