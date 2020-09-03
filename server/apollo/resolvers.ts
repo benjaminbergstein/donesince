@@ -10,7 +10,8 @@ import {
 import getTrendsSql from '../queries/interval.sql'
 import getTimelineSql from '../queries/timeline.sql'
 import getTimelineDatesSql from '../queries/timelineDates.sql'
-import getSearchActivityTypesSql from '../queries/searchActivityTypes.sql'
+import getSearchTableSql from '../queries/searchTable.sql'
+import getWeeklyDimensionStats from '../queries/weeklyDimensionStats.sql'
 
 import {
   CreateActivityTypeArgs,
@@ -28,12 +29,18 @@ const userId = 1
 
 export default {
   Query: {
-    listActivityTypes: async () => prisma.activityType.findMany(),
+    listActivityTypes: async (
+      parent: any,
+      { id = undefined }: { id?: number }
+    ) => {
+      if (id === undefined) return prisma.activityType.findMany()
+      return prisma.activityType.findMany({ where: { id: parseInt(''+id) } })
+    },
     listActivityTypeAttributes: async (
       parent: any,
       { activityTypeId }: { activityTypeId?: number }
     ) => prisma.activityTypeAttribute.findMany({
-      where: { activityTypeId },
+      where: { activityTypeId: parseInt(''+activityTypeId) },
     }),
     recordedActivities: async () => prisma.recordedActivity.findMany({
       where: { recordedBy: { id: userId } },
@@ -43,10 +50,30 @@ export default {
       }
     }),
     activityTrends: async () => prisma.queryRaw(getTrendsSql()),
+
+    weeklyDimensionStats: async (
+      parent: any,
+      { weekNumber }: { weekNumber?: number },
+    ) => prisma.queryRaw(getWeeklyDimensionStats(weekNumber)),
+
     searchActivityTypes: async (
       parent: any,
       { q }: { q: string },
-    ) => prisma.queryRaw(getSearchActivityTypesSql({ q })),
+    ) => prisma.queryRaw(getSearchTableSql({
+      q,
+      table: 'ActivityType',
+      searchField: 'name',
+    })),
+
+    searchActivityTypeAttributes: async (
+      parent: any,
+      { q }: { q: string },
+    ) => prisma.queryRaw(getSearchTableSql({
+      q,
+      table: 'ActivityTypeAttribute',
+      searchField: 'name',
+    })),
+
     timeline: async (parent: any, { offset }: TimelineArgs) => prisma.queryRaw(getTimelineSql(offset)),
     timelineDates: async () => prisma.queryRaw(getTimelineDatesSql()),
     me: async() => prisma.user.findOne({ where: { id: userId } })

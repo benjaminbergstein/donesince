@@ -7,6 +7,7 @@ export const SIGN_IN = gql`
     }
   }
 `
+
 export const SEARCH_ACTIVITY_TYPES = gql`
   query SearchActivityTypes($q: String!) {
     searchActivityTypes(q: $q) {
@@ -15,11 +16,31 @@ export const SEARCH_ACTIVITY_TYPES = gql`
     }
   }
 `
+
+export const SEARCH_ACTIVITY_TYPE_ATTRIBUTES = gql`
+  query SearchActivityTypeAttributes($q: String!) {
+    searchActivityTypeAttributes(q: $q) {
+      name
+      value
+    }
+  }
+`
+
 export const LIST_ACTIVITY_TYPES = gql`
-  query ListActivityTypes {
-    listActivityTypes {
+  query ListActivityTypes($id: ID) {
+    listActivityTypes(id: $id) {
       name
       id
+    }
+  }
+`
+
+export const LIST_ACTIVITY_TYPE_ATTRIBUTES = gql`
+  query ListActivityTypeAttributes($activityTypeId: ID!) {
+    listActivityTypeAttributes(activityTypeId: $activityTypeId) {
+      id
+      name
+      value
     }
   }
 `
@@ -74,5 +95,37 @@ export const NEW_ACTIVITY_TYPE = gql`
   fragment NewActivityType on ActivityType {
     id
     name
+  }
+`
+
+export const SET_ACTIVITY_TYPE_ATTRIBUTE = gql`
+  mutation SetActivityTypeAttribute(
+    $activityTypeId: ID!,
+    $name: String!,
+    $value: Int!,
+  ) {
+    setActivityTypeAttribute(activityTypeAttributeInput: {
+      activityTypeId: $activityTypeId,
+      name: $name,
+      value: $value
+    }) {
+      id
+      name
+      value
+    }
+  }
+`
+
+export const WEEKLY_DIMENSION_STATS = gql`
+  query WeeklyDimensionStats($weekNumber: Int) {
+    weeklyDimensionStats(weekNumber: $weekNumber) {
+      weekNumber
+      dimensionName
+      deltaVsPreviousWeek
+      previousWeekValue
+      deltaVsBestWeek
+      bestWeekValue
+      value
+    }
   }
 `

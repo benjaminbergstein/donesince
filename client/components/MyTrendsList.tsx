@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React, { useContext } from 'react'
 
 import SyncActivityContext, { SyncActivityState } from '../contexts/SyncActivityContext'
@@ -37,7 +38,13 @@ const MyTrendsList: React.FC<{}> = () => {
         <Box marginRight="20px" marginBottom="20px" flex="1" width="100%">
           <Card>
             <Box display="flex" flexDirection="row" justifyContent="space-between" marginBottom="10px">
-              <Box>{name} ({countRecords})</Box>
+              <Box>
+                <Link href={`/activity-type/${activityTypeId}`}>
+                  <a>
+                    {name} ({countRecords})
+                  </a>
+                </Link>
+              </Box>
               <Box>
                 {averageInterval > 0 && <div>Usually every {formatInterval(averageInterval)}</div>}
                 {averageInterval < 0 && <div>Not enough information.</div>}

@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React, { useContext } from 'react'
 
 import { ActivityType } from '../apollo/types'
@@ -46,7 +47,13 @@ const RecordActivity: React.FC<{}> = () => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Box flex="1">{activityType.name}</Box>
+          <Box flex="1">
+            <Link href={`/activity-type/${activityType.id}`}>
+              <a>
+                {activityType.name}
+              </a>
+            </Link>
+          </Box>
           <RecordSingleActivity activityType={activityType} label="Record" />
         </Box>
       ))}
@@ -72,7 +79,11 @@ const RecordActivity: React.FC<{}> = () => {
           borderBottomStyle="solid"
           borderBottomColor="grays.text.light"
         >
-          <Box>{name}</Box>
+          <Link href={`/activity-type/${activityTypeId}`}>
+            <a>
+              <Box>{name}</Box>
+            </a>
+          </Link>
           <RecordSingleActivity
             activityType={{ id: activityTypeId, name }}
             label="Record"

@@ -31,10 +31,14 @@ const timezoneOffset: number = 60 * 1000
 
 const RecordModal: React.FC<{}> = () => {
   const [recordedAtModifier, setRecordedAtModifier] = useState<number>(0)
-  const { modalControl, captureUnsyncedActivity }: SyncActivityState = useContext(SyncActivityContext)
-  const { recordingActivity } = modalControl
+  const {
+    modalControl,
+    captureUnsyncedActivity,
+    recordingActivity,
+  }: SyncActivityState = useContext(SyncActivityContext)
+  const { isShowing } = modalControl
 
-  if (recordingActivity === undefined) return null
+  if (!isShowing) return null
 
   const { id: activityTypeId } = recordingActivity
 
@@ -91,7 +95,14 @@ const RecordModal: React.FC<{}> = () => {
           ))}
         </Box>
 
-        <Button onClick={() => recordActivity()}>Record</Button>
+        <Box display="flex">
+          <Box flex="1" marginRight={3}>
+            <Button onClick={() => recordActivity()}>Record</Button>
+          </Box>
+          <Box>
+            <Button onClick={() => modalControl.hide()}>cancel</Button>
+          </Box>
+        </Box>
       </Card>
     </Box>
   </Box>

@@ -37,6 +37,16 @@ export default gql`
     humanReadableDate: String!
   }
 
+  type WeeklyDimensionStat {
+    dimensionName: String!
+    weekNumber: Int!
+    value: Int!
+    previousWeekValue: Int!
+    deltaVsPreviousWeek: Int!
+    bestWeekValue: Int!
+    deltaVsBestWeek: Int!
+  }
+
   type TimelineDate {
     date: String!
   }
@@ -49,12 +59,14 @@ export default gql`
   type Query {
     me: User!
     searchActivityTypes(q: String!): [ActivityType!]
-    listActivityTypes: [ActivityType!]
+    searchActivityTypeAttributes(q: String!): [ActivityTypeAttribute]!
+    listActivityTypes(id: ID): [ActivityType!]
+    listActivityTypeAttributes(activityTypeId: ID!): [ActivityTypeAttribute]!
     recordedActivities: [RecordedActivity!]
     activityTrends: [ActivityStat!]
     timeline(offset: Int!): [TimelineStat]
     timelineDates: [TimelineDate]!
-    listActivityTypeAttributes(activityTypeId: Int!): [ActivityTypeAttribute]!
+    weeklyDimensionStats(weekNumber: Int): [WeeklyDimensionStat]!
   }
 
   type Authorization {

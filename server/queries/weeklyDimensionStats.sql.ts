@@ -1,3 +1,4 @@
+const weeklyDimensionStats: (weekNumber?: number) => string = (weekNumber = -1) => `
 WITH activities AS (
   SELECT
     ra."id",
@@ -67,4 +68,7 @@ SELECT *
 
 FROM expanded_weekly_totals
 
-WHERE "weekNumber" = 36
+${weekNumber != -1 ? `WHERE "weekNumber" = ${weekNumber}` : ''}
+`
+
+export default weeklyDimensionStats

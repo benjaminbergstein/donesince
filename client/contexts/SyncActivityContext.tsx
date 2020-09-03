@@ -5,7 +5,7 @@ import { pluralize } from '../utils/time'
 
 import useTimeline from '../hooks/useTimeline'
 import useTrends from '../hooks/useTrends'
-import useModalControl, { ModalControl, dummyModalControl } from '../hooks/useModalControl'
+import useModalControl, { ModalControl } from '../hooks/useModalControl'
 
 import FlashContext from '../contexts/FlashContext'
 
@@ -15,6 +15,7 @@ import {
   RecordActivityInput,
   TimelineStat,
   Trend,
+  ActivityType,
 } from '../apollo/types'
 
 import Message, { Theme } from '../system/Message'
@@ -34,11 +35,20 @@ export interface SyncActivityState {
   status: SyncStatus
   timeline: TimelineStat[]
   activityTrends: Trend[]
-  modalControl: ModalControl
+  modalControl?: ModalControl
+  recordingActivity: ActivityType | undefined
 }
 
 export const useSyncActivity = () => {
-  const modalControl = useModalControl()
+  const [recordingActivity, setRecordingActivity] = useState<ActivityType | undefined>(undefined)
+  const modalControl = useModalControl({
+    onShow: (recordingActivity: ActivityType) => {
+      setRecordingActivity(recordingActivity)
+    },
+    onHide: () => {
+      setRecordingActivity(undefined)
+    },
+  })
   const { addFlash } = useContext(FlashContext)
 
   const { data: timelineData } = useTimeline()
@@ -69,6 +79,7 @@ export const useSyncActivity = () => {
     timeline,
     activityTrends,
     modalControl,
+    recordingActivity,
   }
 
   const recordActivityWithClientId: (clientId: string) => Promise<any> = (
@@ -127,7 +138,7 @@ const SyncActivityContext = React.createContext<SyncActivityState>({
   },
   timeline: [],
   activityTrends: [],
-  modalControl: dummyModalControl,
+  recordingActivity: undefined,
 })
 
 export const SyncProvider: React.FC<{}> = ({ children }) => {

@@ -1,29 +1,33 @@
 import { useState } from 'react'
 
-import {
-  ActivityType,
-} from '../apollo/types'
-
 export interface ModalControl {
-  recordingActivity?: ActivityType
-  show: (activityType: ActivityType) => void
+  isShowing: boolean,
+  show: (args: any) => void
   hide: () => void
 }
 
-let recordingActivity
-export const dummyModalControl: ModalControl = {
-  recordingActivity,
-  show: (activityType) => { recordingActivity = activityType },
-  hide: () => { recordingActivity = undefined },
+interface ModalControlHookArgs {
+  onShow?: (args: any) => void,
+  onHide?: () => void,
 }
+type ModalControlHook = (ModalControlHookArgs) => ModalControl
 
-const useModalControl: () => ModalControl = () => {
-  const [recordingActivity, setRecordingActivity] = useState<ActivityType | undefined>(undefined)
+const useModalControl: ModalControlHook = ({
+  onHide = () => {},
+  onShow = () => {},
+}) => {
+  const [isShowing, setIsShowing] = useState<boolean>(false)
 
   return {
-    show: (activityType: ActivityType) => setRecordingActivity(activityType),
-    hide: () => setRecordingActivity(undefined),
-    recordingActivity,
+    isShowing,
+    show: (args) => {
+      setIsShowing(true)
+      onShow(args)
+    },
+    hide: () => {
+      setIsShowing(false)
+      onHide()
+    },
   }
 }
 
