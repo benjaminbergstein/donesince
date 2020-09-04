@@ -33,7 +33,8 @@ weekly_totals AS (
 
     ata.name as "dimensionName",
     DATE_PART('week', a."recordedAtDate") as "weekNumber",
-    SUM(ata.value) AS value
+    SUM(ata.value) AS value,
+    COUNT(1) OVER (PARTITION BY ata.name) AS "recordedActivitiesCount"
 
   FROM activities a
 
@@ -52,7 +53,8 @@ expanded_weekly_totals AS (
     value - MAX(value) OVER weeks_window AS "deltaVsBestWeek",
     MAX(value) OVER weeks_window AS "bestWeekValue",
     COALESCE(LAG(value, 1) OVER weeks_window, 0) AS "previousWeekValue",
-    COALESCE(value - LAG(value, 1) OVER weeks_window, 0) AS "deltaVsPreviousWeek"
+    COALESCE(value - LAG(value, 1) OVER weeks_window, 0) AS "deltaVsPreviousWeek",
+    "recordedActivitiesCount"
 
   FROM weekly_totals
 
@@ -69,6 +71,8 @@ SELECT *
 FROM expanded_weekly_totals
 
 ${weekNumber != -1 ? `WHERE "weekNumber" = ${weekNumber}` : ''}
+
+ORDER BY "recordedActivitiesCount" DESC
 `
 
 export default weeklyDimensionStats

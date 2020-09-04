@@ -31,12 +31,12 @@ interface Theme {
 const Themes: { [name: string]: Theme } = {
   default: {
     normal: {
-      bg: 'grays.bg.middle',
-      borderColor: 'transparent',
+      bg: 'grays.bg.middlest',
+      borderColor: 'grays.bg.lighter',
     },
     hover: {
       bg: 'grays.bg.middler',
-      borderColor: 'transparent',
+      borderColor: 'grays.bg.lighter',
     },
   },
   borderless: {

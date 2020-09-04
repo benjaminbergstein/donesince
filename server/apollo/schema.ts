@@ -4,6 +4,8 @@ export default gql`
   type ActivityType {
     id: ID!
     name: String!
+    attributeName: String
+    attributeValue: Int
   }
 
   type ActivityTypeAttribute {
@@ -45,6 +47,7 @@ export default gql`
     deltaVsPreviousWeek: Int!
     bestWeekValue: Int!
     deltaVsBestWeek: Int!
+    recordedActivitiesCount: Int!
   }
 
   type TimelineDate {
@@ -60,7 +63,7 @@ export default gql`
     me: User!
     searchActivityTypes(q: String!): [ActivityType!]
     searchActivityTypeAttributes(q: String!): [ActivityTypeAttribute]!
-    listActivityTypes(id: ID): [ActivityType!]!
+    listActivityTypes(id: ID, attributeName: String): [ActivityType!]!
     listActivityTypeAttributes(activityTypeId: ID!): [ActivityTypeAttribute!]!
     recordedActivities: [RecordedActivity!]
     activityTrends: [ActivityStat!]

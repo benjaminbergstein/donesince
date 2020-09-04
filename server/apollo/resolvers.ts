@@ -31,9 +31,27 @@ export default {
   Query: {
     listActivityTypes: async (
       parent: any,
-      { id = undefined }: { id?: number }
+      {
+        id = undefined,
+        attributeName = undefined,
+      }: {
+        id?: number,
+        attributeName?: string,
+      }
     ) => {
-      if (id === undefined) return prisma.activityType.findMany()
+      const noFilters = id === undefined && attributeName === undefined
+      if (noFilters) return prisma.activityType.findMany()
+      if (attributeName !== undefined) return prisma.queryRaw`
+        SELECT
+          ata.name AS "attributeName",
+          ata.value AS "attributeValue",
+          at.*
+
+        FROM "ActivityTypeAttribute" ata
+        INNER JOIN "ActivityType" at ON at.id = ata."activityTypeId"
+        WHERE ata.name = ${attributeName}
+        ORDER BY ata.value DESC
+      `
       return prisma.activityType.findMany({ where: { id: parseInt(''+id) } })
     },
     listActivityTypeAttributes: async (

@@ -13,10 +13,12 @@ import {
 import { getWeeks } from '../../utils/time'
 
 import Box from '../../system/Box'
+import Button from '../../system/Button'
 import Text from '../../system/Text'
 import Card from '../../system/Card'
 
 import Statistic from './Statistic'
+import ActivityTypeList from './ActivityTypeList'
 
 const getThemeForDelta: (n: number) => string = (deltaVsPreviousWeek) => {
   if (deltaVsPreviousWeek === 0) return 'white'
@@ -48,9 +50,9 @@ const WeeklyDimensionStats: React.FC<{}> = () => {
       flexWrap="wrap"
       justifyContent="space-between"
     >
-      <div onClick={() => setWeekNumber(weekNumber - 1)}>Prev</div>
+      <Button onClick={() => setWeekNumber(weekNumber - 1)}>Prev</Button>
       <div>{weekNumber}</div>
-      <div onClick={() => setWeekNumber(weekNumber + 1)}>Next</div>
+      <Button onClick={() => setWeekNumber(weekNumber + 1)}>Next</Button>
     </Box>
     <Box
       display="flex"
@@ -94,6 +96,7 @@ const WeeklyDimensionStats: React.FC<{}> = () => {
                 value={formatDelta(deltaVsBestWeek)}
               />
             </Box>
+            <ActivityTypeList attributeName={dimensionName} />
           </Card>
         </Box>
       ))}

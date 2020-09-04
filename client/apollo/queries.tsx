@@ -26,6 +26,16 @@ export const LIST_ACTIVITY_TYPES = gql`
     }
   }
 `
+export const LIST_ACTIVITY_TYPES_WITH_ATTRIBUTE = gql`
+  query ListActivityTypesWithAttribute($attributeName: String!) {
+    listActivityTypes(attributeName: $attributeName) {
+      id
+      name
+      attributeName
+      attributeValue
+    }
+  }
+`
 
 export const LIST_ACTIVITY_TYPE_ATTRIBUTES = gql`
   query ListActivityTypeAttributes($activityTypeId: ID!) {
