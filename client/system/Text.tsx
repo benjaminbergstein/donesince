@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { TextColorProps, FontSizeProps, FontWeightProps, color, typography } from "styled-system";
+import { TypographyProps, TextColorProps, FontSizeProps, FontWeightProps, color, typography } from "styled-system";
 
-interface Props extends TextColorProps, FontSizeProps, FontWeightProps {
+interface Props extends TypographyProps, TextColorProps, FontSizeProps, FontWeightProps {
 }
 export const Text = styled.span<Props>({}, color, typography);
 

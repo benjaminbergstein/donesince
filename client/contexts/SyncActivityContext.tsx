@@ -35,7 +35,7 @@ export interface SyncActivityState {
   status: SyncStatus
   timeline: TimelineStat[]
   activityTrends: Trend[]
-  modalControl?: ModalControl
+  modalControl: ModalControl
   recordingActivity: ActivityType | undefined
 }
 
@@ -139,6 +139,11 @@ const SyncActivityContext = React.createContext<SyncActivityState>({
   timeline: [],
   activityTrends: [],
   recordingActivity: undefined,
+  modalControl: {
+    isShowing: false,
+    show: () => {},
+    hide: () => {},
+  }
 })
 
 export const SyncProvider: React.FC<{}> = ({ children }) => {

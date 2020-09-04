@@ -10,7 +10,7 @@ interface ModalControlHookArgs {
   onShow?: (args: any) => void,
   onHide?: () => void,
 }
-type ModalControlHook = (ModalControlHookArgs) => ModalControl
+type ModalControlHook = (args: ModalControlHookArgs) => ModalControl
 
 const useModalControl: ModalControlHook = ({
   onHide = () => {},

@@ -6,7 +6,7 @@ import Text from '../../system/Text'
 interface Props {
   label: string,
   value: string,
-  theme: string | undefined,
+  theme?: string,
 }
 
 const Statistic: React.FC<Props> = ({

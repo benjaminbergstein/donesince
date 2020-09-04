@@ -14,6 +14,13 @@ const theme = {
         light: '#829298',
         medium: '#6E6362',
       },
+      bg: {
+        lightest: '#fff',
+        lighter: '#eee',
+        light: '#ddd',
+        middlest: '#ccc',
+        middler: '#aaa',
+      },
     },
   },
   fontSizes: [12, 14, 16, 18, 20, 24, 32],

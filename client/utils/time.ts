@@ -47,9 +47,9 @@ export const formatDate = (timestamp: string) => {
   return date.toString()
 }
 
-export const getWeeks = (d) => {
+export const getWeeks: (d: Date) => number = (d) => {
   // Create a copy of this date object
-  var target  = new Date(d.valueOf());
+  const target: Date = new Date(d.valueOf());
 
   // ISO week date weeks start on monday
   // so correct the day number
@@ -64,7 +64,7 @@ export const getWeeks = (d) => {
   var jan4    = new Date(target.getFullYear(), 0, 4);
 
   // Number of days between target date and january 4th
-  var dayDiff = (target - jan4) / 86400000;
+  var dayDiff = (target.getTime() - jan4.getTime()) / 86400000;
 
   // Calculate week number: Week 1 (january 4th) plus the
   // number of weeks between target date and january 4th

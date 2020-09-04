@@ -1,8 +1,15 @@
-import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useQuery } from '@apollo/react-hooks';
 
+import DeviceContext from '../../contexts/DeviceContext'
+
 import { WEEKLY_DIMENSION_STATS } from '../../apollo/queries'
+
+import {
+  WeeklyDimensionStats as WeeklyDimensionStatsData,
+  WeeklyDimensionStats_weeklyDimensionStats as WeeklyDimensionStat,
+} from '../../apollo/types/WeeklyDimensionStats'
+
 import { getWeeks } from '../../utils/time'
 
 import Box from '../../system/Box'
@@ -11,17 +18,18 @@ import Card from '../../system/Card'
 
 import Statistic from './Statistic'
 
-const getThemeForDelta = (deltaVsPreviousWeek) => {
+const getThemeForDelta: (n: number) => string = (deltaVsPreviousWeek) => {
   if (deltaVsPreviousWeek === 0) return 'white'
   if (deltaVsPreviousWeek > 0) return 'success'
   return 'warning'
 }
 
-const formatDelta = (delta) => delta > 0 ? `+${delta}` : delta
+const formatDelta: (delta: number) => string = (delta) => delta > 0 ? `+${delta}` : delta.toString()
 
 const WeeklyDimensionStats: React.FC<{}> = () => {
+  const { isPhone } = useContext(DeviceContext)
   const [weekNumber, setWeekNumber] = useState<number>(getWeeks(new Date()))
-  const { data } = useQuery(WEEKLY_DIMENSION_STATS, {
+  const { data }: { data: WeeklyDimensionStatsData | undefined } = useQuery(WEEKLY_DIMENSION_STATS, {
     variables: {
       weekNumber,
     },
@@ -30,6 +38,8 @@ const WeeklyDimensionStats: React.FC<{}> = () => {
   if (!data) return null
 
   const { weeklyDimensionStats } = data
+
+  if (weeklyDimensionStats === null) return <>Error!</>
 
   return <>
     <Box
@@ -52,9 +62,9 @@ const WeeklyDimensionStats: React.FC<{}> = () => {
         dimensionName,
         deltaVsPreviousWeek,
         deltaVsBestWeek,
-      }) => (
+      }: WeeklyDimensionStat) => (
         <Box
-          width="30%"
+          width={isPhone ? '100%' : '30%'}
           flexDirection="column"
           padding="2"
         >
@@ -73,7 +83,7 @@ const WeeklyDimensionStats: React.FC<{}> = () => {
             >
               <Statistic
                 label="This Week"
-                value={value}
+                value={''+value}
               />
               <Statistic
                 label="Delta"

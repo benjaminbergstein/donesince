@@ -3,6 +3,12 @@ export interface ActivityType {
   name: string
 }
 
+export interface ActivityTypeAttribute {
+  id: number
+  name: string
+  value: number
+}
+
 export interface RecordActivityInput {
   recordedAt: string
   activityTypeId: number

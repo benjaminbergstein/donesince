@@ -1,13 +1,5 @@
 import { gql } from 'apollo-boost'
 
-export const SIGN_IN = gql`
-  mutation SignIn($name: String!) {
-    signIn(signInInput: { name: $name }) {
-      apiToken
-    }
-  }
-`
-
 export const SEARCH_ACTIVITY_TYPES = gql`
   query SearchActivityTypes($q: String!) {
     searchActivityTypes(q: $q) {

@@ -60,13 +60,13 @@ export default gql`
     me: User!
     searchActivityTypes(q: String!): [ActivityType!]
     searchActivityTypeAttributes(q: String!): [ActivityTypeAttribute]!
-    listActivityTypes(id: ID): [ActivityType!]
-    listActivityTypeAttributes(activityTypeId: ID!): [ActivityTypeAttribute]!
+    listActivityTypes(id: ID): [ActivityType!]!
+    listActivityTypeAttributes(activityTypeId: ID!): [ActivityTypeAttribute!]!
     recordedActivities: [RecordedActivity!]
     activityTrends: [ActivityStat!]
     timeline(offset: Int!): [TimelineStat]
     timelineDates: [TimelineDate]!
-    weeklyDimensionStats(weekNumber: Int): [WeeklyDimensionStat]!
+    weeklyDimensionStats(weekNumber: Int): [WeeklyDimensionStat!]
   }
 
   type Authorization {

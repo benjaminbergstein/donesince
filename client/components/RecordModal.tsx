@@ -39,6 +39,7 @@ const RecordModal: React.FC<{}> = () => {
   const { isShowing } = modalControl
 
   if (!isShowing) return null
+  if (!recordingActivity) return null
 
   const { id: activityTypeId } = recordingActivity
 
@@ -86,7 +87,7 @@ const RecordModal: React.FC<{}> = () => {
           {recordedAtOptions.map(([n, interval, str]: RecordedAtOption) => (
             <Box flexBasis="32%" marginBottom="5px" marginTop="5px">
               <Button
-                color={n * interval === recordedAtModifier ? 'accent.success' : undefined}
+                theme={n * interval === recordedAtModifier ? 'success' : undefined}
                 onClick={() => setRecordedAtModifier(n * interval)}
               >
                 {str === 'now' ? 'Now' : `${n} ${str}`}

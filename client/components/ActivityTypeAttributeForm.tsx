@@ -10,12 +10,13 @@ import {
 
 import Box from '../system/Box'
 import TextInput from '../system/TextInput'
+import NumberInput from '../system/NumberInput'
 
 interface Props {
   activityTypeId: number
-  id?: number
+  id?: string
   name?: string
-  value?: string
+  value?: number
   onSubmit: () => void
 }
 
@@ -30,23 +31,27 @@ interface Suggestion {
   label: string
 }
 
-const getSuggestionsFromSearchResults: (results: SearchResult[]) => Suggestion[] = (results) => Object.values(
-  results.reduce((acc, { name, value }) => {
-    acc[[name, value]] = { name, value, label: `${name} (${value})` }
-    return acc
-  }, {})
-)
+const getSuggestionsFromSearchResults: (results: SearchResult[]) => Suggestion[] = (results) => {
+  type Index = { [key: string]: Suggestion }
+  const initial: Index = {}
+  return Object.values(
+    results.reduce((acc: Index, { name, value }) => {
+      acc[`${name}---${value}`] = { name, value, label: `${name} (${value})` }
+      return acc
+    }, initial)
+  );
+}
 
 const ActivityTypeAttributeForm: React.FC<Props> = ({
   activityTypeId,
   id,
   name: initialName = "",
-  value: initialValue = "",
+  value: initialValue = 0,
   onSubmit,
 }) => {
   const { addFlash } = useContext(FlashContext)
   const [name, setName] = useState<string>(initialName)
-  const [value, setValue] = useState<string>(initialValue)
+  const [value, setValue] = useState<number>(initialValue)
   const [acceptedSuggestion, setAcceptedSuggestion] = useState<string>("")
   const [searchActivityTypeAttributes, { data: searchResults }] = useLazyQuery(SEARCH_ACTIVITY_TYPE_ATTRIBUTES)
 
@@ -63,7 +68,7 @@ const ActivityTypeAttributeForm: React.FC<Props> = ({
     onCompleted: () => {
       if (!id) {
         setName("")
-        setValue("")
+        setValue(0)
         addFlash("Activity type dimension added!")
       } else {
         addFlash("Activity type dimension updated!")
@@ -72,14 +77,14 @@ const ActivityTypeAttributeForm: React.FC<Props> = ({
     },
   })
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
     setActivityTypeAttribute({
       variables: {
         activityTypeId,
-        name: name,
-        value: parseInt(value),
+        name,
+        value,
       },
     })
   }
@@ -87,7 +92,7 @@ const ActivityTypeAttributeForm: React.FC<Props> = ({
   const acceptSuggestion = (suggestedName: string, suggestedValue: number) => {
     setName(suggestedName)
     setAcceptedSuggestion(suggestedName)
-    if (value === "") setValue(suggestedValue)
+    if (value === 0) setValue(suggestedValue)
   }
 
   const showSearchResults = name.length >= 3 && searchResults && acceptedSuggestion !== name
@@ -98,7 +103,7 @@ const ActivityTypeAttributeForm: React.FC<Props> = ({
         {id !== undefined && name}
         {id === undefined && (
           <>
-            <TextInput value={name} onChange={setName} />
+            <TextInput value={name} onChange={(value: string) => setName((value || "").toString())} />
             <Box
               position="absolute"
               width="100%"
@@ -106,16 +111,16 @@ const ActivityTypeAttributeForm: React.FC<Props> = ({
               left="0"
             >
               {showSearchResults && getSuggestionsFromSearchResults(searchResults.searchActivityTypeAttributes).map(({ name, value, label }) => (
-                <div onClick={() => { acceptSuggestion(name, value) }}>{label}</div>
+                <div onClick={() => { acceptSuggestion(name, parseInt(value)) }}>{label}</div>
               ))}
             </Box>
           </>
         )}
       </Box>
       <Box flexBasis="50%" marginRight={3}>
-        <TextInput type="number" value={value} onChange={setValue} />
+        <NumberInput value={value} onChange={setValue} />
       </Box>
-      <Box flexShrink="1" flexGrow="0">
+      <Box flexShrink={1} flexGrow={0}>
         <button>Submit</button>
       </Box>
     </Box>

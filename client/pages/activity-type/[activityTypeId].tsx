@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React from 'react'
 import { useQuery } from '@apollo/react-hooks';
 
 import {
@@ -7,24 +7,39 @@ import {
   LIST_ACTIVITY_TYPE_ATTRIBUTES,
 } from '../../apollo/queries'
 
+import {
+  ListActivityTypes,
+  ListActivityTypes_listActivityTypes as ActivityType,
+} from '../../apollo/types/ListActivityTypes'
+
+import {
+  ListActivityTypeAttributes,
+  ListActivityTypeAttributes_listActivityTypeAttributes as ActivityTypeAttribute,
+} from '../../apollo/types/ListActivityTypeAttributes'
+
 import withData from '../../apollo/withData'
 
 import Layout from '../../components/Layout'
 import ActivityTypeAttributeForm from '../../components/ActivityTypeAttributeForm'
 
-import Box from '../../system/Box'
-
-enum View {
-  Timeline = 0,
-  Add,
-  Trends,
+interface Props {
+  url: {
+    query: {
+      activityTypeId: number
+    }
+  }
 }
 
-const ActivityTypeDetails: React.FC<{ activityTypeId }> = ({ url: { query: { activityTypeId } } }) => {
+const ActivityTypeDetails: React.FC<Props> = ({ url }) => {
+  const { query: { activityTypeId } }  = url
+
   const {
     loading: activityTypeLoading,
     data: activityTypeData,
-  } = useQuery(
+  }: {
+    loading: boolean,
+    data: ListActivityTypes | undefined,
+  }= useQuery(
     LIST_ACTIVITY_TYPES,
     { variables: { id: activityTypeId } },
   )
@@ -33,17 +48,24 @@ const ActivityTypeDetails: React.FC<{ activityTypeId }> = ({ url: { query: { act
     loading: activityTypeAttributesLoading,
     data: activityTypeAttributesData,
     refetch,
+  }: {
+    loading: boolean,
+    data: ListActivityTypeAttributes | undefined,
+    refetch: () => {},
   } = useQuery(
     LIST_ACTIVITY_TYPE_ATTRIBUTES,
     { variables: { activityTypeId } },
   )
 
-  if (activityTypeLoading || activityTypeAttributesLoading) return "Loading..."
+  if (activityTypeLoading || activityTypeAttributesLoading) return <>Loading...</>
 
-  const { listActivityTypes } = activityTypeData
-  const { name: activityTypeName } = listActivityTypes[0]
 
-  const { listActivityTypeAttributes: activityTypeAttributes } = activityTypeAttributesData
+  const { listActivityTypes } = activityTypeData || { listActivityTypes: [] }
+  if (listActivityTypes === null) return <>Error!</>
+
+  const { name: activityTypeName }: ActivityType = listActivityTypes[0]
+
+  const { listActivityTypeAttributes: activityTypeAttributes }: ListActivityTypeAttributes = activityTypeAttributesData || { listActivityTypeAttributes: [] }
 
   return <Layout>
     <Link href="/">Home</Link>
@@ -53,7 +75,7 @@ const ActivityTypeDetails: React.FC<{ activityTypeId }> = ({ url: { query: { act
 
     <h2>Dimensions</h2>
 
-    {activityTypeAttributes.map(({ id, name, value }) => (
+    {activityTypeAttributes.map(({ id, name, value }: ActivityTypeAttribute) => (
       <ActivityTypeAttributeForm
         activityTypeId={activityTypeId}
         id={id}

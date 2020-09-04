@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 interface Props {
-  value?: string
-  onChange: (value: string) => void
+  value?: number
+  onChange: (value: number) => void
 }
 
 const InputFace = styled.input`
@@ -11,11 +11,11 @@ const InputFace = styled.input`
 `
 
 const TextInput: React.FC<Props> = ({
-  value: initialValue = "",
+  value: initialValue = 0,
   onChange = () => {}
 }) => {
   const ref = useRef<HTMLInputElement | null>(null)
-  const [value, setValue] = useState<string>(initialValue)
+  const [value, setValue] = useState<number>(initialValue)
 
   useEffect(() => {
     setValue(initialValue)
@@ -24,8 +24,9 @@ const TextInput: React.FC<Props> = ({
   const handleChange = () => {
     if (ref.current === null) return
     const { value: newValue } = ref.current
-    setValue(newValue)
-    onChange(newValue)
+    const newValueInt = parseInt(newValue)
+    setValue(newValueInt)
+    onChange(newValueInt)
   }
 
   return <InputFace
