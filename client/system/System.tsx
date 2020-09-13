@@ -24,7 +24,13 @@ const theme = {
     },
   },
   fontSizes: [12, 14, 16, 18, 20, 24, 32],
-  fontWeights: [100, 300, 500, 700, 900]
+  fontWeights: [100, 300, 500, 700, 900],
+  shadows: {
+    box: [
+      "0px 1px 2px 0px rgba(90, 90, 90, 0.4)",
+      "0px 1px 2px 1px rgba(70,70,70,0.2)",
+    ],
+  },
 };
 
 const System: React.FC<{}> = ({ children }) => (

@@ -24,6 +24,7 @@
     "react-id-swiper": "^4.0.0",
     "react-swipeable-views": "^0.13.9",
     "styled-components": "^5.0.0",
+    "styled-reset": "^4.2.3",
     "styled-system": "^5.1.5",
     "swiper": "^6.0.4",
     "use-persisted-state": "^0.3.0",

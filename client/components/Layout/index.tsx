@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import React from 'react'
+import { Reset } from 'styled-reset'
 
 import System from '../../system/System'
 import styled from 'styled-components'
@@ -19,6 +20,7 @@ const Layout: React.FC<{}> = ({ children }) => (
     </Head>
 
     <System>
+      <Reset />
       <FlashProvider>
         <DeviceProvider>
           <Navigation />

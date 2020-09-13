@@ -7,7 +7,6 @@ cursor: pointer;
 `
 
 ButtonFace.defaultProps = {
-  padding: "10px 15px",
   borderRadius: "3px",
   // boxShadow: "0px 1px 2px 0px rgba(90, 90, 90, 0.4)",
   bg: "#ccc",
@@ -15,6 +14,7 @@ ButtonFace.defaultProps = {
   borderStyle: 'solid',
   borderColor: 'transparent',
   display: 'flex',
+  flex: "1",
 }
 
 interface ThemeConfig {
@@ -73,14 +73,24 @@ const Themes: { [name: string]: Theme } = {
   }
 }
 
+const ButtonElement = styled.button<{ align: string }>`
+background: transparent;
+padding: 10px 15px;
+border: none;
+flex: 1;
+text-align: ${(props) => props.align};
+`
+
 interface Props {
   theme?: string
-  onClick: (e?: React.MouseEvent) => void,
+  onClick?: (e?: React.MouseEvent) => void,
+  align?: string,
 }
 
 const Button: React.FC<Props> = ({
-  onClick,
+  onClick = () => {},
   theme = 'default',
+  align = 'center',
   children,
 }) => {
   const [isHover, setIsHover] = useState<boolean>(false)
@@ -91,7 +101,7 @@ const Button: React.FC<Props> = ({
     onMouseEnter={() => { setIsHover(true) }}
     onMouseLeave={() => { setIsHover(false) }}
     {...themeProps}
-  >{children}</ButtonFace>
+  ><ButtonElement align={align}>{children}</ButtonElement></ButtonFace>
 }
 
 export default Button;

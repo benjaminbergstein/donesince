@@ -15,13 +15,15 @@ type SearchReturn = [
   boolean,
   (q: string) => void,
   () => void,
+  string,
 ]
 
 const useSearchActivityTypes: (args: SearchArgs) => SearchReturn = (args) => {
   const { minLength } = args
   const [q, setQ] = useState<string>("")
+  const trimmedQ = q.replace(/^\s{0,}/, '').replace(/\s{0,}$/, '')
   const [performSearch, { data, loading }] = useLazyQuery(SEARCH_ACTIVITY_TYPES, {
-    variables: { q },
+    variables: { q: trimmedQ },
     fetchPolicy: 'no-cache',
   })
 
@@ -32,7 +34,7 @@ const useSearchActivityTypes: (args: SearchArgs) => SearchReturn = (args) => {
   }, [q])
 
   const searchResults = doPerformSearch && data && data.searchActivityTypes ? data.searchActivityTypes : []
-  return [searchResults, q, loading, setQ, performSearch]
+  return [searchResults, q, loading, setQ, performSearch, trimmedQ]
 }
 
 export default useSearchActivityTypes

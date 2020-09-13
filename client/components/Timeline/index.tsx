@@ -2,6 +2,7 @@ import React from 'react'
 
 import SwipeableViews from 'react-swipeable-views';
 import Timeline from './Timeline'
+import SearchActivityTypes from '../SearchActivityTypes'
 
 const OffsetsToShow: number = 20
 
@@ -18,19 +19,23 @@ const Wrapper: React.FC<{}> = () => {
     (_, i)  => OffsetsToShow - i - 1
   )
 
-  return <SwipeableViews
-    index={offsets.length - 1}
-    enableMouseEvents={true}
-    onSwitching={(index) => { setShowingOffset(Math.ceil(index)) }}
-  >
-    {offsets.map((offset) => (
-      <>
-        {shouldShowOffset(offset, offsets[showingOffset]) && (
-          <Timeline key={`timeline-offset-${offset}`} offset={offset} />
-        )}
-      </>
-    ))}
-  </SwipeableViews>
+  return <>
+    <SearchActivityTypes />
+
+    <SwipeableViews
+      index={offsets.length - 1}
+      enableMouseEvents={true}
+      onSwitching={(index) => { setShowingOffset(Math.ceil(index)) }}
+    >
+      {offsets.map((offset) => (
+        <>
+          {shouldShowOffset(offset, offsets[showingOffset]) && (
+            <Timeline key={`timeline-offset-${offset}`} offset={offset} />
+          )}
+        </>
+      ))}
+    </SwipeableViews>
+  </>
 }
 
 export default Wrapper

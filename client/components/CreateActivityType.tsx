@@ -7,6 +7,8 @@ import {
 
 import FlashContext, { FlashState } from '../contexts/FlashContext'
 
+import Button from '../system/Button'
+
 interface Props {
   name: string
   onActivityTypeAdded: () => void
@@ -31,7 +33,7 @@ const CreateActivityType: React.FC<Props> = ({
   }
 
   return <form onSubmit={handleSubmit}>
-    <button>Add Activity Type "{name}"</button>
+    <Button>Add Activity Type "{name}"</Button>
   </form>
 }
 
