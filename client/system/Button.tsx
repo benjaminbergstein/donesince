@@ -6,6 +6,15 @@ const ButtonFace = styled(Box)`
 cursor: pointer;
 `
 
+const ButtonElement = styled.button<{ align: string }>`
+background: transparent;
+padding: 10px 15px;
+border: none;
+flex: 1;
+text-align: ${(props) => props.align};
+cursor: pointer;
+`
+
 ButtonFace.defaultProps = {
   borderRadius: "3px",
   // boxShadow: "0px 1px 2px 0px rgba(90, 90, 90, 0.4)",
@@ -72,14 +81,6 @@ const Themes: { [name: string]: Theme } = {
     },
   }
 }
-
-const ButtonElement = styled.button<{ align: string }>`
-background: transparent;
-padding: 10px 15px;
-border: none;
-flex: 1;
-text-align: ${(props) => props.align};
-`
 
 interface Props {
   theme?: string

@@ -53,6 +53,7 @@ export const MY_ACTIVITIES = gql`
       activityTypeId
       name
       recordedAt
+      recordedActivityId
       recordedById
       sinceLast
       humanReadableDate
@@ -128,6 +129,22 @@ export const WEEKLY_DIMENSION_STATS = gql`
       deltaVsBestWeek
       bestWeekValue
       value
+    }
+  }
+`
+
+export const UPDATE_RECORDED_ACTIVITY = gql`
+  mutation UpdateRecordedActivity(
+    $id: ID!,
+    $recordedAt: String
+  ) {
+    updateRecordedActivity(
+      id: $id,
+      recordActivityUpdate: {
+        recordedAt: $recordedAt
+      }
+    ) {
+      recordedAt
     }
   }
 `

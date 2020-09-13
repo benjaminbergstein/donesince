@@ -20,6 +20,7 @@ import {
   AuthenticateArgs,
   ActivityTypeAttributeArgs,
   TimelineArgs,
+  UpdateRecordedActivityArgs,
 } from './types'
 
 const prisma = new PrismaClient()
@@ -177,6 +178,22 @@ export default {
       const recordedActivity: RecordedActivity = await prisma.recordedActivity.create({
         data,
       })
+      return recordedActivity
+    },
+
+    updateRecordedActivity: async (
+      parent: any,
+      args: { id: number, recordActivityUpdate: UpdateRecordedActivityArgs }
+    ) => {
+      const { id, recordActivityUpdate } = args
+      const { recordedAt } = recordActivityUpdate
+      const data = recordedAt !== undefined ? { recordedAt: new Date(recordedAt) } : {}
+
+      const recordedActivity: RecordedActivity = await prisma.recordedActivity.update({
+        data,
+        where: { id: parseInt(''+id) },
+      })
+
       return recordedActivity
     },
   }

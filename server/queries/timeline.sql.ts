@@ -32,6 +32,7 @@ meta AS (
   SELECT
 
     at.name,
+    a."id" AS "recordedActivityId",
     a."activityTypeId",
     a."recordedById",
     a."recordedAt",

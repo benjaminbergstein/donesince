@@ -30,6 +30,7 @@ export default gql`
   }
 
   type TimelineStat {
+    recordedActivityId: ID!
     activityTypeId: ID!
     name: String!
     recordedById: ID!
@@ -99,10 +100,15 @@ export default gql`
     recordedAt: String!
   }
 
+  input RecordedActivityUpdate {
+    recordedAt: String
+  }
+
   type Mutation {
     createActivityType(activityTypeInput: ActivityTypeInput!):  ActivityType!
     setActivityTypeAttribute(activityTypeAttributeInput: ActivityTypeAttributeInput):  ActivityTypeAttribute!
     recordActivity(recordActivityInput: RecordedActivityInput): RecordedActivity!
+    updateRecordedActivity(id: ID!, recordActivityUpdate: RecordedActivityUpdate!): RecordedActivity!
     signUp(signUpInput: SignUpInput!): User!
     authenticate(signInInput: SignInInput!): Authorization!
   }

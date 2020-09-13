@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useContext } from 'react'
 
 import { ActivityType } from '../apollo/types'
 
+import useIsFocus from '../hooks/useFocus'
 import Box from '../system/Box'
 import Button from '../system/Button'
 import Card from '../system/Card'
@@ -38,7 +39,7 @@ const ActivityItem: React.FC<{
 )
 
 const RecordActivity: React.FC<{}> = () => {
-  const [isFocused, setIsFocused] = useState<boolean>(false)
+  const [isFocused, setIsFocused, wrapperRef] = useIsFocus()
   const [searchResults, q, searchResultsLoading, setQ, performSearch, trimmedQ] = useSearchActivityTypes({ minLength: 3 })
   const syncActivityState: SyncActivityState = useContext(SyncActivityContext)
   const { modalControl, activityTrends } = syncActivityState
@@ -54,20 +55,11 @@ const RecordActivity: React.FC<{}> = () => {
     modalControl.show(activityType)
   }
 
-  useEffect(() => {
-    const listener = () => { setIsFocused(false) }
-    window.addEventListener('click', listener)
-
-    return () => {
-      window.removeEventListener('click', listener)
-    }
-  }, [])
-
   return <Box
-    onClick={(e) => { e.stopPropagation() }}
     position="relative"
     display="flex"
     flexDirection="column"
+    ref={wrapperRef}
   >
     <Box
       display="flex"

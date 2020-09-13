@@ -27,6 +27,7 @@ export interface RecordedActivity {
 }
 
 export interface TimelineStat {
+  recordedActivityId: number
   activityTypeId: number
   name: string
   recordedById: number

@@ -2,6 +2,10 @@ export interface CreateActivityTypeArgs {
   name: string
 }
 
+export interface UpdateRecordedActivityArgs {
+  recordedAt?: string
+}
+
 export interface SignUpArgs {
   name: string
 }

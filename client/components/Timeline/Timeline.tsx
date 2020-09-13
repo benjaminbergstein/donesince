@@ -1,5 +1,4 @@
 import React from 'react'
-
 import useTimeline from '../../hooks/useTimeline'
 import { TimelineStat } from '../../apollo/types'
 
@@ -22,6 +21,8 @@ const Timeline: React.FC<Props> = ({ offset }) => {
       paddingRight="15px"
     >
       {timeline.map(({
+        recordedActivityId,
+        recordedAt,
         sinceLast,
         name: activityName,
         humanReadableDate,
@@ -52,7 +53,11 @@ const Timeline: React.FC<Props> = ({ offset }) => {
             <Text fontWeight="600">{activityName}</Text>
           </Box>
 
-          <ActivityLine sinceLast={sinceLast} />
+          <ActivityLine
+            recordedAt={recordedAt}
+            recordedActivityId={recordedActivityId}
+            sinceLast={sinceLast}
+          />
         </Box>
       ))}
     </Box>
