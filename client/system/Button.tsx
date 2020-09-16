@@ -79,6 +79,16 @@ const Themes: { [name: string]: Theme } = {
       bg: 'accent.success',
       borderColor: 'transparent',
     },
+  },
+  warning: {
+    normal: {
+      bg: 'accent.warning',
+      borderColor: 'transparent',
+    },
+    hover: {
+      bg: 'accent.warning',
+      borderColor: 'transparent',
+    },
   }
 }
 
