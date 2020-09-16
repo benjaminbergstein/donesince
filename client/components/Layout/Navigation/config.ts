@@ -7,21 +7,14 @@ const config: Section[] =  [
     "Activity Journal",
     [
       ["/", "Timeline"],
-      ["/", "Add"]
+      ["/activity-types", "Activities"],
+      ["/activity-trends", "Trends"]
     ],
   ],
   [
     "Dimensions",
     [
       ["/trends", "Trends"],
-      ["/trends", "Manage"],
-    ],
-  ],
-  [
-    "Activity Types",
-    [
-      ["/", "Trends"],
-      ["/", "Manage"],
     ],
   ],
 ]

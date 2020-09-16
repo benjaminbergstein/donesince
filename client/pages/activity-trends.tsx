@@ -4,7 +4,7 @@ import withData from '../apollo/withData'
 
 import { SyncProvider, ListUnsyncedActivities } from '../contexts/SyncActivityContext'
 
-import Timeline from '../components/Timeline'
+import MyTrendsList from '../components/MyTrendsList'
 import RecordModal from '../components/RecordModal'
 import Layout from '../components/Layout'
 
@@ -20,7 +20,7 @@ const Home: React.FC<any> = () => {
         flexDirection="column"
         height="100%"
       >
-        <Timeline />
+        <MyTrendsList />
       </Box>
       <RecordModal />
     </SyncProvider>
