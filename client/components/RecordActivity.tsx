@@ -54,7 +54,9 @@ const RecordActivity: React.FC<{}> = () => {
               </a>
             </Link>
           </Box>
-          <RecordSingleActivity activityType={activityType} label="Record" />
+          <Box flexBasis="25%" flexGrow={0} flexShrink={1}>
+            <RecordSingleActivity activityType={activityType} label="Record" />
+          </Box>
         </Box>
       ))}
       {searchResults.length === 0 && q.length > 3 && !searchResultsLoading &&
@@ -65,7 +67,7 @@ const RecordActivity: React.FC<{}> = () => {
     </Box>}
 
     <Box>
-      <Text as="h4">Your activites</Text>
+      <Text as="h4">Your activities</Text>
 
       {activityTrends.map(({ name, activityTypeId }) => (
         <Box
@@ -84,10 +86,12 @@ const RecordActivity: React.FC<{}> = () => {
               <Box>{name}</Box>
             </a>
           </Link>
-          <RecordSingleActivity
-            activityType={{ id: activityTypeId, name }}
-            label="Record"
-          />
+          <Box flexBasis="25%" flexGrow={0} flexShrink={1}>
+            <RecordSingleActivity
+              activityType={{ id: activityTypeId, name }}
+              label="Record"
+            />
+          </Box>
         </Box>
       ))}
     </Box>
