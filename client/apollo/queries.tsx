@@ -133,6 +133,18 @@ export const WEEKLY_DIMENSION_STATS = gql`
   }
 `
 
+export const WEEKLY_DIMENSION_STATS_BAR_CHART = gql`
+  query WeeklyDimensionStatsBarChart($dimensionName: String!) {
+    weeklyDimensionStatsBarChart(dimensionName: $dimensionName) {
+      labels
+      datasets {
+	label
+	data
+      }
+    }
+  }
+`
+
 export const UPDATE_RECORDED_ACTIVITY = gql`
   mutation UpdateRecordedActivity(
     $id: ID!,

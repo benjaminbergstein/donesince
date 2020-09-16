@@ -60,6 +60,16 @@ export default gql`
     name: String!
   }
 
+  type BarChartDataset {
+    label: String!
+    data: [Int!]
+  }
+
+  type BarChartData {
+    labels: [String]!
+    datasets: [BarChartDataset]!
+  }
+
   type Query {
     me: User!
     searchActivityTypes(q: String!): [ActivityType!]
@@ -71,6 +81,7 @@ export default gql`
     timeline(offset: Int!): [TimelineStat]
     timelineDates: [TimelineDate]!
     weeklyDimensionStats(weekNumber: Int): [WeeklyDimensionStat!]
+    weeklyDimensionStatsBarChart(dimensionName: String!): BarChartData
   }
 
   type Authorization {

@@ -12,6 +12,7 @@ export interface MyActivities_timeline {
   activityTypeId: string;
   name: string;
   recordedAt: string;
+  recordedActivityId: string;
   recordedById: string;
   sinceLast: string;
   humanReadableDate: string;

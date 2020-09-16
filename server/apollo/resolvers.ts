@@ -12,6 +12,7 @@ import getTimelineSql from '../queries/timeline.sql'
 import getTimelineDatesSql from '../queries/timelineDates.sql'
 import getSearchTableSql from '../queries/searchTable.sql'
 import getWeeklyDimensionStats from '../queries/weeklyDimensionStats.sql'
+import weeklyDimensionStatsBarChart from '../queries/weeklyDimensionStatsBarChart.sql'
 
 import {
   CreateActivityTypeArgs,
@@ -74,6 +75,13 @@ export default {
       parent: any,
       { weekNumber }: { weekNumber?: number },
     ) => prisma.queryRaw(getWeeklyDimensionStats(weekNumber)),
+
+    weeklyDimensionStatsBarChart: async (
+      parent: any,
+      { dimensionName }: { dimensionName: string }
+    ) => weeklyDimensionStatsBarChart(prisma, dimensionName).then(([{data}]) => {
+      return data
+    }),
 
     searchActivityTypes: async (
       parent: any,

@@ -1,107 +1,58 @@
-import React, { useState, useContext } from 'react'
-import { useQuery } from '@apollo/react-hooks';
+import React from 'react'
+// import React, { useState, useContext } from 'react'
+// import { useQuery } from '@apollo/react-hooks';
 
-import DeviceContext from '../../contexts/DeviceContext'
+// import DeviceContext from '../../contexts/DeviceContext'
 
-import { WEEKLY_DIMENSION_STATS } from '../../apollo/queries'
+// import { WEEKLY_DIMENSION_STATS } from '../../apollo/queries'
 
-import {
-  WeeklyDimensionStats as WeeklyDimensionStatsData,
-  WeeklyDimensionStats_weeklyDimensionStats as WeeklyDimensionStat,
-} from '../../apollo/types/WeeklyDimensionStats'
+// import {
+//   WeeklyDimensionStats as WeeklyDimensionStatsData,
+//   WeeklyDimensionStats_weeklyDimensionStats as WeeklyDimensionStat,
+// } from '../../apollo/types/WeeklyDimensionStats'
 
-import { getWeeks } from '../../utils/time'
+// import { getWeeks } from '../../utils/time'
 
 import Box from '../../system/Box'
-import Button from '../../system/Button'
-import Text from '../../system/Text'
-import Card from '../../system/Card'
+// import Button from '../../system/Button'
+// import Text from '../../system/Text'
+// import Card from '../../system/Card'
 
-import Statistic from './Statistic'
-import ActivityTypeList from './ActivityTypeList'
+import DimensionChart from './DimensionChart'
+// import ActivityTypeList from './ActivityTypeList'
 
-const getThemeForDelta: (n: number) => string = (deltaVsPreviousWeek) => {
-  if (deltaVsPreviousWeek === 0) return 'white'
-  if (deltaVsPreviousWeek > 0) return 'success'
-  return 'warning'
-}
+// const getThemeForDelta: (n: number) => string = (deltaVsPreviousWeek) => {
+//   if (deltaVsPreviousWeek === 0) return 'white'
+//   if (deltaVsPreviousWeek > 0) return 'success'
+//   return 'warning'
+// }
 
-const formatDelta: (delta: number) => string = (delta) => delta > 0 ? `+${delta}` : delta.toString()
+// const formatDelta: (delta: number) => string = (delta) => delta > 0 ? `+${delta}` : delta.toString()
 
 const WeeklyDimensionStats: React.FC<{}> = () => {
-  const { isPhone } = useContext(DeviceContext)
-  const [weekNumber, setWeekNumber] = useState<number>(getWeeks(new Date()))
-  const { data }: { data: WeeklyDimensionStatsData | undefined } = useQuery(WEEKLY_DIMENSION_STATS, {
-    variables: {
-      weekNumber,
-    },
-  })
+  // const { isPhone } = useContext(DeviceContext)
+  // const [weekNumber, setWeekNumber] = useState<number>(getWeeks(new Date()))
+  // const lastTenWeeks: number[] = new Array().map((_, index) => weekNumber - index)
+  // const { data }: { data: WeeklyDimensionStatsData | undefined } = useQuery(WEEKLY_DIMENSION_STATS, {
+  //   variables: {
+  //     weekNumber,
+  //   },
+  // })
 
-  if (!data) return null
+  // if (!data) return null
 
-  const { weeklyDimensionStats } = data
+  // const { weeklyDimensionStats } = data
 
-  if (weeklyDimensionStats === null) return <>Error!</>
+  // if (weeklyDimensionStats === null) return <>Error!</>
 
-  return <>
-    <Box
-      display="flex"
-      flexDirection="row"
-      flexWrap="wrap"
-      justifyContent="space-between"
-    >
-      <Button onClick={() => setWeekNumber(weekNumber - 1)}>Prev</Button>
-      <div>{weekNumber}</div>
-      <Button onClick={() => setWeekNumber(weekNumber + 1)}>Next</Button>
-    </Box>
-    <Box
-      display="flex"
-      flexDirection="row"
-      flexWrap="wrap"
-    >
-      {weeklyDimensionStats.map(({
-        value,
-        dimensionName,
-        deltaVsPreviousWeek,
-        deltaVsBestWeek,
-      }: WeeklyDimensionStat) => (
-        <Box
-          width={isPhone ? '100%' : '30%'}
-          flexDirection="column"
-          padding="2"
-        >
-          <Card
-            bg={`accent.${getThemeForDelta(deltaVsPreviousWeek)}`}
-          >
-            <Box flex="1">
-              <Text as="div" textAlign="center">
-                {dimensionName}
-              </Text>
-            </Box>
-            <Box
-              display="flex"
-              flexDirection="row"
-              alignItems="center"
-            >
-              <Statistic
-                label="This Week"
-                value={''+value}
-              />
-              <Statistic
-                label="Delta"
-                value={formatDelta(deltaVsPreviousWeek)}
-              />
-              <Statistic
-                label="Vs Best"
-                value={formatDelta(deltaVsBestWeek)}
-              />
-            </Box>
-            <ActivityTypeList attributeName={dimensionName} />
-          </Card>
-        </Box>
-      ))}
-    </Box>
-  </>
+  return <Box>
+    <DimensionChart dimensionName="Self-Care" />
+    <DimensionChart dimensionName="Sleep Cycle" />
+    <DimensionChart dimensionName="Dental Hygiene" />
+    <DimensionChart dimensionName="Daily Exercise" />
+    <DimensionChart dimensionName="Screen Use" />
+    <DimensionChart dimensionName="Nature Time" />
+  </Box>
 }
 
 export default WeeklyDimensionStats

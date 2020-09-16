@@ -10,6 +10,7 @@
     "gql:types:gen": "apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --includes=**/*.ts --includes=**/*.tsx --tagName=gql --addTypename --globalTypesFile=apollo/types/graphql-global-types.ts types"
   },
   "dependencies": {
+    "@types/react-chartjs-2": "^2.5.7",
     "@types/react-swipeable-views": "^0.13.0",
     "@types/styled-system": "^5.1.9",
     "@types/use-persisted-state": "^0.3.0",
@@ -17,11 +18,14 @@
     "apollo": "^2.30.3",
     "apollo-cache-persist": "^0.1.1",
     "apollo-cli": "^0.4.0",
+    "chart.js": "^2.9.3",
     "next": "^9.4.4",
     "react": "^16.13.0",
+    "react-chartjs-2": "^2.10.0",
     "react-dom": "^16.13.0",
     "react-icons": "^3.11.0",
     "react-id-swiper": "^4.0.0",
+    "react-simple-timefield": "^3.2.3",
     "react-swipeable-views": "^0.13.9",
     "styled-components": "^5.0.0",
     "styled-reset": "^4.2.3",

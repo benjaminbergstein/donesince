@@ -1,3 +1,19 @@
+import { PrismaClient } from '@prisma/client'
+
+interface BarChartDataset {
+  label: string
+  data: number[]
+}
+
+interface BarChartData {
+  labels: string[]
+  datasets: BarChartDataset
+}
+
+const weeklyDimensionStatsBarChart: (
+  prisma: PrismaClient,
+  dimensionName: string
+) => Promise<BarChartDataset[]> = async (prisma, dimensionName) => prisma.queryRaw`
 WITH activities AS (
   SELECT
     ra."id",
@@ -57,7 +73,7 @@ expanded_weekly_totals AS (
 
   FROM weekly_totals
 
-  WHERE "dimensionName" = 'Self-Care'
+  WHERE "dimensionName" = ${dimensionName}
 
   WINDOW weeks_window AS (
     PARTITION BY "dimensionName"
@@ -81,8 +97,9 @@ all_weeks AS (
 
   LEFT OUTER JOIN expanded_weekly_totals ewt ON CONCAT(DATE_PART('year', CURRENT_TIMESTAMP), '-', wn::varchar) = ewt."weekNumber"
 
-  WHERE CONCAT('2020-', wn::varchar) <= CONCAT(DATE_PART('year', CURRENT_TIMESTAMP), '-', DATE_PART('week', CURRENT_TIMESTAMP))
-  ORDER BY 2
+  WHERE wn <= DATE_PART('week', CURRENT_TIMESTAMP)
+
+  ORDER BY wn
 )
 
 SELECT
@@ -98,3 +115,6 @@ jsonb_build_object(
 ) as data
 
 FROM all_weeks
+`
+
+export default weeklyDimensionStatsBarChart
