@@ -24,7 +24,7 @@ const TextInput: React.FC<Props> = ({
   const handleChange = () => {
     if (ref.current === null) return
     const { value: newValue } = ref.current
-    const newValueInt = parseInt(newValue)
+    const newValueInt = newValue === "" ? 0 : parseInt(newValue)
     setValue(newValueInt)
     onChange(newValueInt)
   }
