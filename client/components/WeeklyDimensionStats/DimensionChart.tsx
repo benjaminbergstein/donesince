@@ -48,13 +48,16 @@ const Statistic: React.FC<Props> = ({
           options={{
             maintainAspectRatio: false,
             legend: { display: false },
-            scales: { xAxes: [{
-              ticks: {
-                callback: (value: string) => value.split('-')[1]
-              },
-            }] },
+            scales: {
+              yAxes: [{ position: 'right', ticks: { maxTicksLimit: 4 } }],
+              xAxes: [{
+                ticks: {
+                  callback: (value: string) => value.split('-')[1]
+                },
+              }],
+            },
           }}
-          height={200}
+          height={150}
           // @ts-ignore
           width="100%"
           data={weeklyDimensionStatsBarChart}
