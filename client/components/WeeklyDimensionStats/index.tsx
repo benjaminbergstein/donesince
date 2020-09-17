@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 // import React, { useState, useContext } from 'react'
 // import { useQuery } from '@apollo/react-hooks';
 
@@ -19,6 +19,7 @@ import Box from '../../system/Box'
 // import Card from '../../system/Card'
 
 import DimensionChart from './DimensionChart'
+import ScrollContext from './ScrollContext'
 // import ActivityTypeList from './ActivityTypeList'
 
 // const getThemeForDelta: (n: number) => string = (deltaVsPreviousWeek) => {
@@ -45,16 +46,20 @@ const WeeklyDimensionStats: React.FC<{}> = () => {
 
   // if (weeklyDimensionStats === null) return <>Error!</>
 
-  return <Box>
-    <DimensionChart dimensionName="Self-Care" />
-    <DimensionChart dimensionName="Sleep Cycle" />
-    <DimensionChart dimensionName="Dental Hygiene" />
-    <DimensionChart dimensionName="Daily Exercise" />
-    <DimensionChart dimensionName="Mindfulness" />
-    <DimensionChart dimensionName="Screen Use" />
-    <DimensionChart dimensionName="Nature Time" />
-    <DimensionChart dimensionName="Caffeine Consumption" />
-  </Box>
+  const [scroll, setScroll] = useState<number>(0)
+
+  return <ScrollContext.Provider value={{ scroll, setScroll }}>
+    <Box>
+      <DimensionChart dimensionName="Self-Care" />
+      <DimensionChart dimensionName="Sleep Cycle" />
+      <DimensionChart dimensionName="Dental Hygiene" />
+      <DimensionChart dimensionName="Daily Exercise" />
+      <DimensionChart dimensionName="Mindfulness" />
+      <DimensionChart dimensionName="Screen Use" />
+      <DimensionChart dimensionName="Nature Time" />
+      <DimensionChart dimensionName="Caffeine Consumption" />
+    </Box>
+  </ScrollContext.Provider>
 }
 
 export default WeeklyDimensionStats
