@@ -1,13 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import { formatInterval } from '../../utils/time'
-import useFocus from '../../hooks/useFocus'
-
-import DeviceContext from '../../contexts/DeviceContext'
 
 import Box from '../../system/Box'
-
-import EditRecordedAt from './EditRecordedAt'
 
 interface LineProps {
   height: number
@@ -16,8 +11,6 @@ interface LineProps {
 
 interface Props {
   sinceLast: number
-  recordedAt: string
-  recordedActivityId: number
 }
 
 const Line: React.FC<LineProps> = ({ height, dashed = false, children }) => {
@@ -40,33 +33,19 @@ const Line: React.FC<LineProps> = ({ height, dashed = false, children }) => {
 
 const ActivityLine: React.FC<Props> = ({
   sinceLast,
-  recordedAt,
-  recordedActivityId,
 }) => {
-  const { isPhone } = useContext(DeviceContext)
-  const [isFocused, setIsFocused, wrapperRef] = useFocus()
   const sinceLastMinutes = sinceLast * 60
   const isLong = sinceLastMinutes > 200
   const segmentHeight = (isLong ? 100 : sinceLastMinutes / 2) - 30
 
   return <Box
-    ref={wrapperRef}
     width="100%"
     margin="auto"
-    onTouchStart={() => { isPhone && setIsFocused(true) }}
-    onClick={() => { isPhone && setIsFocused(true) }}
-    onMouseEnter={() => { !isPhone && setIsFocused(true) }}
-    onMouseLeave={() => { !isPhone && setIsFocused(false) }}
   >
     {sinceLast > 0 && <Line height={segmentHeight} />}
     {sinceLast > 0 && <Line height={60} dashed={isLong}>
       <span style={{ whiteSpace: 'nowrap' }}>
         {formatInterval(sinceLast)}
-        <EditRecordedAt
-          isHovered={isFocused}
-          recordedAt={recordedAt}
-          recordedActivityId={recordedActivityId}
-        />
       </span>
     </Line>}
     {sinceLast > 0 && <Line height={segmentHeight} />}

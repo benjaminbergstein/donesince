@@ -70,6 +70,14 @@ export default {
     }),
     activityTrends: async () => prisma.queryRaw(getTrendsSql()),
 
+    fetchRecordedActivity: async (
+      parent: any,
+      { id }: { id: number }
+    ) => prisma.recordedActivity.findOne({
+      where: { id: parseInt(''+id) },
+      include: { activityType: true },
+    }),
+
     weeklyDimensionStats: async (
       parent: any,
       { weekNumber }: { weekNumber?: number },

@@ -5,6 +5,7 @@ import Button from '../system/Button'
 import Text from '../system/Text'
 import Box from '../system/Box'
 import Card from '../system/Card'
+import Takeover from '../system/Takeover'
 
 import SyncActivityContext, { SyncActivityState } from '../contexts/SyncActivityContext'
 
@@ -17,7 +18,7 @@ type RecordedAtOption = [number, number, string]
 const recordedAtOptions: RecordedAtOption[] = [
   [0, Second, 'now'],
   [5, Minute, 'mins'],
-  [30, Minute, 'mins'],
+   [30, Minute, 'mins'],
   [1, Hour, 'hr'],
   [2, Hour, 'hr'],
   [6, Hour, 'hr'],
@@ -39,12 +40,10 @@ const RecordModal: React.FC<{}> = () => {
   }: SyncActivityState = useContext(SyncActivityContext)
   const { isShowing } = modalControl
 
-  if (!isShowing) return null
-  if (!recordingActivity) return null
-
-  const { id: activityTypeId } = recordingActivity
+  const activityTypeId = recordingActivity?.id
 
   const recordActivity: () => void = () => {
+    if (!activityTypeId) return
     const clientId = uuidv4()
 
     captureUnsyncedActivity({
@@ -54,68 +53,61 @@ const RecordModal: React.FC<{}> = () => {
     })
   }
 
-  return <Box
-    position="fixed"
-    top="0"
-    bg="rgba(255, 255, 255, 0.7)"
-    height="100vh"
-    width="100%"
+  return <Takeover
+    isVisible={isShowing && !!recordingActivity}
+    onClose={() => modalControl.hide()}
   >
-    <Box
-      maxWidth="640px"
-      margin="0 auto"
-      height="100%"
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
+    <Card
+      boxShadow="box.2"
+      margin="0 3px 0"
+      flex="1"
+      bg="white"
     >
-      <Card bg="white" margin="auto" marginLeft="10px" marginRight="10px">
-        <Box marginBottom={3}>
-          <Text fontWeight="bold" fontSize={4}>
-            Record Activity{" "}
-            <span style={{ whiteSpace: 'nowrap' }}>"{recordingActivity.name}"</span>
-          </Text>
-        </Box>
+      <Box marginBottom={3}>
+        <Text fontWeight="bold" fontSize={4}>
+          Record Activity{" "}
+          <span style={{ whiteSpace: 'nowrap' }}>"{recordingActivity?.name}"</span>
+        </Text>
+      </Box>
 
-        <Box marginBottom={3}>
-          <Text fontWeight="bold" fontSize={4} color="grays.text.light">
-            {dateForRecording.toLocaleDateString('en-us', { month: 'short', day: 'numeric', weekday: 'short' })}
-          </Text>
-        </Box>
+      <Box marginBottom={3}>
+        <Text fontWeight="bold" fontSize={4} color="grays.text.light">
+          {dateForRecording.toLocaleDateString('en-us', { month: 'short', day: 'numeric', weekday: 'short' })}
+        </Text>
+      </Box>
 
-        <Box marginBottom={3}>
-          <Text fontSize={4}>How long ago?</Text>
-        </Box>
+      <Box marginBottom={3}>
+        <Text fontSize={4}>How long ago?</Text>
+      </Box>
 
-        <Box
-          display="flex"
-          flexDirection="row"
-          flexWrap="wrap"
-          justifyContent="space-evenly"
-        >
-          {recordedAtOptions.map(([n, interval, str]: RecordedAtOption) => (
-            <Box flexBasis="32%" marginBottom="5px" marginTop="5px">
-              <Button
-                theme={n * interval === recordedAtModifier ? 'success' : undefined}
-                onClick={() => setRecordedAtModifier(n * interval)}
-              >
-                {str === 'now' ? 'Now' : `${n} ${str}`}
-              </Button>
-            </Box>
-          ))}
-        </Box>
-
-        <Box display="flex">
-          <Box flex="1" marginRight={3}>
-            <Button onClick={() => recordActivity()}>Record</Button>
+      <Box
+        display="flex"
+        flexDirection="row"
+        flexWrap="wrap"
+        justifyContent="space-evenly"
+      >
+        {recordedAtOptions.map(([n, interval, str]: RecordedAtOption) => (
+          <Box flexBasis="32%" marginBottom="5px" marginTop="5px">
+            <Button
+              theme={n * interval === recordedAtModifier ? 'success' : undefined}
+              onClick={() => setRecordedAtModifier(n * interval)}
+            >
+              {str === 'now' ? 'Now' : `${n} ${str}`}
+            </Button>
           </Box>
-          <Box>
-            <Button onClick={() => modalControl.hide()}>cancel</Button>
-          </Box>
+        ))}
+      </Box>
+
+      <Box display="flex">
+        <Box flex="1" marginRight={3}>
+          <Button onClick={() => recordActivity()}>Record</Button>
         </Box>
-      </Card>
-    </Box>
-  </Box>
+        <Box>
+          <Button onClick={() => modalControl.hide()}>cancel</Button>
+        </Box>
+      </Box>
+    </Card>
+  </Takeover>
 }
 
 export default RecordModal

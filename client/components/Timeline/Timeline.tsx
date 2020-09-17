@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import useTimeline from '../../hooks/useTimeline'
 import { TimelineStat } from '../../apollo/types'
+
+import EditingContext from '../../contexts/EditingContext'
 
 import Box from '../../system/Box'
 import Text from '../../system/Text'
@@ -11,6 +13,7 @@ interface Props {
 }
 
 const Timeline: React.FC<Props> = ({ date }) => {
+  const { setEditingRecordedActivityId } = useContext(EditingContext)
   const [month, day, year] = date.toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric', timeZone: 'America/Los_Angeles' }).split("/")
   const datestamp = [year, month, day].join("-")
   const { data: { timeline } } = useTimeline(datestamp)
@@ -42,11 +45,11 @@ const Timeline: React.FC<Props> = ({ date }) => {
       </Box>
     ) : timeline.map(({
       recordedActivityId,
-      recordedAt,
       sinceLast,
       name: activityName,
     }: TimelineStat) => (
       <Box
+        onClick={() => { setEditingRecordedActivityId(recordedActivityId) }}
         alignItems="center"
         justifyContent="center"
         display="flex"
@@ -58,11 +61,7 @@ const Timeline: React.FC<Props> = ({ date }) => {
         </Box>
 
         <Box>
-          <ActivityLine
-            recordedAt={recordedAt}
-            recordedActivityId={recordedActivityId}
-            sinceLast={sinceLast}
-          />
+          <ActivityLine sinceLast={sinceLast} />
         </Box>
       </Box>
     ))}
