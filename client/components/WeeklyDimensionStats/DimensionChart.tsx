@@ -30,7 +30,7 @@ const Statistic: React.FC<Props> = ({
   useEffect(() => {
     if (scrollRef.current === null) return
     scrollRef.current.scroll({ left: 1000 })
-  }, [])
+  }, [data])
 
   if (!data) return null
 
