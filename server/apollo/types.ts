@@ -24,8 +24,3 @@ export interface ActivityTypeAttributeArgs {
   name: string
   value: number
 }
-
-export interface TimelineArgs {
-  offset: number
-}
-

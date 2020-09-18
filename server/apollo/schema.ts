@@ -78,7 +78,7 @@ export default gql`
     listActivityTypeAttributes(activityTypeId: ID!): [ActivityTypeAttribute!]!
     recordedActivities: [RecordedActivity!]
     activityTrends: [ActivityStat!]
-    timeline(offset: Int!): [TimelineStat]
+    timeline(date: String!): [TimelineStat]
     timelineDates: [TimelineDate]!
     weeklyDimensionStats(weekNumber: Int): [WeeklyDimensionStat!]
     weeklyDimensionStatsBarChart(dimensionName: String!): BarChartData

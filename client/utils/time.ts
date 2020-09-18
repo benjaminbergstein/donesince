@@ -72,3 +72,11 @@ export const getWeeks: (d: Date) => number = (d) => {
 
   return weekNr;
 }
+
+export const formatDatestamp = (date: Date) => {
+  const days = date.getDate().toString().padStart(2, '0')
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const year = (date.getFullYear()).toString()
+
+  return [year, month, days].join('-')
+}

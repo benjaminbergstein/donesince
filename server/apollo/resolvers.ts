@@ -8,7 +8,7 @@ import {
 } from "@prisma/client"
 
 import getTrendsSql from '../queries/interval.sql'
-import getTimelineSql from '../queries/timeline.sql'
+import getTimeline from '../queries/timeline.sql'
 import getTimelineDatesSql from '../queries/timelineDates.sql'
 import getSearchTableSql from '../queries/searchTable.sql'
 import getWeeklyDimensionStats from '../queries/weeklyDimensionStats.sql'
@@ -20,7 +20,6 @@ import {
   RecordActivityArgs,
   AuthenticateArgs,
   ActivityTypeAttributeArgs,
-  TimelineArgs,
   UpdateRecordedActivityArgs,
 } from './types'
 
@@ -101,7 +100,7 @@ export default {
       searchField: 'name',
     })),
 
-    timeline: async (parent: any, { offset }: TimelineArgs) => prisma.queryRaw(getTimelineSql(offset)),
+    timeline: async (parent: any, { date }: { date: string }) => getTimeline(prisma, date),
     timelineDates: async () => prisma.queryRaw(getTimelineDatesSql()),
     me: async() => prisma.user.findOne({ where: { id: userId } })
   },

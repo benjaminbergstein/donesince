@@ -6,7 +6,7 @@ import SearchActivityTypes from '../SearchActivityTypes'
 
 import Box from '../../system/Box'
 
-const OffsetsToShow: number = 20
+const OffsetsToShow: number = 365
 
 const shouldShowOffset: (offset: number, showingOffset: number) => boolean =
   (offset, showingOffset) => (
@@ -14,7 +14,10 @@ const shouldShowOffset: (offset: number, showingOffset: number) => boolean =
     offset <= showingOffset + 1
   )
 
+const OneDay = 1000 * 60 * 60 * 24
+
 const Wrapper: React.FC<{}> = () => {
+  const today = new Date()
   const [showingOffset, setShowingOffset] = React.useState<number>(OffsetsToShow - 1)
   const [height, setHeight] = useState<string>('auto')
   const boxRef = useRef<HTMLDivElement | null>(null)
@@ -50,7 +53,7 @@ const Wrapper: React.FC<{}> = () => {
         {offsets.map((offset) => (
           <Box key={`swipable-view-${offset}`} height={height} overflowY="scroll" overflowX="hidden">
             {shouldShowOffset(offset, offsets[showingOffset]) && (
-              <Timeline key={`timeline-offset-${offset}`} offset={offset} />
+              <Timeline key={`timeline-offset-${offset}`} date={new Date(today.getTime() - (offset * OneDay))} />
             )}
           </Box>
         ))}

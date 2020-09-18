@@ -3,6 +3,8 @@ import { MY_ACTIVITIES } from '../apollo/queries'
 
 const pollInterval = 5000
 
+import { formatDatestamp } from '../utils/time'
+
 import {
   TimelineStat,
 } from '../apollo/types'
@@ -15,9 +17,11 @@ interface TimelineReturn {
   data: TimelineQueryResponse
 }
 
-const useTimeline: (offset?: number | undefined) => TimelineReturn = (offset = 0) => {
+const TodayDatestamp = formatDatestamp(new Date())
+
+const useTimeline: (date?: string) => TimelineReturn = (date = TodayDatestamp) => {
   const { data = { timeline: [] } } = useQuery(MY_ACTIVITIES, {
-    variables: { offset },
+    variables: { date },
     pollInterval,
   })
   return { data }

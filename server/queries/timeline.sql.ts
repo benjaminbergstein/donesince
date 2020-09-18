@@ -1,4 +1,15 @@
-const timeline: (offset?: number) => string = (offset = 1) => `
+import { PrismaClient } from '@prisma/client'
+
+interface TimelineStat {
+  id: number,
+  activityTypeId: number,
+  recordedById: number,
+  recordedAt: string,
+  sinceLast: number
+  recordedAtDate: string
+}
+
+const timeline: (prisma: PrismaClient, date: string) => Promise<TimelineStat[]> = async (prisma, date) => prisma.queryRaw`
 WITH activities AS (
   SELECT
     ra."id",
@@ -16,16 +27,6 @@ WITH activities AS (
   )
 
   ORDER BY 2 DESC
-),
-
-datesWithActivities AS (
-  SELECT
-    TO_CHAR(a."recordedAtDate", 'YYYY-MM-DD') as "rawDate"
-  FROM activities a
-  GROUP BY 1
-  ORDER BY 1 DESC
-  LIMIT 1
-  OFFSET ${offset}
 ),
 
 meta AS (
@@ -55,7 +56,7 @@ meta AS (
 )
 
 SELECT * FROM meta
-WHERE meta."rawDate" = (SELECT "rawDate" from datesWithActivities LIMIT 1)
+WHERE meta."rawDate" = ${date}
 `
 
 export default timeline
