@@ -30,8 +30,8 @@ endef
 
 define BUILD_ARGS
 endef
-
 include ${SERVICE}.mk
+
 
 release: ENVIRONMENT=production
 release: CLIENT_URL=http://zap.production.wips.link
@@ -66,3 +66,6 @@ attach:
 
 package.json:
 	${DOCKER_RUN} --entrypoint cat ${SERVICE} package.json > ../${SERVICE}/package.json
+
+backup:
+	cd ../server && zip -r ../backup.zip data
