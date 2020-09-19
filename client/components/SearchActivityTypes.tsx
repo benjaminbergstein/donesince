@@ -60,6 +60,8 @@ const RecordActivity: React.FC<{}> = () => {
     display="flex"
     flexDirection="column"
     ref={wrapperRef}
+    marginLeft="-20px"
+    marginRight="-20px"
   >
     <Box
       display="flex"
@@ -81,12 +83,12 @@ const RecordActivity: React.FC<{}> = () => {
     {isFocused && (
       <Box
         position="absolute"
-        top="-5px"
+        bottom="6px"
         width="100%"
         zIndex={500}
       >
         <Card bg="white" boxShadow="box.1" margin="0 10px">
-          <Box marginTop="45px">
+          <Box marginBottom="25px">
             {searchResults && searchResults.length !== 0 && (
               <Box
                 marginBottom={3}
@@ -96,7 +98,7 @@ const RecordActivity: React.FC<{}> = () => {
               >
                 <Text fontSize={3}>Results for "{trimmedQ}"</Text>
                 <Box
-                  maxHeight="20vh"
+                  flex="1"
                   overflowY="auto"
                   marginTop={3}
                   marginBottom={3}
@@ -120,7 +122,12 @@ const RecordActivity: React.FC<{}> = () => {
               />
             )}
 
-            <Box>
+            {searchResults.length === 0 && q.length < 3 && <Box
+              marginBottom={3}
+              display="flex"
+              flexDirection="column"
+              flexWrap="wrap"
+            >
               <Text fontSize={3}>Your activities</Text>
 
               <Box
@@ -139,7 +146,7 @@ const RecordActivity: React.FC<{}> = () => {
                   />
                 ))}
               </Box>
-            </Box>
+            </Box>}
           </Box>
         </Card>
       </Box>

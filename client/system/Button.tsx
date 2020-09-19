@@ -7,6 +7,7 @@ cursor: pointer;
 `
 
 const ButtonElement = styled.button<{ align: string }>`
+font-size: 16px;
 background: transparent;
 padding: 10px 15px;
 border: none;
@@ -95,11 +96,17 @@ const Themes: { [name: string]: Theme } = {
 interface Props {
   theme?: string
   onClick?: (e?: React.MouseEvent) => void,
+  onDoubleClick?: (e?: React.MouseEvent) => void,
+  onMouseDown?: (e?: React.MouseEvent) => void,
+  onMouseUp?: (e?: React.MouseEvent) => void,
   align?: string,
 }
 
 const Button: React.FC<Props> = ({
   onClick = () => {},
+  onDoubleClick = () => {},
+  onMouseDown = () => {},
+  onMouseUp = () => {},
   theme = 'default',
   align = 'center',
   children,
@@ -109,6 +116,9 @@ const Button: React.FC<Props> = ({
 
   return <ButtonFace
     onClick={onClick}
+    onDoubleClick={onDoubleClick}
+    onMouseDown={onMouseDown}
+    onMouseUp={onMouseUp}
     onMouseEnter={() => { setIsHover(true) }}
     onMouseLeave={() => { setIsHover(false) }}
     {...themeProps}

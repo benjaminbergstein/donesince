@@ -6,7 +6,9 @@ import React, {
   useState
 } from 'react'
 
-import SwipeableViews from 'react-swipeable-views';
+import styled from 'styled-components'
+
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 import SyncActivityContext from '../../contexts/SyncActivityContext'
 
@@ -14,35 +16,45 @@ import Timeline from './Timeline'
 import SearchActivityTypes from '../SearchActivityTypes'
 
 import Box from '../../system/Box'
+import Button from '../../system/Button'
+
+const Slider = styled(Box)`
+  transition: transform 750ms;
+`
 
 const OffsetsToShow: number = 365
 
-const shouldShowOffset: (offset: number, showingOffset: number) => boolean =
-  (offset, showingOffset) => (
-    offset >= showingOffset - 1 &&
-    offset <= showingOffset + 1
+const shouldShowOffset: (offset: number, sliderOffset: number) => boolean =
+  (offset, sliderOffset) => (
+    offset >= sliderOffset - 2 &&
+    offset <= sliderOffset + 2
   )
 
 const OneDay = 1000 * 60 * 60 * 24
 
+const DaysVisibleAfterToday = 100
+
 const Wrapper: React.FC<{}> = () => {
   const { setDateForRecording } = useContext(SyncActivityContext)
   const today = new Date()
-  const [showingOffset, setShowingOffset] = React.useState<number>(OffsetsToShow - 1)
-  const [height, setHeight] = useState<string>('auto')
+  const [sliderOffset, setSliderOffset] = React.useState<number>(OffsetsToShow - 1 - DaysVisibleAfterToday)
+  const [[width, height], setDims] = useState<[string, string]>(['auto', 'auto'])
   const boxRef = useRef<HTMLDivElement | null>(null)
 
-  const showingDate = new Date(today.getTime() - ((OffsetsToShow - 1 - showingOffset) * OneDay))
+  const showingDate = new Date(today.getTime() - ((OffsetsToShow - 1 - sliderOffset) * OneDay))
 
   useEffect(() => {
     setDateForRecording(showingDate)
-  }, [showingOffset])
+  }, [sliderOffset])
 
   useLayoutEffect(() => {
     const listener = () => {
       const { current: boxElement } = boxRef
       if (boxElement === null) return
-      setHeight(boxElement.offsetHeight.toString() + 'px')
+      setDims([
+        boxElement.offsetWidth.toString() + 'px',
+        boxElement.offsetHeight.toString() + 'px',
+      ])
     }
 
     listener()
@@ -58,22 +70,40 @@ const Wrapper: React.FC<{}> = () => {
   )
 
   return <Box flex="1" display="flex" flexDirection="column" overflowY="hidden">
-    <SearchActivityTypes />
-
-    <Box ref={boxRef} display="flex" flex="1" overflowY="hidden">
-      <SwipeableViews
-        index={offsets.length - 1}
-        enableMouseEvents={true}
-        onSwitching={(index) => { setShowingOffset(Math.ceil(index)) }}
+    <Box ref={boxRef} display="flex" flex="1" overflowY="hidden" overflowX="hidden">
+      <Slider
+        display="flex"
+        flexDirection="row"
+        style={{ transform: `translateX(calc(${width} * -${sliderOffset}))` }}
       >
         {offsets.map((offset) => (
-          <Box key={`swipable-view-${offset}`} height={height} overflowY="scroll" overflowX="hidden">
-            {shouldShowOffset(offset, offsets[showingOffset]) && (
-              <Timeline key={`timeline-offset-${offset}`} date={new Date(today.getTime() - (offset * OneDay))} />
+          <Box overflowY="auto" width={width} height={height} key={`swipable-view-${offset}`}>
+            {shouldShowOffset(offset, offsets[sliderOffset]) && (
+              <Timeline key={`timeline-offset-${offset}`} date={new Date(today.getTime() - ((offset - DaysVisibleAfterToday) * OneDay))} />
             )}
           </Box>
         ))}
-      </SwipeableViews>
+      </Slider>
+    </Box>
+
+    <Box padding="0 10px" display="flex" flexDirection="row" justifyContent="center" alignItems="center">
+      <Box>
+        <Button
+          theme="white"
+          onMouseDown={() => { setSliderOffset(sliderOffset - 1) }}
+        >
+          <FaChevronLeft />
+        </Button>
+      </Box>
+      <Box flex="1"><SearchActivityTypes /></Box>
+      <Box>
+        <Button
+          theme="white"
+          onClick={() => { setSliderOffset(sliderOffset + 1) }}
+        >
+          <FaChevronRight />
+        </Button>
+      </Box>
     </Box>
   </Box>
 }

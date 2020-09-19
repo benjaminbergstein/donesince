@@ -29,6 +29,7 @@
     "react-id-swiper": "^4.0.0",
     "react-simple-timefield": "^3.2.3",
     "react-swipeable-views": "^0.13.9",
+    "sass": "^1.26.11",
     "styled-components": "^5.0.0",
     "styled-reset": "^4.2.3",
     "styled-system": "^5.1.5",

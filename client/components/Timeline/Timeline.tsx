@@ -18,14 +18,12 @@ const Timeline: React.FC<Props> = ({ date }) => {
 
   const humanReadableDate = date.toLocaleDateString('en-us', { month: 'short', day: 'numeric', weekday: 'short' })
 
-  return <Box
-    width="100%"
-    paddingRight="15px"
-    minHeight="100%"
-  >
+  return <Box minHeight="100%" overflowY="auto">
     <Box
       display="flex"
       justifyContent="center"
+      alignItems="center"
+      flexDirection="column"
       paddingTop="1em"
       paddingBottom="1em"
     >
@@ -57,14 +55,16 @@ const Timeline: React.FC<Props> = ({ date }) => {
         position="relative"
       >
         <Box marginBottom="15px" marginTop="15px" display="flex" alignItems="center">
-          <Text fontWeight="600">{activityName}</Text>
+          <Text style={{ whiteSpace: 'nowrap' }} fontWeight="600">{activityName}</Text>
         </Box>
 
-        <ActivityLine
-          recordedAt={recordedAt}
-          recordedActivityId={recordedActivityId}
-          sinceLast={sinceLast}
-        />
+        <Box>
+          <ActivityLine
+            recordedAt={recordedAt}
+            recordedActivityId={recordedActivityId}
+            sinceLast={sinceLast}
+          />
+        </Box>
       </Box>
     ))}
   </Box>
