@@ -18,7 +18,7 @@ const Timeline: React.FC<Props> = ({ date }) => {
 
   const humanReadableDate = date.toLocaleDateString('en-us', { month: 'short', day: 'numeric', weekday: 'short' })
 
-  return <Box minHeight="100%" overflowY="auto">
+  return <Box minHeight="100%" overflowY="auto" overflowX="hidden">
     <Box
       display="flex"
       justifyContent="center"

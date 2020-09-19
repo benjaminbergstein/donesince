@@ -28,6 +28,7 @@
     "react-icons": "^3.11.0",
     "react-id-swiper": "^4.0.0",
     "react-simple-timefield": "^3.2.3",
+    "react-swipeable": "^5.5.1",
     "react-swipeable-views": "^0.13.9",
     "sass": "^1.26.11",
     "styled-components": "^5.0.0",

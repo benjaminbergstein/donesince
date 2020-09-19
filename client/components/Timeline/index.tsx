@@ -6,6 +6,8 @@ import React, {
   useState
 } from 'react'
 
+import { useSwipeable } from 'react-swipeable'
+
 import styled from 'styled-components'
 
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
@@ -38,10 +40,12 @@ const Wrapper: React.FC<{}> = () => {
   const { setDateForRecording } = useContext(SyncActivityContext)
   const today = new Date()
   const [sliderOffset, setSliderOffset] = React.useState<number>(OffsetsToShow - 1 - DaysVisibleAfterToday)
+  const isSwiping = React.useRef<boolean>(false)
   const [[width, height], setDims] = useState<[string, string]>(['auto', 'auto'])
   const boxRef = useRef<HTMLDivElement | null>(null)
+  const sliderRef = useRef<HTMLDivElement | null>(null)
 
-  const showingDate = new Date(today.getTime() - ((OffsetsToShow - 1 - sliderOffset) * OneDay))
+  const showingDate = new Date(today.getTime() - ((OffsetsToShow - 1 - sliderOffset - DaysVisibleAfterToday) * OneDay))
 
   useEffect(() => {
     setDateForRecording(showingDate)
@@ -69,12 +73,56 @@ const Wrapper: React.FC<{}> = () => {
     (_, i)  => OffsetsToShow - i - 1
   )
 
+  const throttledAnimateSlide: (deltaX: number, override?: boolean) => void = (deltaX, override = false) => {
+    if (sliderRef.current === null) return
+    if (isSwiping.current === true || override === true) {
+      sliderRef.current.style.transform = `translateX(calc(${width} * -${sliderOffset} - ${deltaX}px))`
+    }
+  }
+
+  const swipeHandlers = useSwipeable({
+    onSwiping: ({ event, first, deltaX, dir, velocity }) => {
+      if (velocity < 0.3) return
+      if (dir !== 'Left' && dir !== 'Right') return
+      event.preventDefault()
+      isSwiping.current = true
+      throttledAnimateSlide(deltaX)
+    },
+    onSwiped: ({ event, dir, deltaX, velocity }) => {
+      if (!isSwiping.current === true) return
+      if (dir !== 'Left' && dir !== 'Right') return
+      event.preventDefault()
+      const absDeltaX = Math.abs(deltaX)
+      const passedMovementThreshold = absDeltaX > parseInt(width) / 3
+      const passedVelocityThreshold = velocity > .7
+      const sliderOffsetChange = Math.ceil(velocity / 1.25) * (deltaX > 0 ? 1 : -1)
+
+      isSwiping.current = false
+
+      if (passedMovementThreshold || passedVelocityThreshold) {
+        setSliderOffset(sliderOffset + sliderOffsetChange)
+      } else {
+        throttledAnimateSlide(0, true)
+      }
+    },
+    trackMouse: true,
+  })
+
+  const { ref: onRef } = swipeHandlers
+
+  const ourOnRef: (el: HTMLDivElement) => void = el => {
+    sliderRef.current = el
+    onRef(el)
+  }
+
   return <Box flex="1" display="flex" flexDirection="column" overflowY="hidden">
     <Box ref={boxRef} display="flex" flex="1" overflowY="hidden" overflowX="hidden">
       <Slider
         display="flex"
         flexDirection="row"
-        style={{ transform: `translateX(calc(${width} * -${sliderOffset}))` }}
+        style={{ transform: `translateX(calc(${width} * -${sliderOffset})` }}
+        {...swipeHandlers}
+        ref={ourOnRef}
       >
         {offsets.map((offset) => (
           <Box overflowY="auto" width={width} height={height} key={`swipable-view-${offset}`}>
@@ -89,7 +137,7 @@ const Wrapper: React.FC<{}> = () => {
     <Box padding="0 10px" display="flex" flexDirection="row" justifyContent="center" alignItems="center">
       <Box>
         <Button
-          theme="white"
+          theme="borderless"
           onMouseDown={() => { setSliderOffset(sliderOffset - 1) }}
         >
           <FaChevronLeft />
@@ -98,7 +146,7 @@ const Wrapper: React.FC<{}> = () => {
       <Box flex="1"><SearchActivityTypes /></Box>
       <Box>
         <Button
-          theme="white"
+          theme="borderless"
           onClick={() => { setSliderOffset(sliderOffset + 1) }}
         >
           <FaChevronRight />

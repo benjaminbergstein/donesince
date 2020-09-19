@@ -33,7 +33,7 @@ const Navigation: React.FC<{}> = () => {
   return <Box position="relative">
     <Box display="flex" flexDirection="row">
       <Box flex="0">
-        <Button theme='white' onClick={() => { toggleMenu() }}>
+        <Button theme='borderless' onClick={() => { toggleMenu() }}>
           <FaBars />
         </Button>
       </Box>
