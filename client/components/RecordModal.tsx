@@ -35,6 +35,7 @@ const RecordModal: React.FC<{}> = () => {
     modalControl,
     captureUnsyncedActivity,
     recordingActivity,
+    dateForRecording,
   }: SyncActivityState = useContext(SyncActivityContext)
   const { isShowing } = modalControl
 
@@ -47,7 +48,7 @@ const RecordModal: React.FC<{}> = () => {
     const clientId = uuidv4()
 
     captureUnsyncedActivity({
-      recordedAt: ''+(Date.now() - recordedAtModifier + timezoneOffset),
+      recordedAt: ''+(dateForRecording.getTime() - recordedAtModifier + timezoneOffset),
       activityTypeId,
       clientId,
     })
@@ -68,16 +69,24 @@ const RecordModal: React.FC<{}> = () => {
       flexDirection="column"
       justifyContent="center"
     >
-      <Card bg="white" margin="auto">
-        <Text as="h2">Record Activity</Text>
-
-        <Box borderBottom="1px solid black" borderBottomColor="grays.text.light">
-          <Text>
-            What? "{recordingActivity.name}"
+      <Card bg="white" margin="auto" marginLeft="10px" marginRight="10px">
+        <Box marginBottom={3}>
+          <Text fontWeight="bold" fontSize={4}>
+            Record Activity{" "}
+            <span style={{ whiteSpace: 'nowrap' }}>"{recordingActivity.name}"</span>
           </Text>
         </Box>
 
-        <Text>When?</Text>
+        <Box marginBottom={3}>
+          <Text fontWeight="bold" fontSize={4} color="grays.text.light">
+            {dateForRecording.toLocaleDateString('en-us', { month: 'short', day: 'numeric', weekday: 'short' })}
+          </Text>
+        </Box>
+
+        <Box marginBottom={3}>
+          <Text fontSize={4}>How long ago?</Text>
+        </Box>
+
         <Box
           display="flex"
           flexDirection="row"

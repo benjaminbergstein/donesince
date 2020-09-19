@@ -37,10 +37,13 @@ export interface SyncActivityState {
   activityTrends: Trend[]
   modalControl: ModalControl
   recordingActivity: ActivityType | undefined
+  setDateForRecording: (date: Date) => void
+  dateForRecording: Date
 }
 
 export const useSyncActivity = () => {
   const [recordingActivity, setRecordingActivity] = useState<ActivityType | undefined>(undefined)
+  const [dateForRecording, setDateForRecording] = useState<Date>(new Date())
   const modalControl = useModalControl({
     onShow: (recordingActivity: ActivityType) => {
       setRecordingActivity(recordingActivity)
@@ -80,6 +83,8 @@ export const useSyncActivity = () => {
     activityTrends,
     modalControl,
     recordingActivity,
+    setDateForRecording,
+    dateForRecording,
   }
 
   const recordActivityWithClientId: (clientId: string) => Promise<any> = (
@@ -143,7 +148,9 @@ const SyncActivityContext = React.createContext<SyncActivityState>({
     isShowing: false,
     show: () => {},
     hide: () => {},
-  }
+  },
+  dateForRecording: new Date(),
+  setDateForRecording: (date) => { date }
 })
 
 export const SyncProvider: React.FC<{}> = ({ children }) => {

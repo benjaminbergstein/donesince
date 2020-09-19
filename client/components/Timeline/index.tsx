@@ -1,6 +1,15 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState
+} from 'react'
 
 import SwipeableViews from 'react-swipeable-views';
+
+import SyncActivityContext from '../../contexts/SyncActivityContext'
+
 import Timeline from './Timeline'
 import SearchActivityTypes from '../SearchActivityTypes'
 
@@ -17,10 +26,17 @@ const shouldShowOffset: (offset: number, showingOffset: number) => boolean =
 const OneDay = 1000 * 60 * 60 * 24
 
 const Wrapper: React.FC<{}> = () => {
+  const { setDateForRecording } = useContext(SyncActivityContext)
   const today = new Date()
   const [showingOffset, setShowingOffset] = React.useState<number>(OffsetsToShow - 1)
   const [height, setHeight] = useState<string>('auto')
   const boxRef = useRef<HTMLDivElement | null>(null)
+
+  const showingDate = new Date(today.getTime() - ((OffsetsToShow - 1 - showingOffset) * OneDay))
+
+  useEffect(() => {
+    setDateForRecording(showingDate)
+  }, [showingOffset])
 
   useLayoutEffect(() => {
     const listener = () => {
