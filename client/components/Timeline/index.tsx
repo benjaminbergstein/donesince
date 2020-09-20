@@ -41,7 +41,7 @@ const Wrapper: React.FC<{}> = () => {
   const today = new Date()
   const [sliderOffset, setSliderOffset] = React.useState<number>(OffsetsToShow - 1 - DaysVisibleAfterToday)
   const isSwiping = React.useRef<boolean>(false)
-  const [[width, height], setDims] = useState<[string, string]>(['auto', 'auto'])
+  const [[width, height], setDims] = useState<[string, string]>(['100vw', 'auto'])
   const boxRef = useRef<HTMLDivElement | null>(null)
   const sliderRef = useRef<HTMLDivElement | null>(null)
 
