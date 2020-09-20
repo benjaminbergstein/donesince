@@ -60,7 +60,7 @@ const Statistic: React.FC<Props> = ({
     return () => {
       current.removeEventListener('scroll', listener)
     }
-  }, [scroll])
+  }, [data, scroll])
 
   useEffect(() => { setScroll(1000) }, [data])
 

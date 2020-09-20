@@ -81,7 +81,7 @@ const Wrapper: React.FC<{}> = () => {
   }
 
   const swipeHandlers = useSwipeable({
-    onSwiping: ({ event, first, deltaX, dir, velocity }) => {
+    onSwiping: ({ event, deltaX, dir, velocity }) => {
       if (velocity < 0.3) return
       if (dir !== 'Left' && dir !== 'Right') return
       event.preventDefault()

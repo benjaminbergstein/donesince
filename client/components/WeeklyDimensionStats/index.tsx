@@ -55,7 +55,7 @@ const WeeklyDimensionStats: React.FC<{}> = () => {
       <DimensionChart dimensionName="Dental Hygiene" />
       <DimensionChart dimensionName="Daily Exercise" />
       <DimensionChart dimensionName="Mindfulness" />
-      <DimensionChart dimensionName="Screen Use" />
+      <DimensionChart dimensionName="Screen Restriction" />
       <DimensionChart dimensionName="Nature Time" />
       <DimensionChart dimensionName="Caffeine Consumption" />
     </Box>
