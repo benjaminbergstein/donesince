@@ -13,7 +13,6 @@ interface Props {
 const Timeline: React.FC<Props> = ({ date }) => {
   const [month, day, year] = date.toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric', timeZone: 'America/Los_Angeles' }).split("/")
   const datestamp = [year, month, day].join("-")
-  console.log(datestamp)
   const { data: { timeline } } = useTimeline(datestamp)
 
   const humanReadableDate = date.toLocaleDateString('en-us', { month: 'short', day: 'numeric', weekday: 'short', timeZone: 'America/Los_Angeles' })

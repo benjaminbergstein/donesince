@@ -4,7 +4,7 @@ import React, { useContext } from 'react'
 import { ActivityType } from '../apollo/types'
 
 import Box from '../system/Box'
-import Input from '../system/Input'
+import Input from '../system/TextInput'
 import Text from '../system/Text'
 
 import SyncActivityContext, { SyncActivityState } from '../contexts/SyncActivityContext'

@@ -6,7 +6,7 @@ import useIsFocus from '../hooks/useFocus'
 import Box from '../system/Box'
 import Button from '../system/Button'
 import Card from '../system/Card'
-import Input from '../system/Input'
+import Input from '../system/TextInput'
 import Text from '../system/Text'
 
 import SyncActivityContext, { SyncActivityState } from '../contexts/SyncActivityContext'

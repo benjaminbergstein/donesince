@@ -1,18 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
 
 interface Props {
+  placeholder?: string
+  type?: string
   value?: string
   onChange: (value: string) => void
+  onFocus?: () => void
 }
 
-const InputFace = styled.input`
-  width: 100%;
-`
+import { default as InputFace } from './Input'
 
 const TextInput: React.FC<Props> = ({
   value: initialValue = "",
-  onChange = () => {}
+  type: inputType = 'text',
+  onChange = () => {},
+  onFocus = () => {},
+  placeholder = '',
 }) => {
   const ref = useRef<HTMLInputElement | null>(null)
   const [value, setValue] = useState<string>(initialValue)
@@ -29,9 +32,11 @@ const TextInput: React.FC<Props> = ({
   }
 
   return <InputFace
-    type="text"
+    placeholder={placeholder}
+    type={inputType}
     value={value}
     ref={ref}
+    onFocus={onFocus}
     onChange={handleChange}
   />
 }

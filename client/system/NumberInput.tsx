@@ -1,14 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
 
 interface Props {
   value?: number
   onChange: (value: number) => void
 }
 
-const InputFace = styled.input`
-  width: 100%;
-`
+import { default as InputFace } from './Input'
 
 const TextInput: React.FC<Props> = ({
   value: initialValue = 0,
