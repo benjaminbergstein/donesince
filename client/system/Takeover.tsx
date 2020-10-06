@@ -40,6 +40,7 @@ const Takeover: React.FC<Props> = ({
   return <Wrapper
     position="fixed"
     left="0"
+    bottom="0"
     width="100%"
     height={height}
     display="flex"

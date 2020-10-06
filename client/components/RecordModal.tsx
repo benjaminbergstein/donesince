@@ -54,7 +54,7 @@ const RecordModal: React.FC<{}> = () => {
   }
 
   return <Takeover
-    isVisible={isShowing && !!recordingActivity}
+    isVisible={isShowing && recordingActivity !== undefined}
     onClose={() => modalControl.hide()}
   >
     <Card
