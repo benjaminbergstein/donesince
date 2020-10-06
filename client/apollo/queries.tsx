@@ -1,5 +1,16 @@
 import { gql } from 'apollo-boost'
 
+export const FETCH_RECORDED_ACTIVITY = gql`
+  query FetchRecordedActivity($id: ID!) {
+    fetchRecordedActivity(id: $id) {
+      activityTypeId
+      recordedAt
+      activityType {
+	name
+      }
+    }
+  }
+`
 export const SEARCH_ACTIVITY_TYPES = gql`
   query SearchActivityTypes($q: String!) {
     searchActivityTypes(q: $q) {

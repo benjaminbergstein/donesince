@@ -8,6 +8,7 @@ import Box from '../../system/Box'
 import styled from 'styled-components'
 import Flash, { FlashProvider } from '../../components/Flash'
 import { DeviceProvider } from '../../contexts/DeviceContext'
+import { EditingProvider } from '../../contexts/EditingContext'
 
 import Navigation from './Navigation'
 
@@ -40,15 +41,17 @@ const Layout: React.FC<{}> = ({ children }) => (
       <Reset />
       <FlashProvider>
         <DeviceProvider>
-          <Navigation />
-          <Flash />
+          <EditingProvider>
+            <Navigation />
+            <Flash />
 
-          <Box
-            flex="1"
-            overflow="scroll"
-          >
-            {children}
-          </Box>
+            <Box
+              flex="1"
+              overflow="scroll"
+            >
+              {children}
+            </Box>
+          </EditingProvider>
         </DeviceProvider>
       </FlashProvider>
     </System>

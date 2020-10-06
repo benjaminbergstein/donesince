@@ -77,6 +77,7 @@ export default gql`
     listActivityTypes(id: ID, attributeName: String): [ActivityType!]!
     listActivityTypeAttributes(activityTypeId: ID!): [ActivityTypeAttribute!]!
     recordedActivities: [RecordedActivity!]
+    fetchRecordedActivity(id: ID!): RecordedActivity!
     activityTrends: [ActivityStat!]
     timeline(date: String!): [TimelineStat]
     timelineDates: [TimelineDate]!

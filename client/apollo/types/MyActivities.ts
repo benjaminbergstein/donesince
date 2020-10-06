@@ -24,5 +24,5 @@ export interface MyActivities {
 }
 
 export interface MyActivitiesVariables {
-  offset: number;
+  date: string;
 }

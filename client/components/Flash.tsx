@@ -16,7 +16,7 @@ const Flash: React.FC<{}> = () => {
     bottom="0"
     right="0"
     width="80%"
-    zIndex={1000}
+    zIndex={10000}
     padding="10px"
   >
     {messages.length > 0 && (

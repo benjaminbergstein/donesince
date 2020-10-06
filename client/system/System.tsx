@@ -29,6 +29,7 @@ const theme = {
     box: [
       "0px 1px 2px 0px rgba(90, 90, 90, 0.4)",
       "0px 1px 2px 1px rgba(70,70,70,0.2)",
+      "0px 1px 2px 1px rgba(70,70,70,0.7)",
     ],
   },
 };
