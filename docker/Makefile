@@ -39,10 +39,15 @@ all:
 
 include ${SERVICE}.mk
 
+ifeq ("${SERVICE}","postgres")
+release: ENVIRONMENT=production
+release: build tag push
+else
 release: ENVIRONMENT=production
 release: CLIENT_URL=http://server.donesince.k8s.wips.link
 release: SERVER_URL=http://donesince-server-production-lb.default.svc.cluster.local
 release: all
+endif
 
 build:
 	docker build ../${SERVICE} ${BUILD_ARGS} \

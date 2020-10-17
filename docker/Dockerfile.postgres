@@ -1,0 +1,9 @@
+FROM postgres:alpine
+
+RUN apk update && apk add s3cmd --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
+
+WORKDIR /app
+
+COPY . /app
+
+CMD ["psql.sh"]
