@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/react-hooks';
 import { MY_ACTIVITIES } from '../apollo/queries'
 
-const pollInterval = 5000
+const pollInterval = 10000
 
 import { formatDatestamp } from '../utils/time'
 

@@ -1,3 +1,12 @@
+import { PrismaClient } from '@prisma/client'
+
+interface RecordedActivityTimeRecommendation {
+  activityTypeId: number
+  ofDay: number
+  secondsOffset: number
+}
+
+const recommendations: (prisma: PrismaClient) => Promise<RecordedActivityTimeRecommendation[]> = async (prisma) => prisma.queryRaw`
 WITH activities AS (
   SELECT
     ra."activityTypeId",
@@ -7,8 +16,6 @@ WITH activities AS (
     TIMEZONE('US/Pacific', ra."recordedAt" AT TIME ZONE 'UTC') as "recordedAtTime"
 
   FROM "RecordedActivity" ra
-
-  WHERE "activityTypeId" = 20
 ),
 
 with_seconds AS (
@@ -44,12 +51,14 @@ ranked AS (
 
 SELECT
   "activityTypeId",
-  at.name,
   "ofDay",
-  AVG("secondsInDay")
+  AVG("secondsInDay") AS "secondsOffset"
 FROM ranked r
 
 INNER JOIN "ActivityType" at on at.id = r."activityTypeId"
 
-GROUP BY 1, 2, 3
-ORDER BY 1, 4 ASC
+GROUP BY 1, 2
+ORDER BY 1, 3 ASC
+`
+
+export default recommendations
