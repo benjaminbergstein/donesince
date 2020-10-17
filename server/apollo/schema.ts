@@ -70,6 +70,12 @@ export default gql`
     datasets: [BarChartDataset]!
   }
 
+  type RecordedActivityTimeRecommendation {
+    activityTypeId: Int!
+    ofDay: Int!
+    secondsOffset: Float!
+  }
+
   type Query {
     me: User!
     searchActivityTypes(q: String!): [ActivityType!]
@@ -83,6 +89,7 @@ export default gql`
     timelineDates: [TimelineDate]!
     weeklyDimensionStats(weekNumber: Int): [WeeklyDimensionStat!]
     weeklyDimensionStatsBarChart(dimensionName: String!): BarChartData
+    recordedActivityTimeRecommendations: [RecordedActivityTimeRecommendation]!
   }
 
   type Authorization {

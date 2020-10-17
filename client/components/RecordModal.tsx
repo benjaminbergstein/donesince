@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import Button from '../system/Button'
@@ -6,32 +6,18 @@ import Text from '../system/Text'
 import Box from '../system/Box'
 import Card from '../system/Card'
 import Takeover from '../system/Takeover'
+import DateInput from '../system/DateInput'
+import TimeInput from '../system/TimeInput'
+
+import {
+  applyRecommendation,
+  getRecommendations,
+} from '../utils/recordedActivityTimeRecommendations'
 
 import SyncActivityContext, { SyncActivityState } from '../contexts/SyncActivityContext'
 
-const Second: number = 1000
-const Minute: number = Second * 60
-const Hour: number = Minute * 60
-const Day: number = Hour * 24
-
-type RecordedAtOption = [number, number, string]
-const recordedAtOptions: RecordedAtOption[] = [
-  [0, Second, 'now'],
-  [5, Minute, 'mins'],
-   [30, Minute, 'mins'],
-  [1, Hour, 'hr'],
-  [2, Hour, 'hr'],
-  [6, Hour, 'hr'],
-  [12, Hour, 'hr'],
-  [18, Hour, 'hr'],
-  [1, Day, 'day'],
-  [2, Day, 'days'],
-]
-
-const timezoneOffset: number = 60 * 1000
-
 const RecordModal: React.FC<{}> = () => {
-  const [recordedAtModifier, setRecordedAtModifier] = useState<number>(0)
+  const [recordedAt, setRecordedAt] = useState<Date>(new Date)
   const {
     modalControl,
     captureUnsyncedActivity,
@@ -42,15 +28,36 @@ const RecordModal: React.FC<{}> = () => {
 
   const activityTypeId = recordingActivity?.id
 
+  const recommendations = getRecommendations(activityTypeId).map(
+    ({ secondsOffset }: { secondsOffset: number }) => applyRecommendation(
+      dateForRecording,
+      secondsOffset
+    )
+  )
+
+  useEffect(() => {
+    const recommendation = recommendations[0]
+
+    if (recommendation) {
+      setRecordedAt(recommendation)
+    } else {
+      setRecordedAt(dateForRecording)
+    }
+  }, [activityTypeId])
+
   const recordActivity: () => void = () => {
     if (!activityTypeId) return
     const clientId = uuidv4()
 
     captureUnsyncedActivity({
-      recordedAt: ''+(dateForRecording.getTime() - recordedAtModifier + timezoneOffset),
+      recordedAt: ''+recordedAt.getTime(),
       activityTypeId,
       clientId,
     })
+  }
+
+  const handleRecordedAtChanged: (updatedRecordedAt: Date) => void = (updatedRecordedAt) => {
+    setRecordedAt(updatedRecordedAt)
   }
 
   return <Takeover
@@ -80,20 +87,26 @@ const RecordModal: React.FC<{}> = () => {
         <Text fontSize={4}>How long ago?</Text>
       </Box>
 
+      <Box>
+        <DateInput value={recordedAt} onChange={handleRecordedAtChanged} />
+        <TimeInput value={recordedAt} onChange={handleRecordedAtChanged} />
+      </Box>
+
+      <Box padding={2}>
+        Recommended times:
+      </Box>
       <Box
         display="flex"
-        flexDirection="row"
         flexWrap="wrap"
-        justifyContent="space-evenly"
       >
-        {recordedAtOptions.map(([n, interval, str]: RecordedAtOption) => (
-          <Box flexBasis="32%" marginBottom="5px" marginTop="5px">
-            <Button
-              theme={n * interval === recordedAtModifier ? 'success' : undefined}
-              onClick={() => setRecordedAtModifier(n * interval)}
+        {recommendations.map((recommendationDate: Date) => (
+          <Box width="18%" padding={2}>
+            <a
+              href="javascript:void(0)"
+              onClick={() => setRecordedAt(recommendationDate)}
             >
-              {str === 'now' ? 'Now' : `${n} ${str}`}
-            </Button>
+              {recommendationDate.toLocaleTimeString('en-us', { hour: 'numeric', minute: 'numeric' })}
+            </a>
           </Box>
         ))}
       </Box>

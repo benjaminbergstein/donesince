@@ -12,6 +12,7 @@ import getTimeline from '../queries/timeline.sql'
 import getTimelineDatesSql from '../queries/timelineDates.sql'
 import getSearchTableSql from '../queries/searchTable.sql'
 import getWeeklyDimensionStats from '../queries/weeklyDimensionStats.sql'
+import getRecordedActivitySuggestions from '../queries/recordedActivityTimeRecommendations.sql'
 import weeklyDimensionStatsBarChart from '../queries/weeklyDimensionStatsBarChart.sql'
 
 import {
@@ -110,7 +111,8 @@ export default {
 
     timeline: async (parent: any, { date }: { date: string }) => getTimeline(prisma, date),
     timelineDates: async () => prisma.queryRaw(getTimelineDatesSql()),
-    me: async() => prisma.user.findOne({ where: { id: userId } })
+    me: async () => prisma.user.findOne({ where: { id: userId } }),
+    recordedActivityTimeRecommendations: async () => getRecordedActivitySuggestions(prisma),
   },
 
   Mutation: {
