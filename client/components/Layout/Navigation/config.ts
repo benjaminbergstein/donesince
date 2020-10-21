@@ -17,6 +17,12 @@ const config: Section[] =  [
       ["/trends", "Trends"],
     ],
   ],
+  [
+    "Account",
+    [
+      ["/logout", "Log out"],
+    ],
+  ],
 ]
 
 export default config

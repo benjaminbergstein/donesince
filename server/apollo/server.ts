@@ -1,12 +1,22 @@
-const { ApolloServer, gql } = require('apollo-server');
+import express from 'express'
+import { ApolloServer, gql } from 'apollo-server-express';
 
 import typeDefs from './schema'
 import resolvers from './resolvers'
+import createContext from './createContext'
+// import { applyAuthenticationMiddleware } from './authentication'
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const app = express()
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: createContext,
+});
+// applyAuthenticationMiddleware(app)
+server.applyMiddleware({ app })
 
-const callback: (data: any) => void = (data) => {
-  console.log(`Server ready at ${data.url}`);
+const callback: () => void = () => {
+  console.log(`Server ready at localhost:${process.env.PORT}`);
 }
 
-server.listen(process.env.PORT).then(callback)
+app.listen({ port: process.env.PORT }, callback)

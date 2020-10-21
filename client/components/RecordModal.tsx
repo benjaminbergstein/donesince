@@ -78,13 +78,7 @@ const RecordModal: React.FC<{}> = () => {
       </Box>
 
       <Box marginBottom={3}>
-        <Text fontWeight="bold" fontSize={4} color="grays.text.light">
-          {dateForRecording.toLocaleDateString('en-us', { month: 'short', day: 'numeric', weekday: 'short' })}
-        </Text>
-      </Box>
-
-      <Box marginBottom={3}>
-        <Text fontSize={4}>How long ago?</Text>
+        <Text fontSize={4}>When?</Text>
       </Box>
 
       <Box>

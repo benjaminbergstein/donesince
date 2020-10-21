@@ -49,6 +49,7 @@ const Timeline: React.FC<Props> = ({ date }) => {
       name: activityName,
     }: TimelineStat) => (
       <Box
+        key={`ra-${activityName}-${recordedActivityId}`}
         onClick={() => { setEditingRecordedActivityId(recordedActivityId) }}
         alignItems="center"
         justifyContent="center"

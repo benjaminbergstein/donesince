@@ -1,8 +1,6 @@
 import { useQuery } from '@apollo/react-hooks';
 import { MY_ACTIVITIES } from '../apollo/queries'
 
-const pollInterval = 10000
-
 import { formatDatestamp } from '../utils/time'
 
 import {
@@ -20,10 +18,10 @@ interface TimelineReturn {
 const TodayDatestamp = formatDatestamp(new Date())
 
 const useTimeline: (date?: string) => TimelineReturn = (date = TodayDatestamp) => {
-  const { data = { timeline: [] } } = useQuery(MY_ACTIVITIES, {
+  const { loading, data = { timeline: [] } } = useQuery(MY_ACTIVITIES, {
     variables: { date },
-    pollInterval,
   })
+
   return { data }
 }
 

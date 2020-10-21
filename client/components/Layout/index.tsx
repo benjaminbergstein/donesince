@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import Flash, { FlashProvider } from '../../components/Flash'
 import { DeviceProvider } from '../../contexts/DeviceContext'
 import { EditingProvider } from '../../contexts/EditingContext'
+import { UserProvider } from '../../contexts/UserContext'
 
 import Navigation from './Navigation'
 
@@ -30,7 +31,33 @@ html, body {
 }
 `
 
-const Layout: React.FC<{}> = ({ children }) => (
+const Provider: React.FC<{
+  isStatic: boolean
+  requireAuthentication: boolean
+}> = ({
+  children,
+  isStatic,
+  requireAuthentication
+}) => {
+  if (isStatic) return <>{children}</>
+
+  return <UserProvider requireAuthentication={requireAuthentication}>
+    <EditingProvider>
+      {children}
+    </EditingProvider>
+  </UserProvider>
+}
+
+interface Props {
+  isStatic?: boolean
+  requireAuthentication?: boolean
+}
+
+const Layout: React.FC<Props> = ({
+  isStatic = false,
+  requireAuthentication = false,
+  children,
+}) => (
   <Page>
     <Head>
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -41,7 +68,10 @@ const Layout: React.FC<{}> = ({ children }) => (
       <Reset />
       <FlashProvider>
         <DeviceProvider>
-          <EditingProvider>
+          <Provider
+            isStatic={isStatic}
+            requireAuthentication={requireAuthentication}
+          >
             <Navigation />
             <Flash />
 
@@ -51,7 +81,7 @@ const Layout: React.FC<{}> = ({ children }) => (
             >
               {children}
             </Box>
-          </EditingProvider>
+          </Provider>
         </DeviceProvider>
       </FlashProvider>
     </System>

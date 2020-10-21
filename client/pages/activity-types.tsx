@@ -1,6 +1,7 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 
-import withData from '../apollo/withData'
+import { withApollo } from '../apollo/withApollo'
 
 import { SyncProvider, ListUnsyncedActivities } from '../contexts/SyncActivityContext'
 
@@ -27,4 +28,4 @@ const Home: React.FC<any> = () => {
   </Layout>
 }
 
-export default withData(Home)
+export default withApollo({ ssr: true })(Home)

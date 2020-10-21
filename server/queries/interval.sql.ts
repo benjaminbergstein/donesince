@@ -1,4 +1,17 @@
-export default () => `
+import { PrismaClient } from '@prisma/client'
+
+interface Trend {
+  name: string
+  activities: number
+  lastRecordedAt: string
+  averageInterval: string
+  countRecords: number
+}
+
+const trends: (
+  prisma: PrismaClient,
+  userId: number
+) => Promise<Trend[]> = async (prisma, userId) => prisma.queryRaw`
 WITH activities AS (
   SELECT
     ra."id",
@@ -8,6 +21,8 @@ WITH activities AS (
     ra."recordedAt" - LAG(ra."recordedAt", 1) OVER at_type AS "sinceLast"
 
   FROM "RecordedActivity" ra
+
+  WHERE ra."recordedById" = ${userId}
 
   WINDOW at_type AS (
     PARTITION BY "activityTypeId"
@@ -58,3 +73,5 @@ GROUP BY 1, 2
 
 ORDER BY 4 DESC
 `
+
+export default trends

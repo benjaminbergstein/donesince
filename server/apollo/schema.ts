@@ -77,7 +77,7 @@ export default gql`
   }
 
   type Query {
-    me: User!
+    me: User
     searchActivityTypes(q: String!): [ActivityType!]
     searchActivityTypeAttributes(q: String!): [ActivityTypeAttribute]!
     listActivityTypes(id: ID, attributeName: String): [ActivityType!]!
@@ -128,7 +128,7 @@ export default gql`
     setActivityTypeAttribute(activityTypeAttributeInput: ActivityTypeAttributeInput):  ActivityTypeAttribute!
     recordActivity(recordActivityInput: RecordedActivityInput): RecordedActivity!
     updateRecordedActivity(id: ID!, recordActivityUpdate: RecordedActivityUpdate!): RecordedActivity!
-    signUp(signUpInput: SignUpInput!): User!
+    signUp(signUpInput: SignUpInput!): Authorization!
     authenticate(signInInput: SignInInput!): Authorization!
   }
 `

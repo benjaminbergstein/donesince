@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
-import withData from '../apollo/withData'
+import { withApollo } from '../apollo/withApollo'
 
 import { SyncProvider, ListUnsyncedActivities } from '../contexts/SyncActivityContext'
 
@@ -12,10 +12,13 @@ import Box from '../system/Box'
 import Takeover from '../system/Takeover'
 import Card from '../system/Card'
 
+import UserContext from '../contexts/UserContext'
+
 const Home: React.FC<any> = () => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false)
 
-  return <Layout>
+
+  return <Layout requireAuthentication={true}>
     <SyncProvider>
       <ListUnsyncedActivities />
 
@@ -42,4 +45,4 @@ const Home: React.FC<any> = () => {
   </Layout>
 }
 
-export default withData(Home)
+export default withApollo({ ssr: true })(Home)

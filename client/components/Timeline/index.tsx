@@ -51,23 +51,25 @@ const Wrapper: React.FC<{}> = () => {
     setDateForRecording(showingDate)
   }, [sliderOffset])
 
-  useLayoutEffect(() => {
-    const listener = () => {
-      const { current: boxElement } = boxRef
-      if (boxElement === null) return
-      setDims([
-        boxElement.offsetWidth.toString() + 'px',
-        boxElement.offsetHeight.toString() + 'px',
-      ])
-    }
+  if (typeof window !== 'undefined') {
+    useLayoutEffect(() => {
+      const listener = () => {
+        const { current: boxElement } = boxRef
+        if (boxElement === null) return
+        setDims([
+          boxElement.offsetWidth.toString() + 'px',
+          boxElement.offsetHeight.toString() + 'px',
+        ])
+      }
 
-    listener()
-    window.addEventListener('resize', listener)
+      listener()
+      window.addEventListener('resize', listener)
 
-    return () => {
-      window.removeEventListener('resize', listener)
-    }
-  }, [])
+      return () => {
+        window.removeEventListener('resize', listener)
+      }
+    }, [])
+  }
 
   const offsets = Array(OffsetsToShow).fill(OffsetsToShow).map(
     (_, i)  => OffsetsToShow - i - 1
