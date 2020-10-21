@@ -9,7 +9,15 @@ interface TimelineStat {
   recordedAtDate: string
 }
 
-const timeline: (prisma: PrismaClient, date: string) => Promise<TimelineStat[]> = async (prisma, date) => prisma.queryRaw`
+const timeline: (
+  prisma: PrismaClient,
+  date: string,
+  userId: number
+) => Promise<TimelineStat[]> = async (
+  prisma,
+  date,
+  userId
+) => prisma.queryRaw`
 WITH activities AS (
   SELECT
     ra."id",
@@ -20,6 +28,8 @@ WITH activities AS (
     DATE(TIMEZONE('US/Pacific', ra."recordedAt" AT TIME ZONE 'UTC')) as "recordedAtDate"
 
   FROM "RecordedActivity" ra
+
+  WHERE ra."recordedById" = ${userId}
 
   WINDOW recorder AS (
     PARTITION BY "recordedById"

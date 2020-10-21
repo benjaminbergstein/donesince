@@ -12,8 +12,9 @@ interface BarChartData {
 
 const weeklyDimensionStatsBarChart: (
   prisma: PrismaClient,
-  dimensionName: string
-) => Promise<BarChartDataset[]> = async (prisma, dimensionName) => prisma.queryRaw`
+  dimensionName: string,
+  userId: number
+) => Promise<BarChartDataset[]> = async (prisma, dimensionName, userId) => prisma.queryRaw`
 WITH activities AS (
   SELECT
     ra."id",
@@ -24,6 +25,8 @@ WITH activities AS (
     DATE(TIMEZONE('US/Pacific', ra."recordedAt" AT TIME ZONE 'UTC')) as "recordedAtDate"
 
   FROM "RecordedActivity" ra
+
+  WHERE ra."recordedById" = ${userId}
 
   WINDOW recorder AS (
     PARTITION BY "recordedById"

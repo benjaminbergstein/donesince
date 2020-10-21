@@ -1,3 +1,5 @@
+export const localStorageApiKeyKey = 'donesince:token'
+
 export interface ActivityType {
   id: number
   name: string

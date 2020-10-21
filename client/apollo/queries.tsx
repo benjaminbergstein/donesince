@@ -1,4 +1,12 @@
-import { gql } from 'apollo-boost'
+import { gql } from 'apollo-boost';
+
+export const ME = gql`
+  query Me {
+    me {
+      name
+    }
+  }
+`
 
 export const FETCH_RECORDED_ACTIVITY = gql`
   query FetchRecordedActivity($id: ID!) {
@@ -168,6 +176,30 @@ export const UPDATE_RECORDED_ACTIVITY = gql`
       }
     ) {
       recordedAt
+    }
+  }
+`
+
+export const LOG_IN = gql`
+  mutation LogIn(
+    $name: String!
+  ) {
+    authenticate(
+      signInInput: { name: $name }
+    ) {
+      apiToken
+    }
+  }
+`
+
+export const SIGN_UP = gql`
+  mutation SignUp(
+    $name: String!
+  ) {
+    signUp(
+      signUpInput: { name: $name }
+    ) {
+      apiToken
     }
   }
 `

@@ -1,3 +1,4 @@
+import { NextPage, NextPageContext } from 'next'
 import Link from 'next/link'
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks';
@@ -17,22 +18,16 @@ import {
   ListActivityTypeAttributes_listActivityTypeAttributes as ActivityTypeAttribute,
 } from '../../apollo/types/ListActivityTypeAttributes'
 
-import withData from '../../apollo/withData'
+import { withApollo } from '../../apollo/withApollo'
 
 import Layout from '../../components/Layout'
 import ActivityTypeAttributeForm from '../../components/ActivityTypeAttributeForm'
 
 interface Props {
-  url: {
-    query: {
-      activityTypeId: number
-    }
-  }
+  activityTypeId: number
 }
 
-const ActivityTypeDetails: React.FC<Props> = ({ url }) => {
-  const { query: { activityTypeId } }  = url
-
+const ActivityTypeDetails: NextPage<Props> = ({ activityTypeId }) => {
   const {
     loading: activityTypeLoading,
     data: activityTypeData,
@@ -95,4 +90,14 @@ const ActivityTypeDetails: React.FC<Props> = ({ url }) => {
   </Layout>
 }
 
-export default withData(ActivityTypeDetails)
+const getInitialProps: (ctx: NextPageContext) => Props = ({ query }: NextPageContext) => {
+  const { activityTypeId } = query
+  return { activityTypeId: parseInt(
+    typeof activityTypeId === 'string' ?
+    activityTypeId : activityTypeId[0]
+  ) }
+}
+
+ActivityTypeDetails.getInitialProps = getInitialProps
+
+export default withApollo({ ssr: true })(ActivityTypeDetails)

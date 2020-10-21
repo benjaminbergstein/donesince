@@ -69,7 +69,11 @@ export default {
         activityType: true,
       }
     }),
-    activityTrends: async () => prisma.queryRaw(getTrendsSql()),
+    activityTrends: async (
+      parent: any,
+      args: any,
+      { user }: { user: User },
+    ) => getTrendsSql(prisma, user.id),
 
     fetchRecordedActivity: async (
       parent: any,
@@ -86,8 +90,9 @@ export default {
 
     weeklyDimensionStatsBarChart: async (
       parent: any,
-      { dimensionName }: { dimensionName: string }
-    ) => weeklyDimensionStatsBarChart(prisma, dimensionName).then(([{data}]) => {
+      { dimensionName }: { dimensionName: string },
+      { user }: { user: User }
+    ) => weeklyDimensionStatsBarChart(prisma, dimensionName, user.id).then(([{data}]) => {
       return data
     }),
 
@@ -109,10 +114,24 @@ export default {
       searchField: 'name',
     })),
 
-    timeline: async (parent: any, { date }: { date: string }) => getTimeline(prisma, date),
+    timeline: async (
+      parent: any,
+      { date }: { date: string },
+      { user }: { user: User | undefined }
+    ) => {
+      if (user === undefined) {
+        console.log('user is undefined')
+        return []
+      }
+      return getTimeline(prisma, date, user.id)
+    },
     timelineDates: async () => prisma.queryRaw(getTimelineDatesSql()),
-    me: async () => prisma.user.findOne({ where: { id: userId } }),
     recordedActivityTimeRecommendations: async () => getRecordedActivitySuggestions(prisma),
+    me: async (
+      parent: any,
+      args: any,
+      { user }: { user: User }
+    ) => user,
   },
 
   Mutation: {
@@ -179,13 +198,16 @@ export default {
     recordActivity: async (
       parent: any,
       args: { recordActivityInput: RecordActivityArgs },
+      { user }: { user: User | undefined }
     ) => {
+      if (user === undefined) throw new Error("Not authorized")
+
       const { recordActivityInput } = args
       const { activityTypeId, recordedAt } = recordActivityInput
       const data = {
         recordedAt: new Date(parseInt(recordedAt)),
         recordedBy: {
-          connect: { id: parseInt(''+userId) },
+          connect: { id: parseInt(''+user.id) },
         },
         activityType: {
           connect: { id: parseInt(''+activityTypeId) },

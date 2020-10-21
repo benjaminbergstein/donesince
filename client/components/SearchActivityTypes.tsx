@@ -145,6 +145,11 @@ const RecordActivity: React.FC<{}> = () => {
                     onClick={() => { launchModalWithActivityType({ id: activityTypeId, name }) }}
                   />
                 ))}
+                {activityTrends.length === 0 && (
+                  <Box padding={3}>
+                    <Text lineHeight="1.4em">Once you add some activities, your top activities will show up here! For now, use the search box to search for or add activity types.</Text>
+                  </Box>
+                )}
               </Box>
             </Box>}
           </Box>

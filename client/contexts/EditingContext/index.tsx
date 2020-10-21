@@ -23,7 +23,7 @@ export const EditingProvider: React.FC<{}> = ({ children }) => {
   return <EditingContext.Provider value={editingContext}>
     {children}
 
-    <EditRecordedActivity />
+    {<EditRecordedActivity />}
   </EditingContext.Provider>
 }
 

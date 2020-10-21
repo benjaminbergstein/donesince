@@ -11,10 +11,8 @@ interface TrendReturn {
   data: TrendsQueryResponse
 }
 
-const pollInterval = 5000
-
 const useTrends: () => TrendReturn = () => {
-  const { data = { activityTrends: [] } } = useQuery(MY_TRENDS, { pollInterval })
+  const { data = { activityTrends: [] } } = useQuery(MY_TRENDS)
   return { data }
 }
 

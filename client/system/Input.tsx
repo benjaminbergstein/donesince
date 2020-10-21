@@ -8,6 +8,7 @@ const Input = styled.input`
   border: 1px solid #ccc;
   height: 1.5rem;
   outline: none;
+  box-sizing: border-box;
 
   &:focus {
     box-shadow: ${(props) => props.theme.shadows.box[0]};

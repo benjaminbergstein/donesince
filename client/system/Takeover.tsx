@@ -24,18 +24,20 @@ const Takeover: React.FC<Props> = ({
 
   const height = windowHeight === undefined ? '100%' : windowHeight - 30 + 'px'
 
-  useLayoutEffect(() => {
-    const captureHeight = () => {
-      setWindowHeight(window.innerHeight)
-    }
+  if (typeof window !== 'undefined') {
+    useLayoutEffect(() => {
+      const captureHeight = () => {
+        setWindowHeight(window.innerHeight)
+      }
 
-    window.addEventListener('resize', captureHeight)
-    captureHeight()
+      window.addEventListener('resize', captureHeight)
+      captureHeight()
 
-    return () => {
-      window.removeEventListener('resize', captureHeight)
-    }
-  }, [])
+      return () => {
+        window.removeEventListener('resize', captureHeight)
+      }
+    }, [])
+  }
 
   return <Wrapper
     position="fixed"
