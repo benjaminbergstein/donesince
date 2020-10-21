@@ -37,16 +37,18 @@ interface ProviderProps {
   requireAuthentication: boolean
 }
 
+const isServer = typeof window === undefined
+
 export const UserProvider: React.FC<ProviderProps> = ({
   requireAuthentication,
   children
 }) => {
-  const router = useRouter()
+  const router = isServer ? undefined : useRouter()
   const { user, loading } = useMe()
   const isAuthenticated = !!user
 
-  if (!loading && !isAuthenticated && requireAuthentication) {
-    router.push('/login')
+  if (!isServer && !loading && !isAuthenticated && requireAuthentication) {
+    if (router) router.push('/login')
   }
 
   const userContext: UserState = {

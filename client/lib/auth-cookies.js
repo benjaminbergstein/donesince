@@ -1,14 +1,16 @@
 import { serialize, parse } from 'cookie'
 
 const TOKEN_NAME = 'token'
-const MAX_AGE = 60 * 60 * 8 // 8 hours
+const MAX_AGE = 60 * 60 * 72 // 72 hours
+
+// const secure = process.env.NODE_ENV === 'production'
 
 export function setTokenCookie(res, token) {
   const cookie = serialize(TOKEN_NAME, token, {
     maxAge: MAX_AGE,
     expires: new Date(Date.now() + MAX_AGE * 1000),
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: false,
     path: '/',
     sameSite: 'lax',
   })

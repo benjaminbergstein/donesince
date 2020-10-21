@@ -21,6 +21,7 @@ const EditRecordedActivity: React.FC<{}> = () => {
   const { setEditingRecordedActivityId, editingRecordedActivityId } = useContext(EditingContext)
   const { data }: { data: FetchRecordedActivity | undefined } = useQuery(FETCH_RECORDED_ACTIVITY, {
     variables: { id: editingRecordedActivityId },
+    ssr: false,
   })
   const [updateRecordedActivity] = useMutation(UPDATE_RECORDED_ACTIVITY, {
     onCompleted() {
