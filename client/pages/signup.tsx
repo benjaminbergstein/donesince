@@ -6,6 +6,7 @@ import fetch from 'isomorphic-fetch'
 import Layout from '../components/Layout'
 
 import Box from '../system/Box'
+import Text from '../system/Text'
 import Button from '../system/Button'
 import TextInput from '../system/TextInput'
 
@@ -40,6 +41,15 @@ const Signup: React.FC<any> = () => {
 
   return <Layout isStatic={true}>
     <Card maxWidth="600px" margin="auto">
+      <Box
+        paddingBottom={3}
+        marginBottom={4}
+        borderStyle="solid"
+        borderColor="grays.bg.middlest"
+        borderBottomWidth="1px"
+      >
+        <Text fontSize={6}>Sign up</Text>
+      </Box>
       <form onSubmit={handleSubmit}>
         <Box display="flex" flexDirection="row">
           <Box flex="1">
