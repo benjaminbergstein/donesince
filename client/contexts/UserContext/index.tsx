@@ -37,7 +37,7 @@ interface ProviderProps {
   requireAuthentication: boolean
 }
 
-const isServer = typeof window === undefined
+const isServer = typeof window === 'undefined'
 
 export const UserProvider: React.FC<ProviderProps> = ({
   requireAuthentication,
