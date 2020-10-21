@@ -1,4 +1,4 @@
-import { decrypt } from '../lib/crypto'
+// import { decrypt } from '../lib/crypto'
 import { getTokenCookie } from '../lib/auth-cookies'
 import { createHttpLink } from 'apollo-link-http'
 import { setContext } from "apollo-link-context";

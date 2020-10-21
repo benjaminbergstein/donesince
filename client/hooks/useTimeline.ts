@@ -18,7 +18,7 @@ interface TimelineReturn {
 const TodayDatestamp = formatDatestamp(new Date())
 
 const useTimeline: (date?: string) => TimelineReturn = (date = TodayDatestamp) => {
-  const { loading, data = { timeline: [] } } = useQuery(MY_ACTIVITIES, {
+  const { data = { timeline: [] } } = useQuery(MY_ACTIVITIES, {
     variables: { date },
   })
 

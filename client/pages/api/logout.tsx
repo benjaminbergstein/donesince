@@ -2,7 +2,7 @@ import nextConnect from 'next-connect'
 import { setTokenCookie } from '../../lib/auth-cookies'
 
 export default nextConnect()
-  .post(async (req, res) => {
+  .post(async (_, res) => {
     try {
       setTokenCookie(res, undefined)
       res.statusCode = 200

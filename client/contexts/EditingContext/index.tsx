@@ -19,7 +19,6 @@ const useEditing = () => {
 
 export const EditingProvider: React.FC<{}> = ({ children }) => {
   const editingContext = useEditing()
-  const { editingRecordedActivityId } = editingContext
 
   return <EditingContext.Provider value={editingContext}>
     {children}

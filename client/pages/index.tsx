@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import { withApollo } from '../apollo/withApollo'
 
@@ -11,8 +11,6 @@ import Layout from '../components/Layout'
 import Box from '../system/Box'
 import Takeover from '../system/Takeover'
 import Card from '../system/Card'
-
-import UserContext from '../contexts/UserContext'
 
 const Home: React.FC<any> = () => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false)

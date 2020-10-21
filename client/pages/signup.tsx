@@ -7,7 +7,6 @@ import Layout from '../components/Layout'
 
 import Box from '../system/Box'
 import Button from '../system/Button'
-import Text from '../system/Text'
 import TextInput from '../system/TextInput'
 
 // import Takeover from '../system/Takeover'
@@ -17,11 +16,14 @@ interface SignupResponse {
   apiToken: string
 }
 
+interface SignupResult {
+  json: () => Promise<SignupResponse>
+}
 const signup: (name: string) => Promise<SignupResponse> = async (name) => fetch('/api/signup', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ name }),
-}).then((res) => res.json())
+}).then((res: SignupResult) => res.json())
 
 const Signup: React.FC<any> = () => {
   const router = useRouter()

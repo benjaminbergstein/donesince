@@ -10,6 +10,8 @@
     "gql:types:gen": "apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --includes=**/*.ts --includes=**/*.tsx --tagName=gql --addTypename --globalTypesFile=apollo/types/graphql-global-types.ts types"
   },
   "dependencies": {
+    "@types/express": "^4.17.8",
+    "@types/isomorphic-fetch": "^0.0.35",
     "@types/lodash": "^4.14.161",
     "@types/react-chartjs-2": "^2.5.7",
     "@types/react-swipeable-views": "^0.13.0",

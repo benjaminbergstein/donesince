@@ -10,29 +10,27 @@ import {
   Me,
 } from '../../apollo/types/Me'
 
-const User = Me_me
+type User = Me_me
 
 export interface UserState {
   isAuthenticated: boolean
   name?: string
-  storeApiToken: (apiToken: string) => void
 }
 
 interface MeReturn {
   user: User | undefined
   loading: boolean
-  refetch: () => void
 }
 
 const useMe: () => MeReturn = () => {
-  const { data, loading, refetch }: { data: Me } = useQuery(ME, {
+  const { data, loading }: { data: Me | undefined, loading: boolean } = useQuery(ME, {
     fetchPolicy: 'network-only',
   })
-  if (loading) return { user: undefined, loading: true, refetch }
-  if (!data) return { user: undefined, loading: false, refetch }
+  if (loading) return { user: undefined, loading: true }
+  if (!data) return { user: undefined, loading: false }
 
   const { me } = data
-  return { user: me, loading: false, refetch }
+  return { user: me, loading: false }
 }
 
 interface ProviderProps {
@@ -44,20 +42,16 @@ export const UserProvider: React.FC<ProviderProps> = ({
   children
 }) => {
   const router = useRouter()
-  const { user, loading, refetch } = useMe()
+  const { user, loading } = useMe()
   const isAuthenticated = !!user
 
   if (!loading && !isAuthenticated && requireAuthentication) {
     router.push('/login')
   }
 
-  const userContext = {
+  const userContext: UserState = {
     isAuthenticated,
-    name: isAuthenticated === true ? user.name : undefined,
-    storeApiToken: (apiToken) => {
-      window.localStorage.setItem('donesince__apiToken', apiToken)
-      refetch()
-    },
+    name: !!user && isAuthenticated === true ? user.name : undefined,
   }
 
   return <UserContext.Provider value={userContext}>
@@ -67,7 +61,6 @@ export const UserProvider: React.FC<ProviderProps> = ({
 
 const UserContext = React.createContext<UserState>({
   isAuthenticated: false,
-  storeApiToken: (apiToken) => {}
 })
 
 export default UserContext

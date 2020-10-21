@@ -7,13 +7,8 @@ import Layout from '../components/Layout'
 
 import Box from '../system/Box'
 import Button from '../system/Button'
-import Text from '../system/Text'
 import TextInput from '../system/TextInput'
-
-// import Takeover from '../system/Takeover'
 import Card from '../system/Card'
-
-import UserContext from '../contexts/UserContext'
 
 interface LoginResponse {
   apiToken: string
