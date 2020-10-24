@@ -3,478 +3,503 @@ export default {
     "recordedActivityTimeRecommendations": [
       {
         "activityTypeId": 1,
-        "secondsOffset": 53230.26733333333,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 53230.26733333333
       },
       {
         "activityTypeId": 2,
-        "secondsOffset": 52951.877,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 56221.87699999999
       },
       {
         "activityTypeId": 3,
-        "secondsOffset": 42562.412,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 42562.412
       },
       {
         "activityTypeId": 4,
-        "secondsOffset": 55418.36792307693,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 56045.95957142858
       },
       {
         "activityTypeId": 4,
-        "secondsOffset": 62404.65099999999,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 62404.65099999999
       },
       {
         "activityTypeId": 5,
-        "secondsOffset": 47188.467666666664,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 47188.4675
       },
       {
         "activityTypeId": 6,
-        "secondsOffset": 32437.53,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 32437.53
       },
       {
         "activityTypeId": 6,
-        "secondsOffset": 49189.7316,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 49189.7316
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 21277.421166666667,
-        "ofDay": 4
+        "ofDay": 4,
+        "secondsOffset": 21277.421166666667
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 24000.6722,
-        "ofDay": 6
+        "ofDay": 6,
+        "secondsOffset": 24000.6722
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 24072.867500000004,
-        "ofDay": 5
+        "ofDay": 5,
+        "secondsOffset": 24072.867500000004
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 25855.687,
-        "ofDay": 7
+        "ofDay": 7,
+        "secondsOffset": 25855.686999999998
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 31789.481,
-        "ofDay": 3
+        "ofDay": 3,
+        "secondsOffset": 31789.481
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 36523.971600000004,
-        "ofDay": 8
+        "ofDay": 8,
+        "secondsOffset": 36523.9716
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 45494.469131578946,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 46132.54374358974
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 46701.03864705883,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 46701.03864705883
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 50896.36825000001,
-        "ofDay": 10
+        "ofDay": 10,
+        "secondsOffset": 50896.36825
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 54439.373499999994,
-        "ofDay": 11
+        "ofDay": 11,
+        "secondsOffset": 54439.373499999994
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 54786.521199999996,
-        "ofDay": 9
+        "ofDay": 9,
+        "secondsOffset": 54786.521199999996
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 63179.37933333332,
-        "ofDay": 12
+        "ofDay": 12,
+        "secondsOffset": 63179.37933333332
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 75674.2825,
-        "ofDay": 13
+        "ofDay": 13,
+        "secondsOffset": 75674.2825
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 80328.6245,
-        "ofDay": 14
+        "ofDay": 14,
+        "secondsOffset": 80328.6245
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 81974.768,
-        "ofDay": 15
+        "ofDay": 15,
+        "secondsOffset": 81974.768
       },
       {
         "activityTypeId": 9,
-        "secondsOffset": 85810.34,
-        "ofDay": 16
+        "ofDay": 16,
+        "secondsOffset": 85810.34
       },
       {
         "activityTypeId": 10,
-        "secondsOffset": 37538.75471153845,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 37181.41433898304
       },
       {
         "activityTypeId": 10,
-        "secondsOffset": 46958.143000000004,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 47865.048749999994
       },
       {
         "activityTypeId": 10,
-        "secondsOffset": 52362.856499999994,
-        "ofDay": 3
+        "ofDay": 3,
+        "secondsOffset": 52362.856499999994
       },
       {
         "activityTypeId": 13,
-        "secondsOffset": 59369.212,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 50849.212
       },
       {
         "activityTypeId": 14,
-        "secondsOffset": 6758.258,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 6758.258
       },
       {
         "activityTypeId": 15,
-        "secondsOffset": 49187.7555,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 49187.7555
       },
       {
         "activityTypeId": 17,
-        "secondsOffset": 63041.31973333333,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 64623.474166666674
       },
       {
         "activityTypeId": 17,
-        "secondsOffset": 83580.71,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 83580.71
       },
       {
         "activityTypeId": 20,
-        "secondsOffset": 40940.728,
-        "ofDay": 3
+        "ofDay": 1,
+        "secondsOffset": 44367.819416666665
       },
       {
         "activityTypeId": 20,
-        "secondsOffset": 45021.205843749995,
-        "ofDay": 1
+        "ofDay": 4,
+        "secondsOffset": 50681.1135
       },
       {
         "activityTypeId": 20,
-        "secondsOffset": 50681.1135,
-        "ofDay": 4
+        "ofDay": 3,
+        "secondsOffset": 53728.466714285714
       },
       {
         "activityTypeId": 20,
-        "secondsOffset": 56863.71476470589,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 57004.500799999994
       },
       {
         "activityTypeId": 20,
-        "secondsOffset": 66545.858,
-        "ofDay": 5
+        "ofDay": 5,
+        "secondsOffset": 66545.858
       },
       {
         "activityTypeId": 20,
-        "secondsOffset": 72044.639,
-        "ofDay": 6
+        "ofDay": 6,
+        "secondsOffset": 72044.639
       },
       {
         "activityTypeId": 21,
-        "secondsOffset": 63278.795666666665,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 63278.795666666665
       },
       {
         "activityTypeId": 22,
-        "secondsOffset": 57162.45975,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 57162.45975
       },
       {
         "activityTypeId": 23,
-        "secondsOffset": 52075.211272727276,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 54639.185
       },
       {
         "activityTypeId": 23,
-        "secondsOffset": 74502.896,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 74502.896
       },
       {
         "activityTypeId": 24,
-        "secondsOffset": 32416.365,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 32416.365
       },
       {
         "activityTypeId": 24,
-        "secondsOffset": 48487.072222222225,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 48487.072222222225
       },
       {
         "activityTypeId": 25,
-        "secondsOffset": 49514.35345454546,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 49514.35345454546
       },
       {
         "activityTypeId": 25,
-        "secondsOffset": 66195.9765,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 66195.9765
       },
       {
         "activityTypeId": 27,
-        "secondsOffset": 6832.8955000000005,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 6832.8955000000005
       },
       {
         "activityTypeId": 28,
-        "secondsOffset": 28795.810750000004,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 40135.810600000004
       },
       {
         "activityTypeId": 29,
-        "secondsOffset": 38514.07556666667,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 45147.73952631577
       },
       {
         "activityTypeId": 29,
-        "secondsOffset": 69305.552,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 69305.55200000001
       },
       {
         "activityTypeId": 30,
-        "secondsOffset": 72081.577,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 72081.577
       },
       {
         "activityTypeId": 31,
-        "secondsOffset": 62848.258375,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 63596.92494736841
       },
       {
         "activityTypeId": 31,
-        "secondsOffset": 80672.924,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 80672.924
       },
       {
         "activityTypeId": 32,
-        "secondsOffset": 22099.016,
-        "ofDay": 3
+        "ofDay": 3,
+        "secondsOffset": 22099.016
       },
       {
         "activityTypeId": 32,
-        "secondsOffset": 42483.62794444445,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 42483.62794444445
       },
       {
         "activityTypeId": 32,
-        "secondsOffset": 47707.062,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 47707.062
       },
       {
         "activityTypeId": 33,
-        "secondsOffset": 25726.472,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 25726.472
       },
       {
         "activityTypeId": 34,
-        "secondsOffset": 49202.746,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 49202.746
       },
       {
         "activityTypeId": 35,
-        "secondsOffset": 36324.8185,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 36324.8185
       },
       {
         "activityTypeId": 37,
-        "secondsOffset": 73639.973,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 73639.973
       },
       {
         "activityTypeId": 38,
-        "secondsOffset": 56961.441,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 56961.441
       },
       {
         "activityTypeId": 38,
-        "secondsOffset": 74342.76699999999,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 74342.76699999999
       },
       {
         "activityTypeId": 39,
-        "secondsOffset": 54703.71810000001,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 54703.7181
       },
       {
         "activityTypeId": 40,
-        "secondsOffset": 54356.403,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 54356.403
       },
       {
         "activityTypeId": 41,
-        "secondsOffset": 55348.821111111116,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 55348.821111111116
       },
       {
         "activityTypeId": 42,
-        "secondsOffset": 1922.993,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 1922.993
       },
       {
         "activityTypeId": 43,
-        "secondsOffset": 22479.31175,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 43199.259666666665
       },
       {
         "activityTypeId": 44,
-        "secondsOffset": 31558.6665,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 31558.6665
       },
       {
         "activityTypeId": 44,
-        "secondsOffset": 32263.51675,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 31985.200000000004
+      },
+      {
+        "activityTypeId": 45,
+        "ofDay": 1,
+        "secondsOffset": 21070.811999999998
       },
       {
         "activityTypeId": 46,
-        "secondsOffset": 33796.315,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 33796.315
       },
       {
         "activityTypeId": 47,
-        "secondsOffset": 27539.48280952381,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 27539.464777777768
       },
       {
         "activityTypeId": 48,
-        "secondsOffset": 33970.12173333333,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 33703.1155
       },
       {
         "activityTypeId": 49,
-        "secondsOffset": 82662.205,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 82662.205
       },
       {
         "activityTypeId": 50,
-        "secondsOffset": 64138.31,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 64138.31
       },
       {
         "activityTypeId": 51,
-        "secondsOffset": 72760.905,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 72760.905
       },
       {
         "activityTypeId": 52,
-        "secondsOffset": 55386.815,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 55386.815
       },
       {
         "activityTypeId": 53,
-        "secondsOffset": 55330.666666666664,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 55330.666666666664
       },
       {
         "activityTypeId": 54,
-        "secondsOffset": 51311.562999999995,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 58211.562999999995
       },
       {
         "activityTypeId": 55,
-        "secondsOffset": 61933,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 61933
       },
       {
         "activityTypeId": 56,
-        "secondsOffset": 63543.69381250001,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 66922.95505
       },
       {
         "activityTypeId": 56,
-        "secondsOffset": 76600,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 76600
       },
       {
         "activityTypeId": 57,
-        "secondsOffset": 79150.212875,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 79150.212875
       },
       {
         "activityTypeId": 58,
-        "secondsOffset": 34100.756199999996,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 33500.63016666667
+      },
+      {
+        "activityTypeId": 58,
+        "ofDay": 2,
+        "secondsOffset": 34100.756
       },
       {
         "activityTypeId": 59,
-        "secondsOffset": 51671.88133333333,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 51671.88133333333
       },
       {
         "activityTypeId": 60,
-        "secondsOffset": 62385.827000000005,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 62385.827000000005
       },
       {
         "activityTypeId": 60,
-        "secondsOffset": 74730.357,
-        "ofDay": 2
+        "ofDay": 2,
+        "secondsOffset": 74730.357
       },
       {
         "activityTypeId": 61,
-        "secondsOffset": 51723.482,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 57123.482
       },
       {
         "activityTypeId": 62,
-        "secondsOffset": 54850.8104,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 53650.81033333333
       },
       {
         "activityTypeId": 63,
-        "secondsOffset": 77407.764,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 77407.764
       },
       {
         "activityTypeId": 64,
-        "secondsOffset": 75211.852,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 75211.852
       },
       {
         "activityTypeId": 65,
-        "secondsOffset": 81378,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 81378
       },
       {
         "activityTypeId": 66,
-        "secondsOffset": 74394.58,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 74394.58
       },
       {
         "activityTypeId": 67,
-        "secondsOffset": 72188.403,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 72188.403
       },
       {
         "activityTypeId": 68,
-        "secondsOffset": 68481.757,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 69061.757
       },
       {
         "activityTypeId": 69,
-        "secondsOffset": 33585,
-        "ofDay": 1
+        "ofDay": 1,
+        "secondsOffset": 33585
+      },
+      {
+        "activityTypeId": 70,
+        "ofDay": 1,
+        "secondsOffset": 78374.957
+      },
+      {
+        "activityTypeId": 71,
+        "ofDay": 1,
+        "secondsOffset": 44214.059
+      },
+      {
+        "activityTypeId": 72,
+        "ofDay": 1,
+        "secondsOffset": 51136.942
       }
     ]
   }
