@@ -203,3 +203,13 @@ export const SIGN_UP = gql`
     }
   }
 `
+
+export const RECORDED_ACTIVITY_RECOMMENDATIONS = gql`
+  query RecordedActivityRecommendations {
+    recordedActivityTimeRecommendations {
+      activityTypeId
+      ofDay
+      secondsOffset
+    }
+  }
+`

@@ -13,6 +13,7 @@ export POSTGRES_DB=${PROJECT}_${ENVIRONMENT}
 export HOST ?= dev.wips.link
 export SERVER_URL ?= http://server:3000
 export CLIENT_URL ?= http://${HOST}:${PORT}
+export BUCKET ?= donesince
 
 export DOCKER_BASE=registry.digitalocean.com/benbergstein/${PROJECT}
 SERVICE_IMAGE=${DOCKER_BASE}/${SERVICE}/${ENVIRONMENT}

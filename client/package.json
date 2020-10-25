@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "tsc:watch": "tsc --build tsconfig.json --watch",
-    "gql:schema:fetch": "apollo schema:download --endpoint=$SERVER_URL graphql-schema.json",
+    "gql:schema:fetch": "apollo schema:download --endpoint=$SERVER_URL/graphql graphql-schema.json",
     "gql:types:gen": "apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --includes=**/*.ts --includes=**/*.tsx --tagName=gql --addTypename --globalTypesFile=apollo/types/graphql-global-types.ts types"
   },
   "dependencies": {

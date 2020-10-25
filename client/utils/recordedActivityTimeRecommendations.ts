@@ -1,12 +1,8 @@
-import data from '../data/recordedActivityTimeRecommendations'
+// import data from '../data/recordedActivityTimeRecommendations'
 
-interface RecordedActivityTimeRecommendation {
-  activityTypeId: number
-  secondsOffset: number
-  ofDay: number
-}
-
-const Recommendations: RecordedActivityTimeRecommendation[]  = data.data.recordedActivityTimeRecommendations
+import {
+  RecordedActivityRecommendations_recordedActivityTimeRecommendations as RecordedActivityRecommendation,
+} from '../types/RecordedActivityRecommendations'
 
 export const applyRecommendation: (
   dateForRecording: Date,
@@ -25,10 +21,12 @@ export const applyRecommendation: (
 }
 
 export const getRecommendations: (
+  recommendations: RecordedActivityRecommendations[],
   desiredActivityTypeId: number | undefined,
-) => RecordedActivityTimeRecommendation[] = (
+) => RecordedActivityRecommendations[] = (
+  recommendations,
   desiredActivityTypeId
-) => desiredActivityTypeId === undefined ? [] : Recommendations.filter(
+) => desiredActivityTypeId === undefined ? [] : recommendations.filter(
   ({ activityTypeId }) => parseInt(''+desiredActivityTypeId) === activityTypeId
 )
 

@@ -35,3 +35,6 @@ restore-db:
 	${DOCKER_COMPOSE} up -d db
 	${MAKE} fetch-dump reset-db psql-production
 	${DOCKER_COMPOSE} down --remove-orphans
+
+job-%:
+	${DOCKER_RUN} server ts-node jobs/$*.ts

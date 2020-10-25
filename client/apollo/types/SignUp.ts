@@ -4,14 +4,18 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: Me
+// GraphQL mutation operation: SignUp
 // ====================================================
 
-export interface Me_me {
-  __typename: "User";
-  name: string;
+export interface SignUp_signUp {
+  __typename: "Authorization";
+  apiToken: string;
 }
 
-export interface Me {
-  me: Me_me | null;
+export interface SignUp {
+  signUp: SignUp_signUp;
+}
+
+export interface SignUpVariables {
+  name: string;
 }

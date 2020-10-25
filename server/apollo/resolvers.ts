@@ -15,6 +15,8 @@ import getWeeklyDimensionStats from '../queries/weeklyDimensionStats.sql'
 import getRecordedActivitySuggestions from '../queries/recordedActivityTimeRecommendations.sql'
 import weeklyDimensionStatsBarChart from '../queries/weeklyDimensionStatsBarChart.sql'
 
+import { getCurrentDatestamp } from "../utils/date"
+import { download } from "../storage"
 import {
   CreateActivityTypeArgs,
   SignUpArgs,
@@ -126,7 +128,12 @@ export default {
       return getTimeline(prisma, date, user.id)
     },
     timelineDates: async () => prisma.queryRaw(getTimelineDatesSql()),
-    recordedActivityTimeRecommendations: async () => getRecordedActivitySuggestions(prisma),
+    recordedActivityTimeRecommendations: async () => {
+      const file = `activityRecommendations/${getCurrentDatestamp()}.json`
+      const content = await download(file)
+      const json = JSON.parse(content)
+      return json
+    },
     me: async (
       parent: any,
       args: any,

@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react'
+import { useQuery } from '@apollo/react-hooks';
 import { v4 as uuidv4 } from 'uuid'
 
 import Button from '../system/Button'
@@ -10,13 +11,23 @@ import DateInput from '../system/DateInput'
 import TimeInput from '../system/TimeInput'
 
 import {
+  RECORDED_ACTIVITY_RECOMMENDATIONS,
+} from '../apollo/queries'
+
+import {
   applyRecommendation,
   getRecommendations,
 } from '../utils/recordedActivityTimeRecommendations'
 
 import SyncActivityContext, { SyncActivityState } from '../contexts/SyncActivityContext'
 
+import {
+  RecordedActivityRecommendations_recordedActivityTimeRecommendations as RecordedActivityRecommendation,
+  RecordedActivityRecommendations,
+} from '../types/RecordedActivityRecommendations'
+
 const RecordModal: React.FC<{}> = () => {
+  const { data }: { data: RecordedActivityRecommendations } = useQuery(RECORDED_ACTIVITY_RECOMMENDATIONS)
   const [recordedAt, setRecordedAt] = useState<Date>(new Date)
   const {
     modalControl,
@@ -28,7 +39,8 @@ const RecordModal: React.FC<{}> = () => {
 
   const activityTypeId = recordingActivity?.id
 
-  const recommendations = getRecommendations(activityTypeId).map(
+  const { recordedActivityTimeRecommendations: recommendations } = data || { recordedActivityTimeRecommendations: [] }
+  const activityTypeRecommendations = getRecommendations(recommendations, activityTypeId).map(
     ({ secondsOffset }: { secondsOffset: number }) => applyRecommendation(
       dateForRecording,
       secondsOffset
@@ -36,7 +48,8 @@ const RecordModal: React.FC<{}> = () => {
   )
 
   useEffect(() => {
-    const recommendation = recommendations[0]
+    if (!activityTypeRecommendations) return
+    const recommendation = activityTypeRecommendations[0]
 
     if (recommendation) {
       setRecordedAt(recommendation)
@@ -93,7 +106,7 @@ const RecordModal: React.FC<{}> = () => {
         display="flex"
         flexWrap="wrap"
       >
-        {recommendations.map((recommendationDate: Date) => (
+        {activityTypeRecommendations.map((recommendationDate: Date) => (
           <Box width="18%" padding={2}>
             <a
               href="javascript:void(0)"
