@@ -23,7 +23,7 @@
     "apollo-cli": "^0.4.0",
     "chart.js": "^2.9.3",
     "cookie": "^0.4.1",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "next": "^9.4.4",
     "next-connect": "^0.9.0",
     "react": "^16.13.0",
