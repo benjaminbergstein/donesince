@@ -16,7 +16,7 @@
     "@types/uuid": "^8.0.0",
     "apollo-server": "^2.11.0",
     "apollo-server-express": "^2.18.1",
-    "aws-sdk": "^2.778.0",
+    "aws-sdk": "^2.814.0",
     "graphql": "^15.0.0",
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.2",
